@@ -1,12 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { createStore, StoreProvider, action } from 'easy-peasy'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+
+import AppRouter, { history } from './routers/AppRouter'
+import { firebase } from './components/firebase/firebase'
+import firebaseModel from './models/firebase'
+import recipesModel from './models/recipes'
+import LoadingPage from './components/LoadingPage/LoadingPage'
+import LoginPage from './components/LoginPage/LoginPage';
+
+const store = createStore({
+    auth: firebaseModel,
+    recipes: recipesModel
+})
+
+
+const jsx = (
+    <StoreProvider store={store}>
+        <AppRouter/>
+    </StoreProvider>
+)
+
+
+
+let hasRendered = false;
+const renderApp = () => {
+    if(!hasRendered) {
+        ReactDOM.render(jsx, document.getElementById('root'))
+        hasRendered = true;
+    }
+}
+ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
+
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        store.dispatch.auth.login(user.uid)
+        renderApp()
+        if (history.location.pathname === '/') {
+            history.push('/dashboard')
+        }
+    } else {
+        store.dispatch.auth.logout()
+        renderApp()
+        history.push('/')
+    }
+})
+
 serviceWorker.unregister();
