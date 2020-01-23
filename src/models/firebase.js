@@ -1,5 +1,11 @@
+// External imports
 import { thunk, action } from "easy-peasy"
+
+
+// Internal imports
 import database, { firebase, googleAuthProvider } from '../components/firebase/firebase'
+
+
 
 const firebaseModel = {
     uid: '',

@@ -1,4 +1,8 @@
+// External imports
 import React from 'react'
+
+// Internal imports
+
 
 const LoadingPage = () => (
     <div className="loader">

@@ -1,6 +1,11 @@
+// External imports
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+
+// Internal imports
+
+
 
 var firebaseConfig = {
     apiKey: "AIzaSyAmqjpLIFBhgeQydFqzdVCWPMcT7AWi1Oc",

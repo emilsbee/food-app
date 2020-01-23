@@ -1,16 +1,19 @@
+// External imports
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-
 import { createStore, StoreProvider, action } from 'easy-peasy'
 
 
-import AppRouter, { history } from './routers/AppRouter'
-import { firebase } from './components/firebase/firebase'
+// Internal imports
 import firebaseModel from './models/firebase'
 import recipesModel from './models/recipes'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import LoginPage from './components/LoginPage/LoginPage';
+import { firebase } from './components/firebase/firebase'
+import AppRouter, { history } from './routers/AppRouter'
+import './styles/styles.scss'
+
 
 const store = createStore({
     auth: firebaseModel,
@@ -38,6 +41,7 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
+        store.dispatch.recipes.populateWeek()
         renderApp()
         if (history.location.pathname === '/') {
             history.push('/dashboard')
@@ -48,5 +52,7 @@ firebase.auth().onAuthStateChanged((user) => {
         history.push('/')
     }
 })
+
+export { store }
 
 serviceWorker.unregister();

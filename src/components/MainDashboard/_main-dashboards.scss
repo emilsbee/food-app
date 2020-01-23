@@ -1,0 +1,23 @@
+.input {
+    transition: width .35s linear;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 20px;
+    width: 150px;
+    background-color: #dddddd;
+  }
+  
+.input-focused {
+    width: 240px;
+}
+.logout-button {
+    transition: padding .10s linear;
+}
+
+.logout-button:hover {
+    padding: 5px;
+}
+
+

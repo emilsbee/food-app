@@ -1,11 +1,13 @@
+// External imports
 import React from 'react'
 import { createBrowserHistory } from 'history'
 import {Router, Route, Switch, Link, NavLink} from 'react-router-dom'
+import { useStoreState } from 'easy-peasy'
+
+
+// Internal imports
 import MainDashboard from '../components/MainDashboard/MainDashboard'
 import LoginPage from '../components/LoginPage/LoginPage'
-import PublicRoute from './PublicRoute'
-
-import { useStoreState } from 'easy-peasy'
 
 
 export const history = createBrowserHistory()
