@@ -1,6 +1,7 @@
 // External imports
 import React, { useRef, useEffect, useState } from 'react'
 import { useStoreActions } from 'easy-peasy'
+import { Link } from 'react-router-dom'
 
 
 // Internal imports
@@ -37,6 +38,9 @@ const MainDashboard = () => {
             onFocus={changeFocus}
             className={['input', focused && 'input-focused'].join(' ')}
             />
+            <Link to="/manage-recipes">
+                Manage recipes
+            </Link>
         </div>
     )
 }

@@ -27,8 +27,6 @@ const jsx = (
     </StoreProvider>
 )
 
-
-
 let hasRendered = false;
 const renderApp = () => {
     if(!hasRendered) {
