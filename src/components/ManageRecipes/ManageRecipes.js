@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useStoreActions } from 'easy-peasy'
+import React, { useState, useEffect } from 'react'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 
 
 const ManageRecipes = () => {
@@ -9,7 +9,13 @@ const ManageRecipes = () => {
     const [ingredient, setIngredient] = useState('')
 
     const addRecipe = useStoreActions(actions => actions.recipes.addRecipe)
+    const startSetUserRecipes = useStoreActions(actions => actions.recipes.startSetUserRecipes)
+    const userRecipes = useStoreState(state => state.recipes.userRecipes)
 
+    useEffect(() => {
+        startSetUserRecipes()
+    }, [startSetUserRecipes])
+    
     const startAddRecipe = () => {
         addRecipe({
             name: recipeName,
@@ -20,6 +26,7 @@ const ManageRecipes = () => {
         setRecipeName('')
         setRecipeLink('')
         addIngredient([])
+        startSetUserRecipes()
     }
     const addIngredientToRecipe = (e) => {
         e.preventDefault()
@@ -28,7 +35,6 @@ const ManageRecipes = () => {
     }
     return (
         <div>
-            Manage recipes page
             <div>
                 <form>
                      <label>
@@ -51,9 +57,18 @@ const ManageRecipes = () => {
                 <button onClick={startAddRecipe}>Add recipe</button>
             </div>
             <div>
-                {ingredients.map((ingredient) => {
+                {ingredients ? ingredients.map((ingredient) => {
                     return <p key={ingredient} >{ingredient}</p>
-                })}
+                }) : (
+                    null
+                ) }
+            </div>
+            <div>
+                  {userRecipes ? userRecipes.map((recipe) => {
+                    return <p key={recipe.recipeID}>{recipe.name}</p>
+                  }) 
+                  :
+                  null}  
             </div>
         </div>
     )

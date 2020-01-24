@@ -13,7 +13,6 @@ const MainDashboard = () => {
     
 
     const myInput = useRef()
-    
 
     const changeFocus = () => {
         setFocused(!focused)
