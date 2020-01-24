@@ -8,6 +8,8 @@ import { store } from '../index'
 
 const recipesModel = {
     week: {},
+
+    // INITIAL WEEK POPULATE ACTION
     populateWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         return database.ref('users/' + uid).once('value').then((snapshot) => {
@@ -18,7 +20,14 @@ const recipesModel = {
             }
         })
         
-    })
+    }),
+
+    addRecipe: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        await database.ref(`users/${uid}/recipes`).push(payload).then((ref) => {
+            console.log(ref)
+        })
+    }),
 }
 
 
