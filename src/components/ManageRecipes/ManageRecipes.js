@@ -1,5 +1,10 @@
+// External imports
 import React, { useState, useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+
+
+// Internal imports
+import RecipeEditModal from '../RecipeEditModal/RecipeEditModal'
 
 
 const ManageRecipes = () => {
@@ -63,9 +68,13 @@ const ManageRecipes = () => {
                     null
                 ) }
             </div>
-            <div>
+            <div onClick={() => {console.log('smth')}} className="recipe-manager_card-list">
                   {userRecipes ? userRecipes.map((recipe) => {
-                    return <p key={recipe.recipeID}>{recipe.name}</p>
+                    return (<div key={recipe.recipeID} className="recipe-card">
+                                <div className="recipe-card__container">
+                                    <h4>{recipe.name}</h4>
+                                </div>
+                            </div>)
                   }) 
                   :
                   null}  
