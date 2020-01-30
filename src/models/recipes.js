@@ -3,12 +3,12 @@ import { thunk, action } from "easy-peasy"
 
 
 // Internal imports
-import database, { firebase } from '../components/firebase/firebase'
+import database from '../components/firebase/firebase'
 import { store } from '../index'
 
 const recipesModel = {
     week: {},
-    
+    currentRecipe: {},
     // INITIAL WEEK POPULATE ACTION
     populateWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
@@ -44,7 +44,20 @@ const recipesModel = {
         const recipes = await database.ref(`users/${uid}/recipes`).once('value')
         actions.setUserRecipes(recipes.val())
         
+    }),
+    startGetRecipe: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        const recipe = await database.ref(`users/${uid}/recipes/${payload.recipeID}`).once('value')
+        actions.setCurrentRecipe(recipe.val())
+    }),
+    setCurrentRecipe: action((state, payload) => {
+        state.currentRecipe = payload
+    }),
+    updateRecipe: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        return database.ref(`users/${uid}/recipes/${payload.recipeID}`).update(payload.recipe)
     })
+    
 }
 
 

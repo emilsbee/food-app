@@ -2,14 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { createStore, StoreProvider, action } from 'easy-peasy'
+import { createStore, StoreProvider } from 'easy-peasy'
 
 
 // Internal imports
 import firebaseModel from './models/firebase'
 import recipesModel from './models/recipes'
 import LoadingPage from './components/LoadingPage/LoadingPage'
-import LoginPage from './components/LoginPage/LoginPage';
 import { firebase } from './components/firebase/firebase'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'

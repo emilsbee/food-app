@@ -13,11 +13,11 @@ const PrivateRoute = (props) => {
     const Component = props.component
     
     return (
-        <Route path={props.path} component={() => (
+        <Route path={props.path} component={(props) => (
             isAuthenticated ? (
                 <div>
                     <NavBar/>
-                    <Component/>
+                    <Component {...props}/>
                 </div>
             ) : (
                 <Redirect to="/"/>
