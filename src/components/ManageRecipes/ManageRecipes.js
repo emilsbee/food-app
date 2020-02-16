@@ -1,5 +1,5 @@
 // External imports
-import React, { useState, useEffect } from 'react'
+import React,{ useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 
@@ -7,11 +7,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import RecipeCard from '../RecipeCard/RecipeCard'
 
 const ManageRecipes = () => {
-    const [recipeName, setRecipeName] = useState('')
-    const [recipeLink, setRecipeLink] = useState('')
-    const [ingredients, addIngredient] = useState([])
 
-    const addRecipe = useStoreActions(actions => actions.recipes.addRecipe)
     const startSetUserRecipes = useStoreActions(actions => actions.recipes.startSetUserRecipes)
     const userRecipes = useStoreState(state => state.recipes.userRecipes)
 
@@ -19,18 +15,6 @@ const ManageRecipes = () => {
         startSetUserRecipes()
     }, [startSetUserRecipes])
     
-    const startAddRecipe = () => {
-        addRecipe({
-            name: recipeName,
-            link: recipeLink,
-            ingredients,
-            category: ''
-        })
-        setRecipeName('')
-        setRecipeLink('')
-        addIngredient([])
-        startSetUserRecipes()
-    }
 
     return (
         <div>
@@ -41,7 +25,6 @@ const ManageRecipes = () => {
                   :
                   null}  
             </div>
-            <button onClick={startAddRecipe}>Add recipe</button>
         </div>
     )
 }   

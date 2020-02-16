@@ -5,10 +5,11 @@ import React, { useState } from 'react'
 const RecipeForm = (props) => {
     
 
-    const [name, setName] = useState(props.recipe ? props.recipe.name : '')
+    const [name, setName] = useState(props.recipe.name ? props.recipe.name : '')
     const [link, setLink] =  useState(props.recipe ? props.recipe.link : '')
-    const [ingredients, setIngredients] = useState(props.recipe ? props.recipe.ingredients : [])
+    const [ingredients, setIngredients] = useState(props.recipe.ingredients ? props.recipe.ingredients : [])
     const [ingredient, setIngredient] = useState('')
+    const [error, setError] = useState(false)
 
     const addIngredientToRecipe = (e) => {
         e.preventDefault()
@@ -19,16 +20,24 @@ const RecipeForm = (props) => {
     }
 
     const startUpdateRecipe = () => {
+        if (name === '' || !ingredients) {
+            return setError(true)
+        } 
+        
         props.onSubmit({
                 name, 
                 link,
-                ingredients
+                ingredients: ingredients !== undefined ? ingredients : {}
         })
 
     }
-
+   
     return (
         <div>
+            {error ? <p>Please add a recipe name and at least one ingredient</p>
+            :
+            null
+            }   
             <form>
                 Recipe name:
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
@@ -47,7 +56,7 @@ const RecipeForm = (props) => {
                     return <p key={ingredient}>{ingredient}</p>
                 })
                 : (
-                    null
+                    <p>Add ingredients!</p>
                 )}
             </div>
         </div>

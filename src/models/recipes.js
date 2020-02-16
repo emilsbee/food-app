@@ -7,21 +7,7 @@ import database from '../components/firebase/firebase'
 import { store } from '../index'
 
 const recipesModel = {
-    week: {},
     currentRecipe: {},
-    // INITIAL WEEK POPULATE ACTION
-    populateWeek: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid
-        return database.ref('users/' + uid).once('value').then((snapshot) => {
-            if (snapshot.val() === null) {
-                database.ref('users/' + uid).set({
-                    weeks: {}
-                })
-            }
-        })
-        
-    }),
-
     addRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/recipes`).push(payload).then((ref) => {
@@ -56,7 +42,7 @@ const recipesModel = {
     updateRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         return database.ref(`users/${uid}/recipes/${payload.recipeID}`).update(payload.recipe)
-    })
+    }),
     
 }
 
