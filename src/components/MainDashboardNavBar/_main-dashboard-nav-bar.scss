@@ -1,0 +1,17 @@
+
+.total {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    -moz-appearance:textfield; /* Firefox */
+    border: none;
+    
+}
+
+.total:hover {
+    border: solid 0.5px;
+}
+
+.main-dashboard-nav-bar {
+    display: flex;
+    flex-direction: row;
+}

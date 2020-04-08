@@ -1,10 +1,10 @@
 // External imports
 import React, { useEffect } from 'react'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 
 
 // Internal imports
 import MainDashboardRecipeCard from '../MainDashboardRecipeCard/MainDashboardRecipeCard'
-import { useStoreActions, useStoreState } from 'easy-peasy'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 
 const MainDashboard = () => {
@@ -12,7 +12,9 @@ const MainDashboard = () => {
     const nextWeek = useStoreActions(actions => actions.weeks.nextWeek)
     const populateLatestWeek = useStoreActions(actions => actions.weeks.populateLatestWeek)
     const startAddWeek = useStoreActions(actions => actions.weeks.startAddWeek)
+    const startAddYear = useStoreActions(actions => actions.weeks.startAddYear)
     const week = useStoreState(state => state.weeks.week)
+    const startUpdateWeek = useStoreActions(actions => actions.weeks.startUpdateWeek)
 
     useEffect(() => {
         populateLatestWeek()
@@ -20,7 +22,7 @@ const MainDashboard = () => {
 
     
     const addYear = () => {
-
+        startAddYear({week})
     }
 
     const addWeek = () => {
@@ -28,15 +30,27 @@ const MainDashboard = () => {
     }
     
     const startPreviousWeek = () => {
-        previousWeek({weekNr: week.weekNr})
+        previousWeek({week})
     }
 
     const startNextWeek = () => {
-        nextWeek({weekNr: week.weekNr})
+        nextWeek({week})
     }
+
+
     return (
-        <div>   
-            <MainDashboardNavBar addWeek={addWeek} addYear={addYear} startPreviousWeek={startPreviousWeek} startNextWeek={startNextWeek}/>
+        <div>    
+            {week.total !== undefined ? 
+                <MainDashboardNavBar 
+                    addWeek={addWeek} 
+                    addYear={addYear} 
+                    startPreviousWeek={startPreviousWeek} 
+                    startNextWeek={startNextWeek}
+                    week={week}
+                />
+                :
+                null
+            }
             {Object.entries(week).length === 0 && week.constructor === Object ? 
             <p>No weeks. You should add a week!</p>
             :
@@ -49,6 +63,9 @@ const MainDashboard = () => {
             }
             </div>
             } 
+            <div>
+                {week ? `Week: ${week.weekNr} Year: ${week.year}` : ''}
+            </div>
         </div>
     )
 }
