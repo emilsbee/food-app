@@ -10,6 +10,8 @@ import LoginPage from '../components/LoginPage/LoginPage'
 import ManageRecipes from '../components/ManageRecipes/ManageRecipes'
 import RecipeEdit from '../components/RecipeEdit/RecipeEdit'
 import NotFound from '../components/NotFound/NotFound'
+import RecipePicker from '../components/RecipePicker/RecipePicker'
+import NewRecipe from '../components/NewRecipe/NewRecipe'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
@@ -28,6 +30,8 @@ const AppRouter = () => {
                         <PrivateRoute path="/dashboard" component={MainDashboard}/>
                         <PrivateRoute path="/manage-recipes" component={ManageRecipes}/>
                         <PrivateRoute path="/edit/:id" component={RecipeEdit} />
+                        <PrivateRoute path="/recipe-picker/:id/:day" component={RecipePicker} />
+                        <PrivateRoute path="/new-recipe" component={NewRecipe} />
                         <Route component={NotFound}/>  
                 </Switch>
             </div>

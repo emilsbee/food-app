@@ -56,16 +56,13 @@ const MainDashboard = () => {
             :
             <div className="recipe-list">
             {week.recipes ? week.recipes.map((recipe) => {
-                return <MainDashboardRecipeCard key={recipe.day} recipe={recipe.recipe} day={recipe.day}/>
+                return <MainDashboardRecipeCard key={recipe.day} recipe={recipe.recipeID} day={recipe.day} week={week}/>
             })
             :
             null
             }
             </div>
             } 
-            <div>
-                {week ? `Week: ${week.weekNr} Year: ${week.year}` : ''}
-            </div>
         </div>
     )
 }

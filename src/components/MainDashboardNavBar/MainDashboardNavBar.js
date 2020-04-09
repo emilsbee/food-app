@@ -25,7 +25,7 @@ const MainDashboardNavBar = ({ addWeek, startPreviousWeek, startNextWeek, addYea
     const onTotalSubmit = (e) => {
         e.preventDefault()
         setIsDisabled('disabled')
-        startUpdateWeek({total: parseFloat(total, 10) * 100, week}).then(() => {
+        startUpdateWeek({total: parseFloat(total, 10) * 100, id: week.id, type: 'TOTAL'}).then(() => {
             setIsDisabled('')
         })
     }
@@ -38,6 +38,9 @@ const MainDashboardNavBar = ({ addWeek, startPreviousWeek, startNextWeek, addYea
             <form onSubmit={onTotalSubmit} >
                 <input disabled={isDisabled} className="total" type="text" size="3" value={total} onChange={onTotalChange}/>€
             </form>
+            <div>
+                {week ? `Week: ${week.weekNr} Year: ${week.year}` : ''}
+            </div>
         </div>
     )
 }   

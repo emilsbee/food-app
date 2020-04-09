@@ -6,7 +6,7 @@ const RecipeForm = (props) => {
     
 
     const [name, setName] = useState(props.recipe.name ? props.recipe.name : '')
-    const [link, setLink] =  useState(props.recipe ? props.recipe.link : '')
+    const [link, setLink] =  useState(props.recipe.link ? props.recipe.link : '')
     const [ingredients, setIngredients] = useState(props.recipe.ingredients ? props.recipe.ingredients : [])
     const [ingredient, setIngredient] = useState('')
     const [error, setError] = useState(false)
@@ -31,7 +31,6 @@ const RecipeForm = (props) => {
         })
 
     }
-   
     return (
         <div>
             {error ? <p>Please add a recipe name and at least one ingredient</p>

@@ -43,7 +43,18 @@ const recipesModel = {
         const uid = store.getState().auth.uid
         return database.ref(`users/${uid}/recipes/${payload.recipeID}`).update(payload.recipe)
     }),
-    
+    newRecipe: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        const recipeObj = {
+            name: payload.name,
+            link: payload.link,
+            ingredients: payload.ingredients,
+            category: ''
+        }
+
+        return database.ref(`users/${uid}/recipes`).push(recipeObj)
+    })
 }
 
 

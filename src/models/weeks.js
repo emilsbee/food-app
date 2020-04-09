@@ -46,6 +46,14 @@ const weeksModel = {
                 if (latestYearWeeks.val()[j].weekNr === latestWeekNr) {
                     const weekObj = latestYearWeeks.val()[j]
                     weekObj["id"] = j
+
+                    for (var i = 0; i < weekObj.recipes.length; i++) {
+                        if (weekObj.recipes[i].recipeID !== '') {
+                            var recipe = await database.ref(`users/${uid}/recipes/${weekObj.recipes[i].recipeID}`).once('value')
+                            weekObj.recipes[i]["recipeID"] = recipe.val()
+                        }
+                    }
+
                     actions.setWeek(weekObj)
                 }
             }
@@ -61,6 +69,14 @@ const weeksModel = {
         } else {
             var weekObj = Object.values(previousWeek.val())[0]
             weekObj.id =  Object.keys(previousWeek.val())[0]
+
+            for (var j = 0; j < weekObj.recipes.length; j++) {
+                if (weekObj.recipes[j].recipeID !== '') {
+                    var recipe = await database.ref(`users/${uid}/recipes/${weekObj.recipes[j].recipeID}`).once('value')
+                    weekObj.recipes[j]["recipeID"] = recipe.val()
+                }
+            }
+
             actions.setWeek(weekObj)
         }
     }),
@@ -73,6 +89,14 @@ const weeksModel = {
         } else {
             var weekObj = Object.values(previousWeek.val())[0]
             weekObj.id =  Object.keys(previousWeek.val())[0]
+
+            for (var i = 0; i < weekObj.recipes.length; i++) {
+                if (weekObj.recipes[i].recipeID !== '') {
+                    var recipe = await database.ref(`users/${uid}/recipes/${weekObj.recipes[i].recipeID}`).once('value')
+                    weekObj.recipes[i]["recipeID"] = recipe.val()
+                }
+            }
+
             actions.setWeek(weekObj)
         }
     }),
@@ -312,16 +336,55 @@ const weeksModel = {
     }),
     startUpdateWeek: thunk( async(actions, payload) => {
         const uid = store.getState().auth.uid
+
+        switch (payload.type) {
+            case 'TOTAL':
+                await database.ref(`users/${uid}/weeks/${payload.id}`).update({total: payload.total})
+                break;
+            case 'RECIPE': 
+                var dayIndex;
+
+                switch (payload.day) {
+                    case 'Monday':
+                        dayIndex = 0;
+                        break;
+                    case 'Tuesday':
+                        dayIndex = 1;
+                        break;
+                    case 'Wednesday':
+                        dayIndex = 2;
+                        break;
+                    case 'Thursday':
+                        dayIndex = 3;
+                        break;    
+                    case 'Friday':
+                        dayIndex = 4;
+                        break;
+                    case 'Saturday':
+                        dayIndex = 5;
+                        break;
+                    case 'Sunday':
+                        dayIndex = 6;
+                        break;
+                }
+
+                await database.ref(`users/${uid}/weeks/${payload.id}/recipes/${dayIndex}`).update({recipeID: payload.recipeID})
+                break;
+        }
+
         
-        await database.ref(`users/${uid}/weeks/${payload.week.id}`).update({total: payload.total})
         
-        const newWeek = await database.ref(`users/${uid}/weeks/${payload.week.id}`).once('value')
+        const newWeek = await database.ref(`users/${uid}/weeks/${payload.id}`).once('value')
 
         // Add the firebase week id to the redux store week object
-        const weekObj = newWeek.val()
-        weekObj["id"] = payload.week.id
+        if (newWeek.val() === null) {
+            return 
+        } else {
+            const weekObj = newWeek.val()
+            weekObj["id"] = payload.id
 
-        actions.setWeek(weekObj)
+            actions.setWeek(weekObj)
+        }
     })
 }
 
