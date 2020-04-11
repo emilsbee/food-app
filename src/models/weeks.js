@@ -143,7 +143,8 @@ const weeksModel = {
                 total: 0,
                 weekNr: 1,
                 year: new Date().getFullYear(),
-                week_year: `1_${new Date().getFullYear()}`
+                week_year: `1_${new Date().getFullYear()}`,
+                groceries: [{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''}]
             }
 
             // The new week object is added to user's weeks 
@@ -205,7 +206,8 @@ const weeksModel = {
                 total: 0,
                 weekNr: newWeekNr,
                 year: payload.year,
-                week_year: `${newWeekNr}_${payload.year}`
+                week_year: `${newWeekNr}_${payload.year}`,
+                groceries: [{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''}]
             }
 
             // The new week object is added to user's weeks 
@@ -258,7 +260,8 @@ const weeksModel = {
                 total: 0,
                 weekNr: 1,
                 year: new Date().getFullYear(),
-                week_year: `1_${new Date().getFullYear()}`
+                week_year: `1_${new Date().getFullYear()}`,
+                groceries: [{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''}]
             }
 
             // The new week object is added to user's weeks 
@@ -318,7 +321,8 @@ const weeksModel = {
                 total: 0,
                 weekNr: 1,
                 year: latestYear,
-                week_year: `1_${latestYear}`
+                week_year: `1_${latestYear}`,
+                groceries: [{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''}]
             }
 
             // // The new week object is added to user's weeks 
@@ -385,6 +389,69 @@ const weeksModel = {
 
             actions.setWeek(weekObj)
         }
+    }),
+    beginFirstWeek: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        var weekObj = {
+            note: '',
+            recipes: [
+                {
+                    day: 'Monday',
+                    recipeID: ''
+                },
+                {
+                    day: 'Tuesday',
+                    recipeID: ''
+                },
+                {
+                    day: 'Wednesday',
+                    recipeID: ''
+                },
+                {
+                    day: 'Thursday',
+                    recipeID: ''
+                },
+                {
+                    day: 'Friday',
+                    recipeID: ''
+                },
+                {
+                    day: 'Saturday',
+                    recipeID: ''
+                },
+                {
+                    day: 'Sunday',
+                    recipeID: ''
+                }
+            ],
+            total: 0,
+            weekNr: 1,
+            year: new Date().getFullYear(),
+            week_year: `1_${new Date().getFullYear()}`,
+            groceries: [{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''},{product: '', amount: ''}]
+        }
+
+        // The new week object is added to user's weeks 
+        database.ref(`users/${uid}/weeks`).push(weekObj).then((data) => {
+            // The weeks id (from firebase) is added as a property when stored in the redux store's state
+            weekObj["id"] = data.getKey()
+             actions.setWeek(weekObj)
+        })     
+    }),
+    addGrocery: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        const groceryID = parseInt(payload.groceryID)
+        
+        var weekObj = store.getState().weeks.week
+
+        if (payload.type === "PRODUCT") {
+            await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({product: payload.item})
+            weekObj.groceries[groceryID].product = payload.item
+        } else {
+            await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({amount: payload.item})
+            weekObj.groceries[groceryID].amount = payload.item
+        }
+        actions.setWeek(weekObj)    
     })
 }
 
