@@ -21,9 +21,9 @@ const MainDashboard = () => {
 
     const beginFirstWeek = useStoreActions(actions => actions.weeks.beginFirstWeek)
 
-    useEffect(() => {
-        populateLatestWeek()
-    }, [populateLatestWeek])
+    // useEffect(() => {
+    //     populateLatestWeek()
+    // }, [populateLatestWeek])
 
     
     const addYear = () => {

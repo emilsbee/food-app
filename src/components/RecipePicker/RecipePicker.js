@@ -22,7 +22,7 @@ const RecipePicker = (props) => {
             id: props.match.params.id,
             day: props.match.params.day
         }).then(() => {
-            props.history.push('/dashboard')
+            props.history.push(`/dashboard`)
         })
     }
     

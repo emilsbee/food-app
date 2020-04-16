@@ -43,7 +43,7 @@ firebase.auth().onAuthStateChanged((user) => {
         store.dispatch.weeks.populateLatestWeek()
         renderApp()
         if (history.location.pathname === '/') {
-            history.push('/dashboard')
+            history.push(`/dashboard/${store.getState().weeks.week.id}`)
         }
     } else {
         store.dispatch.auth.logout()
