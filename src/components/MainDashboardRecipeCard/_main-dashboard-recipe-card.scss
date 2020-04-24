@@ -10,9 +10,17 @@
     align-items: center;
 }
   
-/* Add some padding inside the card container */
-.main-dashboard-recipe-card__container {
-    
+.view-ingredients-card {
+    display: none;
 }
 
 
+.main-dashboard-recipe-card:hover {
+    .view-ingredients-card {
+        display: inline-block;
+    }
+}
+.main-dashboard-recipe-card__header {
+    display: flex;
+    flex-direction: row;
+}

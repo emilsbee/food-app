@@ -1,5 +1,5 @@
 // External imports 
-import { thunk, action } from 'easy-peasy';
+import { thunk, action, computed } from 'easy-peasy';
 
 
 // Internal imports 
@@ -454,13 +454,29 @@ const weeksModel = {
         
         var weekObj = store.getState().weeks.week
 
-        if (payload.type === "PRODUCT") {
-            await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({product: payload.item})
-            weekObj.groceries[groceryID].product = payload.item
-        } else {
-            await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({amount: payload.item})
-            weekObj.groceries[groceryID].amount = payload.item
+        switch (payload.type) {
+            case 'PRODUCT_UPDATE':
+                await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({product: payload.item})
+                weekObj.groceries[groceryID].product = payload.item
+                break;
+            case 'PRODUCT_ADD':
+                break;
+            case 'AMOUNT_UPDATE':
+                await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({amount: payload.item})
+                weekObj.groceries[groceryID].amount = payload.item
+                break;
+            case 'AMOUNT_ADD':
+                break;
+            case 'RECIPE_INGREDIENT_PRODUCT_ADD':
+                if (groceryID === -1) {
+                    
+                } else {
+                    await database.ref(`users/${uid}/weeks/${payload.id}/groceries/${groceryID}`).update({product: payload.item})
+                    weekObj.groceries[groceryID].product = payload.item
+                }
+                break;
         }
+
         actions.setWeek(weekObj)    
     })
 }

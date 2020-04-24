@@ -20,7 +20,7 @@ const GroceryListInput = ({grocery, onSubmit, groceryID, type }) => {
     }
     return (
         <div>
-            <form onBlur={handleOnSubmit} onSubmit={handleOnSubmit}>
+            <form  onBlur={handleOnSubmit} onSubmit={handleOnSubmit}>
                 <input className="grocery-list-input" type="text" value={item} onChange={(e) => setItem(e.target.value)}/>
             </form>
         </div>

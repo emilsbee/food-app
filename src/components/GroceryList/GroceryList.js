@@ -1,6 +1,6 @@
 // External imports
-import React, { useState } from 'react'
-import { useStoreActions } from 'easy-peasy'
+import React, { useEffect, useState } from 'react'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 
 
 // Internal imports
@@ -26,14 +26,14 @@ const GroceryList = ({groceries, week}) => {
                     <div className="grocery-list-product-column">
                     <p>Products</p>
                     {groceries.map((grocery) => {
-                        return <GroceryListInput type="PRODUCT" key={grocery.id} groceryID={grocery.id} grocery={grocery.product} onSubmit={onSubmit}/>
+                        return <GroceryListInput type="PRODUCT_UPDATE" key={grocery.id} groceryID={grocery.id} grocery={grocery.product} onSubmit={onSubmit}/>
                     })}
                     </div>
                 
                     <div className="grocery-list-amount-column">
                     <p>Amount</p>
                     {groceries.map((grocery) => {
-                        return <GroceryListInput type="AMOUNT" key={grocery.id} groceryID={grocery.id} grocery={grocery.amount} onSubmit={onSubmit}/>
+                        return <GroceryListInput type="AMOUNT_UPDATE" key={grocery.id} groceryID={grocery.id} grocery={grocery.amount} onSubmit={onSubmit}/>
                     })}
                     </div>
         
