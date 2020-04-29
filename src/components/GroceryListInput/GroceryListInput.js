@@ -7,21 +7,21 @@ import React, { useState, useEffect } from 'react'
 
 
 
-const GroceryListInput = ({grocery, onSubmit, groceryID, type }) => {
-    const [item, setItem] = useState(grocery)
+const GroceryListInput = ({item, onSubmit }) => {
+    const [localItem, setLocalItem] = useState("")
     
     useEffect(() => {
-        setItem(grocery)
-    }, [grocery])
+        setLocalItem(item)
+    }, [])
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        onSubmit({item, groceryID, type})
+        onSubmit(localItem)
     }
     return (
         <div>
             <form  onBlur={handleOnSubmit} onSubmit={handleOnSubmit}>
-                <input className="grocery-list-input" type="text" value={item} onChange={(e) => setItem(e.target.value)}/>
+                <input type="text" value={localItem} onChange={(e) => setLocalItem(e.target.value)}/>
             </form>
         </div>
     )
