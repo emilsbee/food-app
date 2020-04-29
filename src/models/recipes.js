@@ -28,6 +28,7 @@ const recipesModel = {
     startSetUserRecipes: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         const recipes = await database.ref(`users/${uid}/recipes`).once('value')
+        console.log(recipes.val())
         actions.setUserRecipes(recipes.val())
         
     }),

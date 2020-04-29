@@ -478,6 +478,23 @@ const weeksModel = {
         }
 
         actions.setWeek(weekObj)    
+    }),
+    fetchWeek: thunk(async (actions, payload) => {
+        var categorisedGroceries; 
+        const uid = store.getState().auth.uid
+        const week = await database.ref(`users/${uid}/weeks/${payload.id}`).once('value')
+        var tempWeek = week.val()
+        tempWeek["id"] = week.key
+        actions.setWeek(tempWeek)
+
+        
+        return tempWeek
+    }),
+    addCategory: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        // const category = await database.ref(`users/${uid}/categories/Meat`).once('value')
+        // console.log(category.val().groceries[1])
+        // await database.ref(`users/${uid}/categories/-M6-UMpPA6uXRbsaOSvE/groceries`).push({name: 'Beef'}) 
     })
 }
 

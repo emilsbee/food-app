@@ -1,0 +1,85 @@
+{
+    "users": {
+        "uid": {
+            "groceryCategoryNames": {
+                "Meat": true,
+                "Frozen": true
+            }, 
+            "groceries": {
+                "Beef": "Meat",
+                "Chicken": "Meat"
+            },
+            "groceryCategories": {
+                "Meat": {
+                    "Beef": true,
+                    "Chicken": true
+                }, 
+                "Frozen": {
+                    "Frozen raspberries": true, 
+                    "Frozen peas": true
+                }
+            },
+            "recipes": {
+                "recipeid": {
+                    "category": "Vegetarian",
+                    "name": "Shakshuka",
+                    "ingredients": {
+                        "Tomatoes": true,
+                        "Garlic": true
+                    },
+                    "link": "www.recipes.com"
+                }
+            }, 
+            "recipeNames": {
+                "recipeid": {
+                    "recipeName": "Shakshuka"
+                }
+            },
+            "weekid": {
+                "recipes": {
+                    "Monday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    },
+                    "Tuesday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    },
+                    "Wednesday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    },
+                    "Thursday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    },
+                    "Friday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    },
+                    "Saturday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    },
+                    "Sunday": {
+                        "recipeid": "recipeid",
+                        "recipeName": "recipeName"
+                    }
+                },
+                "groceries": {
+                    "Apples": "amount",
+                    "Beef": "amount"
+                },
+                "total": 1021,
+                "weekNr": 1,
+                "year": 2020,
+                "year_weekNr": "2020_1" 
+
+            },
+            "yearWeekNumbers": {
+                "2020_1": "weekid"
+            }
+
+        }
+    }
+}

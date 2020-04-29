@@ -9,6 +9,7 @@ import { createStore, StoreProvider } from 'easy-peasy'
 import firebaseModel from './models/firebase'
 import recipesModel from './models/recipes'
 import weeksModel from './models/weeks';
+import newWeeksModel from './models/newWeeks'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import { firebase } from './components/firebase/firebase'
 import AppRouter, { history } from './routers/AppRouter'
@@ -18,7 +19,8 @@ import './styles/styles.scss'
 const store = createStore({
     auth: firebaseModel,
     recipes: recipesModel,
-    weeks: weeksModel
+    weeks: weeksModel,
+    newWeeks: newWeeksModel
 })
 
 
@@ -40,7 +42,6 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
-        store.dispatch.weeks.populateLatestWeek()
         renderApp()
         if (history.location.pathname === '/') {
             history.push(`/dashboard/${store.getState().weeks.week.id}`)

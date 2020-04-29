@@ -32,10 +32,15 @@ const MainDashboard = () => {
         })
     }
 
+    useEffect(() => {
+        if(!week.id) {
+            populateLatestWeek()
+        }
+    }, [])
+
     const startAddGrocery = (ingredient) => {
         const firstFreeGroceryIndex = week.groceries.findIndex((grocery) => grocery.product === '' && grocery.amount === '')
 
-        console.log(firstFreeGroceryIndex)
         addGrocery({id: week.id, groceryID: firstFreeGroceryIndex, item: ingredient, type: 'RECIPE_INGREDIENT_PRODUCT_ADD'})
     }
 

@@ -12,6 +12,7 @@ import RecipeEdit from '../components/RecipeEdit/RecipeEdit'
 import NotFound from '../components/NotFound/NotFound'
 import RecipePicker from '../components/RecipePicker/RecipePicker'
 import NewRecipe from '../components/NewRecipe/NewRecipe'
+import OrderedGroceries from '../components/OrderedGroceries/OrderedGroceries'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
@@ -32,6 +33,7 @@ const AppRouter = () => {
                         <PrivateRoute path="/edit/:id" component={RecipeEdit} />
                         <PrivateRoute path="/recipe-picker/:id/:day" component={RecipePicker} />
                         <PrivateRoute path="/new-recipe" component={NewRecipe} />
+                        <PrivateRoute path="/ordered-groceries/:id" component={OrderedGroceries}/>
                         <Route component={NotFound}/>  
                 </Switch>
             </div>
