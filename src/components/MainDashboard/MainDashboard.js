@@ -3,32 +3,56 @@ import React, { useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
-import RecipeCard from '../RecipeCard/RecipeCard'
+import MainDashboardRecipeCard from '../MainDashboardRecipeCard/MainDashboardRecipeCard'
 import MainDashboardGroceryTable from '../MainDashboardGroceryTable/MainDashboardGroceryTable'
-
+import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 
 const MainDashboard = () => {
     const otherUser = useStoreActions(actions => actions.newWeeks.otherUser)
     const week = useStoreState(state => state.newWeeks.week)
+    const years = useStoreState(state => state.newWeeks.years)
+    const yearWeeks = useStoreState(state => state.newWeeks.yearWeeks)
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.newWeeks.stopWeekListener)
+    const startYearListener = useStoreActions(actions => actions.newWeeks.startYearListener)
+    const stopYearListener = useStoreActions(actions => actions.newWeeks.stopYearListener)
+    const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
+    const stopYearWeekListener = useStoreActions(actions => actions.newWeeks.stopYearWeekListener)
 
     useEffect(() => {
-        startWeekListener()   
+        startWeekListener({type: 'LATEST_WEEK'})
         return () => {
-            stopWeekListener()
+            stopWeekListener({weekid: week.weekid})
+            
         }
     }, [])
 
+    useEffect(() => {
+        startYearListener()
+        return () => {
+            stopYearListener()
+        }
+    }, [])
+
+    useEffect(() => {
+        startYearWeekListener({type:'LATEST_YEAR'})
+        return () => {
+            stopYearWeekListener()
+        }
+    }, [])
+
+    
+
     return (
         <div>
-            <button onClick={otherUser} >New database</button>
+            {week && years && <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} />}
+            <button onClick={() => otherUser({year: 2019})} >New database</button>
 
             <p>Total: {week && week.total}</p>
 
             <div className='recipe-list'>
                 {week && week.recipes.map((recipe) => {
-                    return <RecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day}/>
+                    return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day}/>
                 })}
             </div>
             

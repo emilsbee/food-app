@@ -76,8 +76,14 @@
                 "year_weekNr": "2020_1" 
 
             },
-            "yearWeekNumbers": {
-                "2020_1": "weekid"
+            "years": {
+                "2020": true
+            },
+            "yearWeeks": {
+                "2020": {
+                    "1": "weekid",
+                    "2": "weekid"
+                }
             }
 
         }

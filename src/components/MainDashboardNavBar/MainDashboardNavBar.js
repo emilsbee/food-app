@@ -1,46 +1,47 @@
 // External imports
-import React, { useState, useEffect } from 'react'
-import { useStoreActions } from 'easy-peasy'
+import React from 'react'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
 
 
-const MainDashboardNavBar = ({ addWeek, startPreviousWeek, startNextWeek, addYear, week, updateWeek }) => {
-    
-    const [total, setTotal] = useState((week.total / 100).toString())
-    const [isDisabled, setIsDisabled] = useState('')
-    const startUpdateWeek = useStoreActions(actions => actions.weeks.startUpdateWeek)
-    
-    useEffect(() => {
-        setTotal((week.total / 100).toString())
-    }, [week])
+const MainDashboardNavBar = ({ weekNr, year, years, weeks }) => {
+    const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
+    const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
 
-    const onTotalChange = (e) => {
-        const amount = e.target.value;
-        if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
-            setTotal(amount)
-        }
+    const handleYearDropdown = (e) => {
+        startWeekListener({type:'LATEST_WEEK', year: e.target.value})
+        startYearWeekListener({year: e.target.value})
     }
-    
-    const onTotalSubmit = (e) => {
-        e.preventDefault()
-        setIsDisabled('disabled')
-        startUpdateWeek({total: parseFloat(total, 10) * 100, id: week.id, type: 'TOTAL'}).then(() => {
-            setIsDisabled('')
-        })
-    }
+
+    const handleWeekDropdown = (e) => {
+        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: parseInt(e.target.value)})
+    }   
+
+    console.log(weeks)
     return (
-        <div className="main-dashboard-nav-bar">
-            <button onClick={addWeek}>Add week</button>   
-            <button onClick={addYear}>Add year</button> 
-            <button onClick={startPreviousWeek}>Previous week</button>
-            <button onClick={startNextWeek}>Next week</button>
-            <form onSubmit={onTotalSubmit} >
-                <input disabled={isDisabled} className="total" type="text" size="3" value={total} onChange={onTotalChange}/>€
-            </form>
-            <div>
-                {week ? `Week: ${week.weekNr} Year: ${week.year}` : ''}
-            </div>
+        <div>
+            <button onClick={() => startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year})}>Previous week</button>
+            <button onClick={() => startWeekListener({type: 'NEXT_WEEK', weekNr, year})}>Next week</button>
+
+            <label>
+                Year
+                <select onChange={handleYearDropdown}>
+                    {years.map((year) => {
+                        return <option key={year} value={year}>{year}</option>
+                    })}
+                </select>
+            </label>
+            
+            <label>
+                Week
+                <select onChange={handleWeekDropdown} value={weekNr}>
+                    {weeks.map((week) => {
+                        return <option key={week} value={week}>{week}</option>
+                    })}
+                </select>
+            </label>
+
         </div>
     )
 }   
