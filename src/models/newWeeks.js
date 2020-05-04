@@ -28,7 +28,9 @@ const newWeeksModel = {
                 } else {
                     var latestWeekid = await database.ref(`users/${uid}/yearWeekNumbers`).orderByKey().limitToLast(1).once('value')
                 }
+                
                 weekid = latestWeekid.val()[Object.keys(latestWeekid.val())]
+                
             case 'NEXT_WEEK':
                 var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${payload.year}_${payload.weekNr+1}`).once('value')
                 if (nextWeek.val() !== null) {
@@ -76,7 +78,7 @@ const newWeeksModel = {
         payload.recipes = recipeArr
         actions.setWeek(payload)
     }), 
-    addGrocery: thunk(async (actions, payload) => {
+    updateWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
         switch(payload.type) {
@@ -85,6 +87,9 @@ const newWeeksModel = {
                 break;
             case 'GROCERY_ADD':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).push({product: "", amount: ""})
+                break;
+            case 'TOTAL_UPDATE':
+                await database.ref(`users/${uid}/weeks/${payload.weekid}`).update({total: payload.total})
                 break;
         }
     }),

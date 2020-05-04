@@ -35,7 +35,7 @@ const MainDashboard = () => {
     }, [])
 
     useEffect(() => {
-        startYearWeekListener({type:'LATEST_YEAR'})
+        startYearWeekListener({type:'LATEST_YEAR', year: Math.max(years)})
         return () => {
             stopYearWeekListener()
         }
@@ -45,10 +45,10 @@ const MainDashboard = () => {
 
     return (
         <div>
-            {week && years && <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} />}
+            {week && years && <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} weekTotal={week.total} weekid={week.weekid}/>}
             <button onClick={() => otherUser({year: 2019})} >New database</button>
 
-            <p>Total: {week && week.total}</p>
+            
 
             <div className='recipe-list'>
                 {week && week.recipes.map((recipe) => {

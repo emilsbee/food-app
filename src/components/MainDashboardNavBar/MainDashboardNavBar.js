@@ -1,13 +1,24 @@
 // External imports
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
 
 
-const MainDashboardNavBar = ({ weekNr, year, years, weeks }) => {
+const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) => {
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
+    const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
+
+    const [localWeekTotal, setLocalWeekTotal] = useState('')
+
+    useEffect(() => {
+        setLocalWeekTotal((weekTotal / 100).toString())
+
+        return () => {
+            setLocalWeekTotal('')
+        }
+    }, [weekTotal])
 
     const handleYearDropdown = (e) => {
         startWeekListener({type:'LATEST_WEEK', year: e.target.value})
@@ -16,9 +27,20 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks }) => {
 
     const handleWeekDropdown = (e) => {
         startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: parseInt(e.target.value)})
-    }   
+    }       
 
-    console.log(weeks)
+    const handleTotalSubmit = (e) => {
+        e.preventDefault()
+        updateWeek({type: 'TOTAL_UPDATE', total: parseFloat(localWeekTotal, 10) * 100, weekid})
+    }
+
+    const handleTotalChange = (e) => {
+        const amount = e.target.value;
+
+        if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
+            setLocalWeekTotal(amount)
+        }
+    }
     return (
         <div>
             <button onClick={() => startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year})}>Previous week</button>
@@ -42,6 +64,12 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks }) => {
                 </select>
             </label>
 
+            <div>
+            Total 
+            <form onSubmit={handleTotalSubmit} onBlur={handleTotalSubmit}>
+                <input value={localWeekTotal} onChange={handleTotalChange}/>
+            </form>
+            </div>
         </div>
     )
 }   
