@@ -26,42 +26,46 @@ const MainDashboardGroceryTable = ({ groceries, weekid }) => {
 
     return (
         <div>
+            {groceries ?
             <table>   
-                <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(groceries).map((groceryid) => {
-                        
-                        return (
-                        <tr key={groceryid}>
-                            <td>
-                                <GroceryListInput 
-                                    onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: data, amount: groceries[groceryid].amount}, groceryid})}
-                                    item={groceries[groceryid].product}
-                                />
-                            </td>
-                            <td>
-                                <GroceryListInput 
-                                    onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: groceries[groceryid].product, amount: data}, groceryid})}
-                                    item={groceries[groceryid].amount}
-                                />
-                            </td>
-                        </tr>
-                        )
-                    }) }     
-                   
-                </tbody>
-                <tfoot>
-                    <tr>
-
-                        <td><button onClick={onClick} >+</button></td>
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+                {Object.keys(groceries).map((groceryid) => {
+                    
+                    return (
+                    <tr key={groceryid}>
+                        <td>
+                            <GroceryListInput 
+                                onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: data, amount: groceries[groceryid].amount}, groceryid})}
+                                item={groceries[groceryid].product}
+                            />
+                        </td>
+                        <td>
+                            <GroceryListInput 
+                                onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: groceries[groceryid].product, amount: data}, groceryid})}
+                                item={groceries[groceryid].amount}
+                            />
+                        </td>
                     </tr>
-                </tfoot>
-            </table>
+                    )
+                }) }     
+               
+            </tbody>
+            <tfoot>
+                <tr>
+
+                    <td><button onClick={onClick} >+</button></td>
+                </tr>
+            </tfoot>
+        </table>
+        : <button onClick={onClick} >+</button> 
+            }
+            
         </div>
     )
 }

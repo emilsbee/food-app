@@ -5,6 +5,7 @@ import { thunk, action, computed } from 'easy-peasy';
 // Internal imports 
 import database from '../components/firebase/firebase'
 import { store } from '../index'
+import {weekStructure} from '../utils/structure'
 
 const newWeeksModel = {
     yearWeeks: [],
@@ -19,7 +20,7 @@ const newWeeksModel = {
     }),
     startWeekListener: thunk( async(actions, payload) => {
         const uid = store.getState().auth.uid
-        var weekid = payload.weekid ? payload.weekid : '';
+        var weekid;
 
         switch (payload.type) {
             case 'LATEST_WEEK': 
@@ -28,29 +29,36 @@ const newWeeksModel = {
                 } else {
                     var latestWeekid = await database.ref(`users/${uid}/yearWeekNumbers`).orderByKey().limitToLast(1).once('value')
                 }
-                
                 weekid = latestWeekid.val()[Object.keys(latestWeekid.val())]
+                break;
                 
             case 'NEXT_WEEK':
                 var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${payload.year}_${payload.weekNr+1}`).once('value')
                 if (nextWeek.val() !== null) {
                     weekid = nextWeek.val()
-                } 
+                } else {
+                    weekid = payload.weekid
+                }
+                break;
             case 'SPECIFIC_WEEK': 
                 var week = await database.ref(`users/${uid}/yearWeeks/${payload.year}/${payload.weekNr}`).once('value')
                 if(week.val() !== null) {
                     weekid = week.val()
+                } else {
+                    weekid = payload.weekid
                 }
                 break;
             case 'PREVIOUS_WEEK':
                 var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${payload.year}_${payload.weekNr-1}`).once('value')  
                 if (nextWeek.val() !== null) {
-                    weekid = nextWeek.val()
+                    weekid = nextWeek.val() 
                     
+                } else {
+                    weekid = payload.weekid
                 }
                 break;
+                
         }
-
         var weekRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weekRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
@@ -61,7 +69,7 @@ const newWeeksModel = {
     }),
     stopWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        await database.ref(`users/${uid}/weeks/${payload.weekid}`).off()
+        await database.ref(`users/${uid}/weeks/`).off()
         actions.setWeek(null)
     }),
     populateWeekRecipes: thunk(async(actions, payload) => {
@@ -95,46 +103,45 @@ const newWeeksModel = {
     }),
     newWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        var weekRef = await database.ref(`users/${uid}/weeks`).push({
-            groceries: {
+        var latestWeekInYear = await database.ref(`users/${uid}/yearWeeks/${payload.year}`).orderByKey().limitToLast(1).once('value')
+        
+        const newWeekid = await database.ref(`users/${uid}/weeks`).push({
+            ...weekStructure,
+            weekNr: parseInt(Object.keys(latestWeekInYear.val())[0]) + 1,
+            year: payload.year,
+            year_weekNr: `${payload.year}_${parseInt(Object.keys(latestWeekInYear.val())[0]) + 1}`
+        }).key
 
-            },
-            recipes: {
-                Monday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-                Tuesday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-                Wednesday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-                Thursday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-                Friday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-                Saturday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-                Sunday: {
-                    recipeName: "",
-                    recipeid: ""
-                },
-            },
-            total: 0,
+        var updates = {}
+        updates[`users/${uid}/yearWeekNumbers/${payload.year}_${parseInt(Object.keys(latestWeekInYear.val())[0]) + 1}`] = newWeekid
+        updates[`users/${uid}/yearWeeks/${payload.year}/${parseInt(Object.keys(latestWeekInYear.val())[0]) + 1}`] = newWeekid
+        await database.ref().update(updates)
+        
+
+
+        actions.startWeekListener({type: 'SPECIFIC_WEEK', year: payload.year, weekNr: parseInt(Object.keys(latestWeekInYear.val())[0]) + 1})
+    }),
+    newYear: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        var latestYear = Math.max(...store.getState().newWeeks.years)
+
+        const newWeekid = await database.ref(`users/${uid}/weeks`).push({
+            ...weekStructure,
             weekNr: 1,
-            year: 2020,
-            year_weekNr: "2020_2"
-        })
-        await database.ref(`users/${uid}/weeks/${weekRef.key}/groceries`).push({product: "", amount: ""})
+            year: latestYear+1,
+            year_weekNr: `${latestYear+1}_1`
+        }).key
+
+        var updates = {}
+        updates[`users/${uid}/yearWeekNumbers/${latestYear+1}_1`] = newWeekid
+        updates[`users/${uid}/yearWeeks/${latestYear+1}/1`] = newWeekid
+        updates[`users/${uid}/years/${latestYear+1}`] = true
+        await database.ref().update(updates)
+        
+
+
+        actions.startWeekListener({type: 'SPECIFIC_WEEK', year: latestYear+1, weekNr: 1})
+        
     }),
     startYearListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid

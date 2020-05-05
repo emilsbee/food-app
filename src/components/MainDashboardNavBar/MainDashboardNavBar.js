@@ -9,8 +9,11 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
     const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
+    const newWeek = useStoreActions(actions => actions.newWeeks.newWeek)
+    const newYear = useStoreActions(actions => actions.newWeeks.newYear)
 
     const [localWeekTotal, setLocalWeekTotal] = useState('')
+    
 
     useEffect(() => {
         setLocalWeekTotal((weekTotal / 100).toString())
@@ -21,12 +24,12 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
     }, [weekTotal])
 
     const handleYearDropdown = (e) => {
-        startWeekListener({type:'LATEST_WEEK', year: e.target.value})
+        startWeekListener({type:'LATEST_WEEK', year: e.target.value, weekid})
         startYearWeekListener({year: e.target.value})
     }
 
     const handleWeekDropdown = (e) => {
-        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: parseInt(e.target.value)})
+        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: parseInt(e.target.value), weekid})
     }       
 
     const handleTotalSubmit = (e) => {
@@ -43,12 +46,13 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
     }
     return (
         <div>
-            <button onClick={() => startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year})}>Previous week</button>
-            <button onClick={() => startWeekListener({type: 'NEXT_WEEK', weekNr, year})}>Next week</button>
-
+            <button onClick={() => startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})}>Previous week</button>
+            <button onClick={() => startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})}>Next week</button>
+            <button onClick={() => newWeek({year})}>New week</button>
+            <button onClick={() => newYear()} >New year</button>
             <label>
                 Year
-                <select onChange={handleYearDropdown}>
+                <select onChange={handleYearDropdown} value={year}>
                     {years.map((year) => {
                         return <option key={year} value={year}>{year}</option>
                     })}
@@ -70,6 +74,8 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
                 <input value={localWeekTotal} onChange={handleTotalChange}/>
             </form>
             </div>
+            <h4>Week: {weekNr}</h4>
+            <h4>Year: {year}</h4>
         </div>
     )
 }   

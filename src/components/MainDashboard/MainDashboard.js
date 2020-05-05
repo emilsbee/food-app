@@ -18,11 +18,12 @@ const MainDashboard = () => {
     const stopYearListener = useStoreActions(actions => actions.newWeeks.stopYearListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
     const stopYearWeekListener = useStoreActions(actions => actions.newWeeks.stopYearWeekListener)
+    
 
     useEffect(() => {
         startWeekListener({type: 'LATEST_WEEK'})
         return () => {
-            stopWeekListener({weekid: week.weekid})
+            stopWeekListener()
             
         }
     }, [])
