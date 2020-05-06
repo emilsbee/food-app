@@ -19,6 +19,18 @@
                     "Frozen peas": true
                 }
             },
+            "recipeCategories": {
+                "recipeid": {"category": true}
+            },
+            "categoryRecipies": {
+                "Vegetarian": {
+                    "Shaksuka": "recipeid"
+                }
+            },
+            "recipeCategoryNames": {
+                "Vegetarian": true,
+                "Burgers": true
+            },
             "recipes": {
                 "recipeid": {
                     "category": "Vegetarian",
@@ -84,6 +96,10 @@
                     "1": "weekid",
                     "2": "weekid"
                 }
+            },
+            "years": {
+                "2018": true,
+                "2019": true
             }
 
         }

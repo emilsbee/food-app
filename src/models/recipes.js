@@ -7,54 +7,102 @@ import database from '../components/firebase/firebase'
 import { store } from '../index'
 
 const recipesModel = {
-    currentRecipe: {},
+    currentRecipe: false,
+    recipeCategories: [],
+    recipes: [],
+    recipeCategoryNames: [],
+    startRecipeCategoryNamesListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        const recipeCategoryNamesRef = await database.ref(`users/${uid}/recipeCategoryNames`)
+        recipeCategoryNamesRef.on('value', function (snapshot) {
+            actions.setRecipeCategoryNames(Object.keys(snapshot.val()))
+        })
+    }),
+    stopRecipeCategoryNamesListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        await database.ref(`users/${uid}/recipeCategoryNames`).off()
+        actions.setRecipeCategoryNames([])
+    }),
+    setRecipeCategoryNames: action((state, payload) => {
+        state.recipeCategoryNames = payload
+    }),
     addRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/recipes`).push(payload).then((ref) => {
             console.log(ref)
         })
     }),
-    userRecipes: [],
-    setUserRecipes: action((state, payload) => {
-        var arr = []
-        for(var rec in payload) {
-            arr.push({
-                recipeID: rec,
-                ...payload[rec]
-            })
-        }
-        state.userRecipes = arr
+    setRecipes: action((state, payload) => {
+        state.recipes = payload
     }),
-    startSetUserRecipes: thunk(async (actions, payload) => {
+    startRecipeNamesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        const recipes = await database.ref(`users/${uid}/recipes`).once('value')
-        console.log(recipes.val())
-        actions.setUserRecipes(recipes.val())
+        var recipesArr = []
+
+        const recipeNamesRef = await database.ref(`users/${uid}/recipeNames`)
+        recipeNamesRef.on('value', function(snapshot) {
+            var recipesObj;
+            Object.keys(snapshot.val()).forEach((key) => {
+                recipesObj = snapshot.val()[key]
+                recipesObj["recipeid"] = key
+                recipesArr.push(recipesObj)
+            })
+            actions.setRecipes(recipesArr)
+        })
+        
         
     }),
-    startGetRecipe: thunk(async (actions, payload) => {
+    stopRecipeNamesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        const recipe = await database.ref(`users/${uid}/recipes/${payload.recipeID}`).once('value')
-        actions.setCurrentRecipe(recipe.val())
+        await database.ref(`users/${uid}/recipeNames`).off()
+        actions.setRecipes([])
+    }),
+    startRecipeListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        const recipeRef = await database.ref(`users/${uid}/recipes/${payload.recipeid}`)
+        recipeRef.on('value', function(snapshot) {
+            var recipeObj = snapshot.val()
+            recipeObj["recipeid"] = snapshot.key
+            actions.setCurrentRecipe(recipeObj)
+        })
+    
+    }),
+    stopRecipeListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        await database.ref(`users/${uid}/recipes`).off()
+        actions.setCurrentRecipe(false)
     }),
     setCurrentRecipe: action((state, payload) => {
         state.currentRecipe = payload
     }),
     updateRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        return database.ref(`users/${uid}/recipes/${payload.recipeID}`).update(payload.recipe)
+
+        var recipeCategoryObj = {}
+        recipeCategoryObj[payload.recipeObj.category] = true
+
+        var updates = {}
+        updates[`users/${uid}/recipes/${payload.recipeid}`] = payload.recipeObj
+        updates[`users/${uid}/recipeNames/${payload.recipeid}`] = payload.recipeNamesObj
+        updates[`users/${uid}/recipeCategories/${payload.recipeid}`] = recipeCategoryObj
+
+        return database.ref().update(updates)
     }),
     newRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
+        const newRecipe = await database.ref(`users/${uid}/recipes`).push(payload.recipeObj)
 
-        const recipeObj = {
-            name: payload.name,
-            link: payload.link,
-            ingredients: payload.ingredients,
-            category: ''
-        }
+        var recipeCategoryObj = {}
+        recipeCategoryObj[payload.recipeObj.category] = true
 
-        return database.ref(`users/${uid}/recipes`).push(recipeObj)
+        var updates = {}
+        updates[`users/${uid}/recipeNames/${newRecipe.key}`] = payload.recipeNamesObj
+        updates[`users/${uid}/recipeCategories/${newRecipe.key}`] = recipeCategoryObj
+
+        return database.ref().update(updates)
     })
 }
 

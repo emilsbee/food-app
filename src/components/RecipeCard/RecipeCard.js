@@ -1,31 +1,23 @@
 // External imports
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 
-const RecipeCard = ({ recipe, day, week, onClick }) => {
+const RecipeCard = ({ name, link, recipeid, history }) => {
+    const [viewHiddenButton, setViewHiddenButton] = useState(true)
+
 
     return (    
         <div>
-            {recipe === "" ? 
-            <div className="ordered-groceries-recipe-card">
-                <div className="ordered-groceries-recipe-card__container">
-                        <h4>{day}</h4>  
-                        <Link to={`/recipe-picker/${week.id}/${day}`} day={day}><p>Add recipe</p></Link>
-                </div>
-            </div>    
-            :
-            <div className="ordered-groceries-recipe-card">
-                <div className="ordered-groceries-recipe-card__container">
-                        <div className="ordered-groceries-recipe-card__header"> 
-                        <h4>{day}</h4>  
-                        <button onClick={() => onClick(recipe.ingredients)} className="view-ingredients-card">View</button>
+            <div className="recipe-card" onMouseEnter={() => setViewHiddenButton(!viewHiddenButton)} onMouseLeave={() => setViewHiddenButton(!viewHiddenButton)}>
+                <div className="recipe-card__container">
+                        <div className="recipe-card__header"> 
+                            <h4>{name}</h4>  
                         </div>
-                        <Link to={`/recipe-picker/${week.id}/${day}`} day={day}><p>{recipe.name}</p></Link>
+                        {link ? <a target="_blank" href="https://reacttraining.com/react-router/web/api/history"><button hidden={viewHiddenButton} >View</button></a> : null}
+                        <Link to={`edit/${recipeid}`}><button hidden={viewHiddenButton}>Edit</button></Link>
                 </div>
             </div> 
-            }
-
         </div>
     )
 }

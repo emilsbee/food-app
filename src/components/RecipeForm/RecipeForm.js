@@ -1,36 +1,81 @@
 // External imports
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 
-const RecipeForm = (props) => {
-    
-
-    const [name, setName] = useState(props.recipe.name ? props.recipe.name : '')
-    const [link, setLink] =  useState(props.recipe.link ? props.recipe.link : '')
-    const [ingredients, setIngredients] = useState(props.recipe.ingredients ? props.recipe.ingredients : [])
+const RecipeForm = ({ recipe, onSubmit,recipeCategoryNames }) => {
+    const [localCategory, setlocalCategory] = useState('')
+    const [localName, setLocalName] = useState('')
+    const [localLink, setLocalLink] =  useState('')
+    const [localIngredients, setLocalIngredients] = useState([])
     const [ingredient, setIngredient] = useState('')
     const [error, setError] = useState(false)
 
+    useEffect(() => {
+        if (recipe.name) {
+            setLocalName(recipe.name)
+        }
+        return () => {
+            setLocalName('')
+        }
+    }, [recipe.name])
+
+    useEffect(() => {
+        if(recipe.link) {
+            setLocalLink(recipe.link)
+        }
+        
+        return () => {
+            setLocalLink('')
+        }
+    }, [recipe.link])
+
+    useEffect(() => {
+        if(recipe.ingredients) {
+            setLocalIngredients(Object.keys(recipe.ingredients))
+        }
+
+        return () => {
+            setLocalIngredients([])
+        }
+    }, [recipe.ingredients])
+
+    useEffect(() => {
+        if(recipe.category) {
+            setlocalCategory(recipe.category)
+        }
+
+        return () => {
+            setlocalCategory('')
+        }
+    }, [recipe.category])
+
     const addIngredientToRecipe = (e) => {
         e.preventDefault()
-        if (!ingredients.includes(ingredient)) {
-            setIngredients([...ingredients, ingredient])
+        if (!localIngredients.includes(ingredient)) {
+            setLocalIngredients([...localIngredients, ingredient])
             setIngredient('')
         }
     }
 
     const startUpdateRecipe = () => {
-        if (name === '' || !ingredients) {
+        if (localName === '' || !localIngredients) {
             return setError(true)
         } 
         
-        props.onSubmit({
-                name, 
-                link,
-                ingredients: ingredients !== undefined ? ingredients : {}
+        var ingredientObj = {}
+        localIngredients.forEach((ingredient) => {
+            ingredientObj[ingredient] = true
+        })
+
+        onSubmit({
+                name: localName, 
+                link: localLink,
+                ingredients: ingredientObj,
+                category: localCategory
         })
 
     }
+    
     return (
         <div>
             {error ? <p>Please add a recipe name and at least one ingredient</p>
@@ -39,9 +84,14 @@ const RecipeForm = (props) => {
             }   
             <form>
                 Recipe name:
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                <input type="text" value={localName} onChange={(e) => setLocalName(e.target.value)}/>
                 Recipe link:
-                <input type="text" value={link} onChange={(e) => setLink(e.target.value)}/>
+                <input  value={localLink} onChange={(e) => setLocalLink(e.target.value)}/>
+                <select value={localCategory} onChange={(e) => setlocalCategory(e.target.value)}>
+                    {recipeCategoryNames.map((categoryName) => {
+                        return <option key={categoryName} value={categoryName}>{categoryName}</option>
+                    })}
+                </select>
             </form>
             <div>
                 <form onSubmit={addIngredientToRecipe}>
@@ -51,7 +101,7 @@ const RecipeForm = (props) => {
             </div>
             <button onClick={startUpdateRecipe}>Save recipe</button>
             <div>
-                {ingredients ? ingredients.map((ingredient) => {
+                {localIngredients ? localIngredients.map((ingredient) => {
                     return <p key={ingredient}>{ingredient}</p>
                 })
                 : (

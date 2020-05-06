@@ -8,23 +8,26 @@ import RecipeCard from '../RecipeCard/RecipeCard'
 
 const ManageRecipes = () => {
 
-    const startSetUserRecipes = useStoreActions(actions => actions.recipes.startSetUserRecipes)
-    const userRecipes = useStoreState(state => state.recipes.userRecipes)
+    const startRecipeNamesListener = useStoreActions(actions => actions.recipes.startRecipeNamesListener)
+    const stopRecipeNamesListener = useStoreActions(actions => actions.recipes.stopRecipeNamesListener)
+    const recipes = useStoreState(state => state.recipes.recipes)
 
     useEffect(() => {
-        startSetUserRecipes()
-    }, [startSetUserRecipes])
+        startRecipeNamesListener()
+        return () => {
+            stopRecipeNamesListener()
+        }
+    }, [])
     
-
+    
     return (
         <div>
             <Link to={`/new-recipe`}>Add recipe</Link>
             <div className="recipe-manager_card-list">
-                  {userRecipes ? userRecipes.map((recipe) => {
-                    return <RecipeCard key={recipe.recipeID} title={recipe.name} link={recipe.link} recipeID={recipe.recipeID}/>
+                  {recipes && recipes.map((recipe) => {
+                    return <RecipeCard key={recipe.recipeid} name={recipe.recipeName} link={recipe.link} recipeid={recipe.recipeid}/>
                   }) 
-                  :
-                  null}  
+                 }  
             </div>
         </div>
     )

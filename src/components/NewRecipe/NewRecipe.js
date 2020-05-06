@@ -7,21 +7,33 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import RecipeForm from '../RecipeForm/RecipeForm'
 
 const NewRecipe= (props) => {
-    const setCurrentRecipe = useStoreActions(actions => actions.recipes.setCurrentRecipe)
     const newRecipe = useStoreActions(actions => actions.recipes.newRecipe)
+    const startRecipeCategoryNamesListener = useStoreActions(actions => actions.recipes.startRecipeCategoryNamesListener)
+    const stopRecipeCategoryNamesListener = useStoreActions(actions => actions.recipes.stopRecipeCategoryNamesListener)
+    const recipeCategoryNames = useStoreState(state => state.recipes.recipeCategoryNames)
 
-    
+    useEffect(() => {
+        startRecipeCategoryNamesListener()
+        return () => {
+            stopRecipeCategoryNamesListener()
+        }
+    }, [])
 
     const startNewRecipe = (recipe) => {
-        newRecipe(recipe).then(() => {
-            setCurrentRecipe({})
+        newRecipe({
+            recipeObj: recipe,
+            recipeNamesObj: {
+                link: recipe.link,
+                recipeName: recipe.name
+            }
+        }).then(() => {
             props.history.push('/manage-recipes')
         })
     }
 
     return (
         <div>
-            <RecipeForm recipe={{}} onSubmit={startNewRecipe}/>
+            <RecipeForm recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>
         </div>
     )
 }

@@ -13,10 +13,9 @@ const newWeeksModel = {
     week: null,
     otherUser: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        
-        var latestWeekid = await database.ref(`users/${uid}/yearWeeks/${payload.year}`).orderByKey().limitToLast(1).once('value')
-        console.log(Object.values(latestWeekid.val())[0])
-         
+        // await database.ref(`users/${uid}/recipeCategories`).set({"-M60uTdyxDK5wgF7XSZN":{"Vegetarian": true}})
+        await database.ref(`users/${uid}/categoryRecipes`).set({"Vegetarian": {"Shakshuka": "-M60uTdyxDK5wgF7XSZN"}})
+        // await database.ref(`users/${uid}/recipeCategoryNames`).set({"Vegetarian": true})
     }),
     startWeekListener: thunk( async(actions, payload) => {
         const uid = store.getState().auth.uid
@@ -99,6 +98,9 @@ const newWeeksModel = {
             case 'TOTAL_UPDATE':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}`).update({total: payload.total})
                 break;
+            case 'RECIPE_UPDATE':
+                await database.ref(`users/${uid}/weeks/${payload.weekid}/recipes/${payload.day}`).update({recipeName: payload.recipeName, recipeid: payload.recipeid})
+                break;
         }
     }),
     newWeek: thunk(async (actions, payload) => {
@@ -116,8 +118,6 @@ const newWeeksModel = {
         updates[`users/${uid}/yearWeekNumbers/${payload.year}_${parseInt(Object.keys(latestWeekInYear.val())[0]) + 1}`] = newWeekid
         updates[`users/${uid}/yearWeeks/${payload.year}/${parseInt(Object.keys(latestWeekInYear.val())[0]) + 1}`] = newWeekid
         await database.ref().update(updates)
-        
-
 
         actions.startWeekListener({type: 'SPECIFIC_WEEK', year: payload.year, weekNr: parseInt(Object.keys(latestWeekInYear.val())[0]) + 1})
     }),
@@ -138,10 +138,7 @@ const newWeeksModel = {
         updates[`users/${uid}/years/${latestYear+1}`] = true
         await database.ref().update(updates)
         
-
-
         actions.startWeekListener({type: 'SPECIFIC_WEEK', year: latestYear+1, weekNr: 1})
-        
     }),
     startYearListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
@@ -180,7 +177,6 @@ const newWeeksModel = {
     stopYearWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/yearWeeks`).off()
-        console.log('here')
         actions.setYearWeeks([])
     }),
     setYearWeeks: action((state,payload) => {
