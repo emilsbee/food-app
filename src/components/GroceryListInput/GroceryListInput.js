@@ -12,7 +12,7 @@ const GroceryListInput = ({item, onSubmit }) => {
     
     useEffect(() => {
         setLocalItem(item)
-    }, [])
+    }, [item])
 
     const handleOnSubmit = (e) => {
         e.preventDefault()

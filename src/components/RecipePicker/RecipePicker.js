@@ -7,41 +7,43 @@ import RecipePickerCard from '../RecipePickerCard/RecipePickerCard'
 
 
 const RecipePicker = (props) => {
-    const startSetUserRecipes = useStoreActions(actions => actions.recipes.startSetUserRecipes)
-    const userRecipes = useStoreState(state => state.recipes.userRecipes)
-    const startUpdateWeek = useStoreActions(actions => actions.weeks.startUpdateWeek)
+    const startRecipeNamesListener = useStoreActions(actions => actions.recipes.startRecipeNamesListener)
+    const stopRecipeNamesListener = useStoreActions(actions => actions.recipes.stopRecipeNamesListener)
+    const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
+    const recipes = useStoreState(state => state.recipes.recipes)
 
     useEffect(() => {
-        startSetUserRecipes()
-    }, [startSetUserRecipes])
+        startRecipeNamesListener()
+        return () => {
+            stopRecipeNamesListener()
+        }
+    }, [])
 
-    const pickRecipe = (data) => {
-        startUpdateWeek({
-            type: 'RECIPE',
-            recipeID: data,
-            id: props.match.params.id,
+    const pickRecipe = ({ recipeid, name }) => {
+        updateWeek({
+            type: 'RECIPE_UPDATE',
+            recipeid,
+            recipeName: name,
+            weekid: props.match.params.id,
             day: props.match.params.day
         }).then(() => {
             props.history.push(`/dashboard`)
         })
     }
     
-
     return (
         <div>
             <h2>Pick a recipe for {props.match.params.day}</h2>
             <div className="recipe-manager_card-list">
-                  {userRecipes ? userRecipes.map((recipe) => {
+                  {recipes && recipes.map((recipe) => {
                     return <RecipePickerCard 
-                                key={recipe.recipeID} 
-                                title={recipe.name} 
+                                key={recipe.recipeid} 
+                                name={recipe.recipeName} 
                                 link={recipe.link} 
-                                recipeID={recipe.recipeID} 
+                                recipeid={recipe.recipeid} 
                                 onClick={pickRecipe}
                             />
-                  }) 
-                  :
-                  null}  
+                  })}  
             </div>   
         </div>
     )

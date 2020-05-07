@@ -93,7 +93,11 @@ const newWeeksModel = {
                 await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries/${payload.groceryid}`).set(payload.nextValue)
                 break;
             case 'GROCERY_ADD':
-                await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).push({product: "", amount: ""})
+                if(!payload.product) {
+                    await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).push({product: "", amount: ""})
+                } else {
+                    await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).push({product: payload.product, amount: !payload.amount && ''})
+                }
                 break;
             case 'TOTAL_UPDATE':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}`).update({total: payload.total})

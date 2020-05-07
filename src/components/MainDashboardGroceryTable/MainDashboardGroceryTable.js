@@ -9,7 +9,6 @@ import GroceryListInput from '../GroceryListInput/GroceryListInput'
 
 const MainDashboardGroceryTable = ({ groceries, weekid }) => {
     const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
-
     const startUpdateGrocery = (data) => {
         updateWeek({
             type: data.type,

@@ -5,15 +5,14 @@ import React from 'react'
 // Internal imports
 
 
-const RecipePickerCard = ({ recipeID, title, link, onClick }) => {
-
+const RecipePickerCard = ({ recipeid, name, link, onClick }) => {
 
     return (
         <div  className="recipe-picker-card">
-            <div id={recipeID ? recipeID : null} className="recipe-picker-card__container">
-                <h4>{title}</h4>
-                <a href={link} target="_blank" className="pick-recipe-button">View</a>
-                <button onClick={() => onClick(recipeID)} className="pick-recipe-button">Pick</button>
+            <div id={recipeid ? recipeid : null} className="recipe-picker-card__container">
+                <h4>{name}</h4>
+                {link && <a href={link} target="_blank" className="pick-recipe-button"><button>View</button></a>}
+                <button onClick={() => onClick({recipeid, name})} className="pick-recipe-button">Pick</button>
             </div>
         </div>
     )

@@ -1,0 +1,14 @@
+.ordered-groceries-container {
+    display: flex;
+    justify-content: center;
+}
+
+.ordered-groceries-tables {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.ordered-groceries-table {
+    margin: 20px;
+}

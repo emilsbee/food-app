@@ -1,5 +1,5 @@
 // External imports
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
@@ -18,7 +18,10 @@ const MainDashboard = () => {
     const stopYearListener = useStoreActions(actions => actions.newWeeks.stopYearListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
     const stopYearWeekListener = useStoreActions(actions => actions.newWeeks.stopYearWeekListener)
+    const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
     
+    const [recipeIngredientToggle, setRecipeIngredientToggle] = useState(false)
+    const [recipeIngredientButtonHide, setRecipeIngredientButtonHide] = useState(false)
 
     useEffect(() => {
         startWeekListener({type: 'LATEST_WEEK'})
@@ -42,7 +45,43 @@ const MainDashboard = () => {
         }
     }, [])
 
-    
+    const handleOnClick = (data) => {
+        setRecipeIngredientToggle(Object.keys(data))
+    }
+
+    const handleAddIngredientToGroceries = (data) => {
+        if(week.groceries) {
+            var groceries = Object.values(week.groceries)
+            var keys = Object.keys(week.groceries)
+            for (var i = 0; i < groceries.length; i++) {
+                if (groceries[i].product === "" && groceries[i].amount === "") {
+                    updateWeek({
+                        type: 'GROCERY_UPDATE',
+                        weekid: week.weekid,
+                        groceryid: keys[i],
+                        nextValue: {
+                            amount: "",
+                            product: data.product
+                        }
+                    })
+                    return
+                } 
+            }  
+            updateWeek({
+                type: 'GROCERY_ADD',
+                weekid: week.weekid,
+                amount: "",
+                product: data.product
+            }) 
+        } else {
+            updateWeek({
+                type: 'GROCERY_ADD',
+                weekid: week.weekid,
+                amount: "",
+                product: data.product
+            })
+        }
+    }  
 
     return (
         <div>
@@ -53,12 +92,22 @@ const MainDashboard = () => {
 
             <div className='recipe-list'>
                 {week && week.recipes.map((recipe) => {
-                    return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day}/>
+                    return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day} onClick={handleOnClick}/>
                 })}
             </div>
             
+            <div>
             {week && <MainDashboardGroceryTable weekid={week.weekid} groceries={week.groceries}/>}
-        
+            
+            {recipeIngredientToggle && recipeIngredientToggle.map((ingredient) => {
+                return ( 
+                <div key={ingredient} onMouseEnter={() => setRecipeIngredientButtonHide(ingredient)} onMouseLeave={() => setRecipeIngredientButtonHide(false)}>
+                    <p>{ingredient}</p>
+                    <button onClick={() => handleAddIngredientToGroceries({product: ingredient,})} hidden={recipeIngredientButtonHide === ingredient ? false : true}>+</button>
+                </div>
+                )
+            })}
+            </div>
         </div>
     )
 }

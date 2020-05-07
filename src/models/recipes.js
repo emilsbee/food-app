@@ -84,10 +84,14 @@ const recipesModel = {
         var recipeCategoryObj = {}
         recipeCategoryObj[payload.recipeObj.category] = true
 
+        var categoryRecipesObj = {}
+        categoryRecipesObj[payload.recipeObj.name] = payload.recipeid
+        
         var updates = {}
         updates[`users/${uid}/recipes/${payload.recipeid}`] = payload.recipeObj
         updates[`users/${uid}/recipeNames/${payload.recipeid}`] = payload.recipeNamesObj
         updates[`users/${uid}/recipeCategories/${payload.recipeid}`] = recipeCategoryObj
+        updates[`users/${uid}/categoryRecipes/${payload.recipeObj.category}`] = categoryRecipesObj
 
         return database.ref().update(updates)
     }),
@@ -98,9 +102,13 @@ const recipesModel = {
         var recipeCategoryObj = {}
         recipeCategoryObj[payload.recipeObj.category] = true
 
+        var categoryRecipesObj = {}
+        categoryRecipesObj[payload.recipeObj.name] = payload.recipeObj.recipeid
+
         var updates = {}
         updates[`users/${uid}/recipeNames/${newRecipe.key}`] = payload.recipeNamesObj
         updates[`users/${uid}/recipeCategories/${newRecipe.key}`] = recipeCategoryObj
+        updates[`users/${uid}/categoryRecipes/${payload.recipeObj.category}`] = categoryRecipesObj
 
         return database.ref().update(updates)
     })
