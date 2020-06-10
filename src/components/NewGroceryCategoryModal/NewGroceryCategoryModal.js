@@ -18,7 +18,7 @@ const NewGroceryCategoryModal = ({handleModalClose, grocery, handleModalSave }) 
         <div className="modal display-block">
             <section className="modal-main">``
                 <button onClick={handleModalClose}>close</button>
-                <button onClick={() => handleModalSave(categoryName)}>Save</button>
+                {/* <button onClick={() => handleModalSave(categoryName)}>Save</button> */}
                 <form onSubmit={handleSubmit}>
                     <input value={categoryName} onChange={(e) => setCategoryName(e.target.value)} />
                 </form>

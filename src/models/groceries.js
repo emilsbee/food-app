@@ -68,7 +68,9 @@ const groceriesModel = {
 
         var categoryNameRef = database.ref(`users/${uid}/groceryCategoryNames`)
         categoryNameRef.on('value', function(snapshot) {
-            actions.setSortedGroceryCategoryNames(Object.keys(snapshot.val()))
+            if (snapshot.val() !== null) {
+                actions.setSortedGroceryCategoryNames(Object.keys(snapshot.val()))
+            }
         })
     }),
     stopCategoryNameListener: thunk(async (actions, payload) => {
