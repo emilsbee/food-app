@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 
 
-const RecipeForm = ({ recipe, onSubmit,recipeCategoryNames }) => {
+const RecipeForm = ({ recipe, onSubmit, recipeCategoryNames }) => {
     const [localCategory, setlocalCategory] = useState('')
     const [localName, setLocalName] = useState('')
     const [localLink, setLocalLink] =  useState('')
@@ -58,9 +58,10 @@ const RecipeForm = ({ recipe, onSubmit,recipeCategoryNames }) => {
     }
 
     const startUpdateRecipe = () => {
-        if (localName === '' || !localIngredients) {
+        if (localName === '' || !localIngredients || localCategory === '') {
             return setError(true)
         } 
+
         
         var ingredientObj = {}
         localIngredients.forEach((ingredient) => {
@@ -75,20 +76,17 @@ const RecipeForm = ({ recipe, onSubmit,recipeCategoryNames }) => {
         })
 
     }
-    
     return (
         <div>
-            {error ? <p>Please add a recipe name and at least one ingredient</p>
-            :
-            null
-            }   
+            {error && <p>Please include a name, at least one ingredient and a category for the recipe!</p>}   
             <form>
                 Recipe name:
                 <input type="text" value={localName} onChange={(e) => setLocalName(e.target.value)}/>
                 Recipe link:
                 <input  value={localLink} onChange={(e) => setLocalLink(e.target.value)}/>
                 <select value={localCategory} onChange={(e) => setlocalCategory(e.target.value)}>
-                    {recipeCategoryNames.map((categoryName) => {
+                    {localCategory === '' && <option value={localCategory}>Pick category</option>}
+                    {recipeCategoryNames.map((categoryName, index) => {
                         return <option key={categoryName} value={categoryName}>{categoryName}</option>
                     })}
                 </select>

@@ -35,7 +35,7 @@ const RecipePicker = (props) => {
         <div>
             <h2>Pick a recipe for {props.match.params.day}</h2>
             <div className="recipe-manager_card-list">
-                  {recipes && recipes.map((recipe) => {
+                  {recipes ? recipes.map((recipe) => {
                     return <RecipePickerCard 
                                 key={recipe.recipeid} 
                                 name={recipe.recipeName} 
@@ -43,7 +43,10 @@ const RecipePicker = (props) => {
                                 recipeid={recipe.recipeid} 
                                 onClick={pickRecipe}
                             />
-                  })}  
+                  })
+                :
+                <p>No recipes</p>
+                }  
             </div>   
         </div>
     )

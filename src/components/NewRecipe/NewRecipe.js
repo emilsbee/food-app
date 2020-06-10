@@ -33,7 +33,7 @@ const NewRecipe= (props) => {
 
     return (
         <div>
-            <RecipeForm recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>
+            {recipeCategoryNames &&  <RecipeForm recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>}
         </div>
     )
 }

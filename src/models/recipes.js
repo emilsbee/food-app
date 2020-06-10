@@ -8,15 +8,18 @@ import { store } from '../index'
 
 const recipesModel = {
     currentRecipe: false,
-    recipeCategories: [],
-    recipes: [],
-    recipeCategoryNames: [],
+    recipeCategories: false,
+    recipes: false,
+    recipeCategoryNames: false,
     startRecipeCategoryNamesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
         const recipeCategoryNamesRef = await database.ref(`users/${uid}/recipeCategoryNames`)
         recipeCategoryNamesRef.on('value', function (snapshot) {
-            actions.setRecipeCategoryNames(Object.keys(snapshot.val()))
+            if (snapshot.val() !== null) {
+                actions.setRecipeCategoryNames(Object.keys(snapshot.val()))
+            } 
+            
         })
     }),
     stopRecipeCategoryNamesListener: thunk(async (actions, payload) => {
@@ -42,13 +45,17 @@ const recipesModel = {
 
         const recipeNamesRef = await database.ref(`users/${uid}/recipeNames`)
         recipeNamesRef.on('value', function(snapshot) {
-            var recipesObj;
-            Object.keys(snapshot.val()).forEach((key) => {
-                recipesObj = snapshot.val()[key]
-                recipesObj["recipeid"] = key
-                recipesArr.push(recipesObj)
-            })
-            actions.setRecipes(recipesArr)
+            if (snapshot.val() !== null) {
+                var recipesObj;
+                Object.keys(snapshot.val()).forEach((key) => {
+                    recipesObj = snapshot.val()[key]
+                    recipesObj["recipeid"] = key
+                    recipesArr.push(recipesObj)
+                })
+                actions.setRecipes(recipesArr)
+            } else {
+                return
+            }
         })
         
         
@@ -63,9 +70,11 @@ const recipesModel = {
 
         const recipeRef = await database.ref(`users/${uid}/recipes/${payload.recipeid}`)
         recipeRef.on('value', function(snapshot) {
-            var recipeObj = snapshot.val()
-            recipeObj["recipeid"] = snapshot.key
-            actions.setCurrentRecipe(recipeObj)
+            if (snapshot.val() !== null) {
+                var recipeObj = snapshot.val()
+                recipeObj["recipeid"] = snapshot.key
+                actions.setCurrentRecipe(recipeObj)
+            }
         })
     
     }),
@@ -103,14 +112,12 @@ const recipesModel = {
         recipeCategoryObj[payload.recipeObj.category] = true
 
         var categoryRecipesObj = {}
-        categoryRecipesObj[payload.recipeObj.name] = payload.recipeObj.recipeid
-
-        var updates = {}
-        updates[`users/${uid}/recipeNames/${newRecipe.key}`] = payload.recipeNamesObj
-        updates[`users/${uid}/recipeCategories/${newRecipe.key}`] = recipeCategoryObj
-        updates[`users/${uid}/categoryRecipes/${payload.recipeObj.category}`] = categoryRecipesObj
-
-        return database.ref().update(updates)
+        categoryRecipesObj[payload.recipeObj.name] = newRecipe.key
+        
+        
+        await database.ref(`users/${uid}/recipeNames/${newRecipe.key}`).set(payload.recipeNamesObj)
+        await database.ref(`users/${uid}/recipeCategories/${newRecipe.key}`).set(recipeCategoryObj)
+        return await database.ref(`users/${uid}/categoryRecipes/${payload.recipeObj.category}`).set(categoryRecipesObj)
     })
 }
 

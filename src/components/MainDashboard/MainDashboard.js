@@ -24,7 +24,7 @@ const MainDashboard = () => {
     const [recipeIngredientButtonHide, setRecipeIngredientButtonHide] = useState(false)
 
     useEffect(() => {
-        startWeekListener({type: 'LATEST_WEEK'})
+        startWeekListener({type: 'CURRENT_WEEK'})
         return () => {
             stopWeekListener()
             

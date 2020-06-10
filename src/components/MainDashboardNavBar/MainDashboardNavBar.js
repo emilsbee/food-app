@@ -9,8 +9,6 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
     const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
-    const newWeek = useStoreActions(actions => actions.newWeeks.newWeek)
-    const newYear = useStoreActions(actions => actions.newWeeks.newYear)
 
     const [localWeekTotal, setLocalWeekTotal] = useState('')
     
@@ -48,8 +46,6 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
         <div>
             <button onClick={() => startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})}>Previous week</button>
             <button onClick={() => startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})}>Next week</button>
-            <button onClick={() => newWeek({year})}>New week</button>
-            <button onClick={() => newYear()} >New year</button>
             <label>
                 Year
                 <select onChange={handleYearDropdown} value={year}>

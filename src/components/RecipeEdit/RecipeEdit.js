@@ -39,7 +39,7 @@ const RecipeEdit= (props) => {
     }
     return (
         <div>
-            {currentRecipe && <RecipeForm recipe={currentRecipe} onSubmit={startUpdateRecipe} recipeCategoryNames={recipeCategoryNames}/>}
+            {(currentRecipe && recipeCategoryNames) && <RecipeForm recipe={currentRecipe} onSubmit={startUpdateRecipe} recipeCategoryNames={recipeCategoryNames}/>}
         </div>
     )
 }

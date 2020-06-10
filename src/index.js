@@ -11,10 +11,13 @@ import recipesModel from './models/recipes'
 import weeksModel from './models/weeks';
 import newWeeksModel from './models/newWeeks'
 import groceriesModel from './models/groceries'
+import initialiser from './models/initialiser'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import { firebase } from './components/firebase/firebase'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
+
+require('dotenv').config()
 
 
 const store = createStore({
@@ -22,7 +25,8 @@ const store = createStore({
     recipes: recipesModel,
     weeks: weeksModel,
     newWeeks: newWeeksModel,
-    groceries: groceriesModel
+    groceries: groceriesModel,
+    init: initialiser
 })
 
 
@@ -44,10 +48,12 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
-        renderApp()
-        if (history.location.pathname === '/') {
-            history.push(`/dashboard/${store.getState().weeks.week.id}`)
-        }
+        store.dispatch.init.initialiseUser().then(() => {
+            renderApp()
+            if (history.location.pathname === '/') {
+                history.push(`/dashboard`)
+            }
+        })
     } else {
         store.dispatch.auth.logout()
         renderApp()
