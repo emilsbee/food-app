@@ -1,0 +1,62 @@
+@import '../../styles/base/settings';
+
+.recipe-picker-card {
+  background-color: $grey-1;
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 190px;
+    height: 85px;
+    border-radius: 5px;
+    margin: $sizing-5;
+    margin-top: $sizing-7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#recipe-picker-card-title {
+  width: 100%;
+  font-weight: 200;
+  font-size: $type-sizing-4;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: $sizing-2;
+  height: $sizing-9;
+}
+  
+#recipe-picker-card-footer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.pick-recipe-button {
+  display: none;
+  background-color: $grey-1;
+  text-decoration: none;
+  border: none;
+  font-size: $type-sizing-2;
+  font-weight: 300;
+  color: $sgrey-7;
+}
+
+.recipe-picker-card:hover {
+  .pick-recipe-button {
+    display: inline-block;
+
+  }
+}
+
+  /* Add some padding inside the card container */
+.recipe-picker-card__container {
+    
+    padding: 2px 16px;
+}
+

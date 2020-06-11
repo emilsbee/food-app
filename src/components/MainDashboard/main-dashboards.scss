@@ -1,7 +1,12 @@
+@import '../../styles/base/settings';
+
 .recipe-list {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    height: $sizing-14;
+    padding-top: $sizing-5;
+    padding-bottom: $sizing-5;
 }
 
 .grocery-list-recipe-ingredients-container {
@@ -23,4 +28,9 @@
     .recipe-ingredients_ingredient-add-button {
         display: inline-block;
     }
+}
+
+#main-dashboard-content {
+    // background-color: $grey-1;
+    height: 100%;
 }

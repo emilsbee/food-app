@@ -12,12 +12,6 @@ const newWeeksModel = {
     yearWeeks: [],
     years: [],
     week: null,
-    otherUser: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid
-        // await database.ref(`users/${uid}/recipeCategories`).set({"-M60uTdyxDK5wgF7XSZN":{"Vegetarian": true}})
-        await database.ref(`users/${uid}/categoryRecipes`).set({"Vegetarian": {"Shakshuka": "-M60uTdyxDK5wgF7XSZN"}})
-        // await database.ref(`users/${uid}/recipeCategoryNames`).set({"Vegetarian": true})
-    }),
     startWeekListener: thunk( async(actions, payload) => {
         const uid = store.getState().auth.uid
         var weekid;
@@ -100,6 +94,7 @@ const newWeeksModel = {
             var weekObj = snapshot.val()
             weekObj["weekid"] = snapshot.key            
             actions.populateWeekRecipes(weekObj)
+            actions.setYearWeeks({weeks: moment().isoWeeksInYear(weekObj.year)})
         })   
     }),
     stopWeekListener: thunk(async (actions, payload) => {
@@ -211,7 +206,14 @@ const newWeeksModel = {
         actions.setYearWeeks([])
     }),
     setYearWeeks: action((state,payload) => {
-        state.yearWeeks = payload
+        if (payload.weeks && payload.weeks.length !== 0) {
+            var weeksArr = []
+            for (var i = 1; i < payload.weeks+1; i++) {
+    
+                weeksArr.push(i)
+            }
+            state.yearWeeks = weeksArr
+        }
     }),
     setYears: action((state, payload) => {
         state.years = payload

@@ -1,12 +1,9 @@
-@import '../components/MainDashboard/main-dashboards';
+@import '../styles/base/base';
+@import '../styles/base/settings';
 @import '../components/LoadingPage/loading-page';
-@import '../components/NavBar/nav-bar';
 @import '../components/ManageRecipes/manage-recipes';
 @import '../components/RecipeEdit/recipe-edit';
 @import '../components/RecipeCard/recipe-card';
-@import '../components/MainDashboardNavBar/main-dashboard-nav-bar';
-@import '../components/MainDashboardRecipeCard/main-dashboard-recipe-card';
-@import '../components/RecipePickerCard/recipe-picker-card';
 @import '../components/GroceryList/grocery-list';
 @import '../components/GroceryListInput/grocery-list-input';
 @import '../components/OrderedGroceries/ordered-groceries';

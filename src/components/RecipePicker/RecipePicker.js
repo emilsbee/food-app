@@ -4,7 +4,8 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
 import RecipePickerCard from '../RecipePickerCard/RecipePickerCard'
-
+import './RecipePicker.scss'
+import { ReactComponent as LeftArrow } from './utils/left-arrow.svg'
 
 const RecipePicker = (props) => {
     const startRecipeNamesListener = useStoreActions(actions => actions.recipes.startRecipeNamesListener)
@@ -32,22 +33,31 @@ const RecipePicker = (props) => {
     }
     
     return (
-        <div>
-            <h2>Pick a recipe for {props.match.params.day}</h2>
-            <div className="recipe-manager_card-list">
-                  {recipes ? recipes.map((recipe) => {
-                    return <RecipePickerCard 
-                                key={recipe.recipeid} 
-                                name={recipe.recipeName} 
-                                link={recipe.link} 
-                                recipeid={recipe.recipeid} 
-                                onClick={pickRecipe}
-                            />
-                  })
-                :
-                <p>No recipes</p>
-                }  
-            </div>   
+      <div id="recipe-picker-outer-container">
+          <div id="recipe-picker-title">
+            <div id="recipe-picker-title-back-container">
+              <div id="recipe-picker-title-back-inner-container">
+                <LeftArrow id="recipe-picker-title-back-icon"/>
+              </div>
+            </div>
+            <h2 id="recipe-picker-title-text">Pick a recipe for {props.match.params.day}</h2>
+          </div>
+          <div id="recipe-picker-container">
+              <div id="recipe-manager_card-list">
+                    {recipes ? recipes.map((recipe) => {
+                      return <RecipePickerCard 
+                                  key={recipe.recipeid} 
+                                  name={recipe.recipeName} 
+                                  link={recipe.link} 
+                                  recipeid={recipe.recipeid} 
+                                  onClick={pickRecipe}
+                              />
+                    })
+                  :
+                  <p>No recipes</p>
+                  }  
+              </div>   
+          </div>
         </div>
     )
 }

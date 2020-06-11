@@ -1,0 +1,36 @@
+@import '../../styles/base/settings';
+
+
+#nav-bar-total {
+    width: $sizing-14;
+    padding-left: $sizing-6;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    color: $grey-6;
+}
+
+#nav-bar-total:hover {
+    color: $grey-9;
+}
+
+#nav-bar-total-label {
+    margin-right: $sizing-2;
+    font-size: $type-sizing-3;
+    font-weight: 200;
+    color: inherit;
+}
+
+#nav-bar-total-input {
+    font-weight: 200;
+    color: inherit;
+    font-size: $type-sizing-3;
+    border: none;
+    background-color: $grey-1;
+    overflow: hidden;
+}
+
+#nav-bar-total-input:hover {
+    cursor: text;
+}
+

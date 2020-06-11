@@ -1,0 +1,6 @@
+[
+  "scss",
+  {
+    "output": "src/components"
+  }
+]

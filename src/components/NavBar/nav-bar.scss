@@ -1,0 +1,67 @@
+@import '../../styles/base/settings';
+
+.navigation-link {
+    text-decoration: none;
+    margin: 5px;
+    color: white;
+    font-weight: 200;
+    font-size: $type-sizing-3;
+    margin-left: $sizing-8;
+    border-bottom: 1px solid $sgrey-3;
+}
+
+.navigation-link:hover {
+    border-bottom: 1px solid white;
+}
+
+.nav-bar-link-active {
+    border-bottom: 1px solid white;
+}
+
+#nav-bar-container {
+    height: $sizing-10;
+}
+
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: $sgrey-3;
+}
+
+#nav-bar-link-container {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#logout-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: $sizing-3;
+    font-size: $type-sizing-3;
+    font-weight: 200;
+    color: white;
+
+    margin-right: $sizing-6;
+}
+
+#logout-button:hover {
+    cursor: pointer;
+    color: black;
+    #logout-icon {
+        fill: black;
+    }
+}
+
+#logout-icon {
+    margin-left: $sizing-2;
+    fill: $grey-1;
+    height: $sizing-3;
+    width: $sizing-3;
+}

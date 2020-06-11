@@ -4,7 +4,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
 import GroceryListInput from '../GroceryListInput/GroceryListInput'
-
+import './MainDashboardGroceryTable.scss'
 
 
 const MainDashboardGroceryTable = ({ groceries, weekid }) => {

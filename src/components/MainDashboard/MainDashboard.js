@@ -6,9 +6,9 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import MainDashboardRecipeCard from '../MainDashboardRecipeCard/MainDashboardRecipeCard'
 import MainDashboardGroceryTable from '../MainDashboardGroceryTable/MainDashboardGroceryTable'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
+import './main-dashboards.scss'
 
 const MainDashboard = () => {
-    const otherUser = useStoreActions(actions => actions.newWeeks.otherUser)
     const week = useStoreState(state => state.newWeeks.week)
     const years = useStoreState(state => state.newWeeks.years)
     const yearWeeks = useStoreState(state => state.newWeeks.yearWeeks)
@@ -24,7 +24,9 @@ const MainDashboard = () => {
     const [recipeIngredientButtonHide, setRecipeIngredientButtonHide] = useState(false)
 
     useEffect(() => {
-        startWeekListener({type: 'CURRENT_WEEK'})
+        if (!week) {
+            startWeekListener({type: 'CURRENT_WEEK'})
+        }
         return () => {
             stopWeekListener()
             
@@ -84,31 +86,34 @@ const MainDashboard = () => {
     }  
 
     return (
+        
         <div>
             {week && years && <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} weekTotal={week.total} weekid={week.weekid}/>}
-            <button onClick={() => otherUser({year: 2019})} >New database</button>
+        
 
             
-
-            <div className='recipe-list'>
-                {week && week.recipes.map((recipe) => {
-                    return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day} onClick={handleOnClick}/>
-                })}
-            </div>
-            
-            <div>
-            {week && <MainDashboardGroceryTable weekid={week.weekid} groceries={week.groceries}/>}
-            
-            {recipeIngredientToggle && recipeIngredientToggle.map((ingredient) => {
-                return ( 
-                <div key={ingredient} onMouseEnter={() => setRecipeIngredientButtonHide(ingredient)} onMouseLeave={() => setRecipeIngredientButtonHide(false)}>
-                    <p>{ingredient}</p>
-                    <button onClick={() => handleAddIngredientToGroceries({product: ingredient,})} hidden={recipeIngredientButtonHide === ingredient ? false : true}>+</button>
+            <div id="main-dashboard-content">
+                <div className='recipe-list'>
+                    {week && week.recipes.map((recipe) => {
+                        return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day} onClick={handleOnClick}/>
+                    })}
                 </div>
-                )
-            })}
+                
+                <div>
+                {week && <MainDashboardGroceryTable weekid={week.weekid} groceries={week.groceries}/>}
+                
+                {recipeIngredientToggle && recipeIngredientToggle.map((ingredient) => {
+                    return ( 
+                    <div key={ingredient} onMouseEnter={() => setRecipeIngredientButtonHide(ingredient)} onMouseLeave={() => setRecipeIngredientButtonHide(false)}>
+                        <p>{ingredient}</p>
+                        <button onClick={() => handleAddIngredientToGroceries({product: ingredient,})} hidden={recipeIngredientButtonHide === ingredient ? false : true}>+</button>
+                    </div>
+                    )
+                })}
+                </div>
             </div>
         </div>
+        
     )
 }
 

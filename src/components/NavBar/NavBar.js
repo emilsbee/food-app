@@ -1,10 +1,11 @@
 // External imports
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
-
+import './nav-bar.scss'
+import { ReactComponent as LogoutIcon } from './utils/logout.svg'
 
 const NavBar = () => {
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
@@ -24,18 +25,43 @@ const NavBar = () => {
     const beginLogout = () => {
         startLogout()
     }
-    return (    
-        <div className="nav-bar">
-            <Link className="navigation-link" to="/dashboard">Dashboard</Link>
-            <Link className="navigation-link" to="/manage-recipes">Recipe manager</Link>
-            <Link className="navigation-link" to={`/ordered-groceries/${currentWeekid}`}>Ordered groceries</Link>
-            <button 
-            onClick={beginLogout}
-            className="logout-button"
-            >
-            Log out
-            </button>
-        </div>
+    return (   
+        <div id="nav-bar-container">
+            <div className="nav-bar">
+                <div id="nav-bar-link-container">
+                    <NavLink 
+                        activeClassName="nav-bar-link-active"
+                        className="navigation-link" 
+                        to="/dashboard"
+                    >
+                        Dashboard
+                    </NavLink>
+
+                    <NavLink 
+                        activeClassName="nav-bar-link-active"
+                        className="navigation-link" 
+                        to="/manage-recipes"
+                    >
+                        Recipe manager
+                    </NavLink>
+                    
+                    <NavLink 
+                        activeClassName="nav-bar-link-active"
+                        className="navigation-link" 
+                        to={`/ordered-groceries/${currentWeekid}`}
+                    >
+                        Ordered groceries
+                    </NavLink>
+                </div>
+                <div 
+                    onClick={beginLogout}
+                    id="logout-button"
+                >
+                    Log out
+                    <LogoutIcon id="logout-icon"/>
+                </div>
+            </div>
+        </div> 
     )
 }
 
