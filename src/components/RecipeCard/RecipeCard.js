@@ -1,9 +1,11 @@
 // External imports
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
+// Internal imports
+import './recipe-card.scss'
 
-const RecipeCard = ({ name, link, recipeid, history }) => {
+const RecipeCard = ({ name, link, recipeid, weekid }) => {
     const [viewHiddenButton, setViewHiddenButton] = useState(true)
 
 
@@ -12,10 +14,29 @@ const RecipeCard = ({ name, link, recipeid, history }) => {
             <div className="recipe-card" onMouseEnter={() => setViewHiddenButton(!viewHiddenButton)} onMouseLeave={() => setViewHiddenButton(!viewHiddenButton)}>
                 <div className="recipe-card__container">
                         <div className="recipe-card__header"> 
-                            <h4>{name}</h4>  
+                            <h4 id="recipe-card__header-text">{name}</h4>  
                         </div>
-                        {link ? <a target="_blank" href="https://reacttraining.com/react-router/web/api/history"><button hidden={viewHiddenButton} >View</button></a> : null}
-                        <Link to={`edit/${recipeid}`}><button hidden={viewHiddenButton}>Edit</button></Link>
+                        <div id="recipe-card-button-container">
+                            {link &&
+                                <a  
+                                    id="recipe-card-link"
+                                    target="_blank" 
+                                    href={link}
+                                    hidden={viewHiddenButton}
+                                >
+                                    View
+                                </a>
+                            }
+                            
+                            <NavLink 
+                                to={`/edit/${recipeid}/${weekid}`} 
+                                id="recipe-card-link"
+                                hidden={viewHiddenButton}
+                            >
+                                Edit
+                            </NavLink>
+                        </div>
+                        
                 </div>
             </div> 
         </div>

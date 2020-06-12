@@ -24,7 +24,7 @@ const OrderedGroceries = (props) => {
     }, [])
 
     useEffect(() => {
-        startWeekGroceriesListener({weekid: props.match.params.id, key: 'ORDERED_GROCERIES'})
+        startWeekGroceriesListener({weekid: props.match.params.weekid, key: 'ORDERED_GROCERIES'})
         
         return () => {
             stopWeekGroceriesListener()

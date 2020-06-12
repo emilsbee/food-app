@@ -3,9 +3,9 @@
 
 
 .main-dashboard-recipe-card {
-    background-color: $grey-1;
+    background-color: $grey-0;
     /* Add shadows to create the "card" effect */
-    height: 175px;
+    height: 200px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 160px;
@@ -19,7 +19,9 @@
 
 
 
+
 .main-dashboard-recipe-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     #main-dashboard-recipe-card-content-container {
         border-bottom: 1px solid $sgrey-2;
     }
@@ -46,6 +48,7 @@
     font-weight: 100;
     border-bottom: 1px solid $sgrey-2;
     width: $sizing-11;
+
 }
 
 #main-dashboard-recipe-card__header-text {
@@ -74,8 +77,8 @@
 }
 
 #main-dashboard-recipe-card-footer_ingredients:hover {
+    color: $primary-8;
     cursor: pointer;
-    // border-bottom: 0.5px solid $sgrey-3;
 }
 
 
@@ -93,27 +96,30 @@
 }
 
 #main-dashboard-recipe-card-footer_recipe:hover {
-    // border-bottom: 0.5px solid $sgrey-3;
+    color: $primary-8;
 }
 
 
 
 
 #main-dashboard-recipe-card-content_recipe {
-
+    margin-top: $sizing-5;
+    margin-bottom: $sizing-4;
+    font-size: $type-sizing-2;
+    font-weight: 400;
     color: $sgrey-7;
     text-decoration: none;
-    border-bottom: 1px solid $grey-1;
+
 }
 
 #main-dashboard-recipe-card-content_recipe:hover {
-    // border-bottom: 1px solid $sgrey-3;
+    color: $primary-8;
 }
 
 #main-dashboard-recipe-card-content-container {
     border-bottom: 1px solid $grey-1;
     margin-top: $sizing-2;
-    height: $sizing-8;
+    height: $sizing-10;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -126,7 +132,7 @@
 
 #main-dashboard-recipe-card-content-container-norecipe {
     margin-top: $sizing-2;
-    height: $sizing-8;
+    height: $sizing-10;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -137,8 +143,13 @@
     color: $sgrey-7;
 }
 
-#main-dashboard-recipe-card-content-container-norecipe:hover {
-    #main-dashboard-recipe-card-content_recipe {
-        border-bottom: 1px solid $grey-2;
-    }
+#recipe-picker-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $sizing-5;
+    width: $sizing-5;
 }
+

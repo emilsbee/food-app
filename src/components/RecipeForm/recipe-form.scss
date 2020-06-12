@@ -1,0 +1,44 @@
+@import '../../styles/base/settings';
+
+#recipe-form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#recipe-form-inner-container {
+    width: $sizing-17;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#recipe-form-name-container {
+    width: 100%;
+    height: $sizing-8;
+    display: flex;
+}
+
+#recipe-form-title {
+    border-bottom: 1px solid $sgrey-1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: $sizing-10;
+    background-color: $grey-1;
+}
+
+#recipe-form-title-text {
+    color: $grey-9;
+    font-size: $type-sizing-6;
+    font-weight: 200;
+}
+
+#recipe-picker-title-back-container {
+    width: 40%;
+}

@@ -7,7 +7,7 @@
     font-weight: 200;
     font-size: $type-sizing-3;
     margin-left: $sizing-8;
-    border-bottom: 1px solid $sgrey-3;
+    border-bottom: 1px solid $primary-8;
 }
 
 .navigation-link:hover {
@@ -29,7 +29,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: $sgrey-3;
+    background-color: $primary-8;
 }
 
 #nav-bar-link-container {
@@ -46,22 +46,22 @@
     height: $sizing-3;
     font-size: $type-sizing-3;
     font-weight: 200;
-    color: white;
+    color: $grey-2;
 
     margin-right: $sizing-6;
 }
 
 #logout-button:hover {
     cursor: pointer;
-    color: black;
+    color: white;
     #logout-icon {
-        fill: black;
+        fill: white;
     }
 }
 
 #logout-icon {
     margin-left: $sizing-2;
-    fill: $grey-1;
+    fill: $grey-2;
     height: $sizing-3;
     width: $sizing-3;
 }

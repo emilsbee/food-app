@@ -28,12 +28,12 @@ const AppRouter = () => {
             <div>
                 <Switch>
                         <PublicRoute path="/" component={LoginPage} exact={true}/>
-                        <PrivateRoute path="/dashboard" component={MainDashboard}/>
-                        <PrivateRoute path="/manage-recipes" component={ManageRecipes}/>
-                        <PrivateRoute path="/edit/:id" component={RecipeEdit} />
-                        <PrivateRoute path="/recipe-picker/:id/:day" component={RecipePicker} />
-                        <PrivateRoute path="/new-recipe" component={NewRecipe} />
-                        <PrivateRoute path="/ordered-groceries/:id" component={OrderedGroceries}/>
+                        <PrivateRoute path="/dashboard/:weekid?" component={MainDashboard}/>
+                        <PrivateRoute path="/manage-recipes/:weekid" component={ManageRecipes}/>
+                        <PrivateRoute path="/edit/:id/:weekid" component={RecipeEdit} />
+                        <PrivateRoute path="/recipe-picker/:weekid/:day" component={RecipePicker} />
+                        <PrivateRoute path="/new-recipe/:weekid" component={NewRecipe} />
+                        <PrivateRoute path="/ordered-groceries/:weekid" component={OrderedGroceries}/>
                         <Route component={NotFound}/>  
                 </Switch>
             </div>

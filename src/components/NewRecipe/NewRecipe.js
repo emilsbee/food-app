@@ -27,13 +27,13 @@ const NewRecipe= (props) => {
                 recipeName: recipe.name
             }
         }).then(() => {
-            props.history.push('/manage-recipes')
+            props.history.push(`/manage-recipes/${props.match.params.weekid}`)
         })
     }
 
     return (
         <div>
-            {recipeCategoryNames &&  <RecipeForm recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>}
+            {recipeCategoryNames &&  <RecipeForm weekid={props.match.params.weekid} recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>}
         </div>
     )
 }

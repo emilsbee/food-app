@@ -17,7 +17,7 @@ const PrivateRoute = (props) => {
             
             isAuthenticated ? (
                 <div>
-                    <NavBar/>
+                    <NavBar {...props}/>
                     <Component {...props}/>
                 </div>
             ) : (

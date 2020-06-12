@@ -7,8 +7,9 @@ import MainDashboardRecipeCard from '../MainDashboardRecipeCard/MainDashboardRec
 import MainDashboardGroceryTable from '../MainDashboardGroceryTable/MainDashboardGroceryTable'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 import './main-dashboards.scss'
+import LoadingPage from '../LoadingPage/LoadingPage'
 
-const MainDashboard = () => {
+const MainDashboard = (props) => {
     const week = useStoreState(state => state.newWeeks.week)
     const years = useStoreState(state => state.newWeeks.years)
     const yearWeeks = useStoreState(state => state.newWeeks.yearWeeks)
@@ -22,13 +23,18 @@ const MainDashboard = () => {
     
     const [recipeIngredientToggle, setRecipeIngredientToggle] = useState(false)
     const [recipeIngredientButtonHide, setRecipeIngredientButtonHide] = useState(false)
-
+    
     useEffect(() => {
-        if (!week) {
-            startWeekListener({type: 'CURRENT_WEEK'})
+        
+        if (props.match.params.weekid === undefined || props.match.params.weekid === '' || props.match.params.weekid === null) {
+                startWeekListener({type: 'CURRENT_WEEK'})
+        } else {
+            startWeekListener({
+                weekid: props.match.params.weekid
+            }) 
         }
         return () => {
-            stopWeekListener()
+            // stopWeekListener()
             
         }
     }, [])
@@ -84,15 +90,15 @@ const MainDashboard = () => {
             })
         }
     }  
-
+    
     return (
         
         <div>
-            {week && years && <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} weekTotal={week.total} weekid={week.weekid}/>}
-        
-
-            
-            <div id="main-dashboard-content">
+            {week && years ?  
+            <div>
+                <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} weekTotal={week.total} weekid={week.weekid}/>
+                
+                <div id="main-dashboard-content">
                 <div className='recipe-list'>
                     {week && week.recipes.map((recipe) => {
                         return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day} onClick={handleOnClick}/>
@@ -112,6 +118,19 @@ const MainDashboard = () => {
                 })}
                 </div>
             </div>
+            
+            
+            </div>
+            :
+            <div id="main-dashboard-loading">
+                <LoadingPage/>
+            </div>
+            }
+        
+
+            
+
+                
         </div>
         
     )

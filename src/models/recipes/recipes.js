@@ -3,11 +3,13 @@ import { thunk, action } from "easy-peasy"
 
 
 // Internal imports
-import database from '../components/firebase/firebase'
-import { store } from '../index'
+import { recipeListOrder } from './utils'
+import database from '../../components/firebase/firebase'
+import { store } from '../../index'
 
 const recipesModel = {
     currentRecipe: false,
+    currentRecipeList: false,
     recipeCategories: false,
     recipes: false,
     recipeCategoryNames: false,
@@ -67,7 +69,7 @@ const recipesModel = {
     }),
     startRecipeListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-
+        
         const recipeRef = await database.ref(`users/${uid}/recipes/${payload.recipeid}`)
         recipeRef.on('value', function(snapshot) {
             if (snapshot.val() !== null) {
@@ -84,11 +86,38 @@ const recipesModel = {
         await database.ref(`users/${uid}/recipes`).off()
         actions.setCurrentRecipe(false)
     }),
+
+    // HERE
+    startRecipeListListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        const recipeRef = await database.ref(`users/${uid}/recipes`).limitToFirst(15)
+        recipeRef.on('value', function(snapshot) {
+            if (snapshot.val() !== null) {
+                const recipeArr = recipeListOrder(snapshot.val())
+                actions.setRecipeList(recipeArr)
+            }
+        })
+    }),
+
+    stopRecipeListListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        await database.ref(`users/${uid}/recipes`).off()
+    }),
+    setRecipeList: action((state, payload) => {
+        state.currentRecipeList = payload
+    }),
     setCurrentRecipe: action((state, payload) => {
         state.currentRecipe = payload
     }),
     updateRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
+
+        switch (payload.type) {
+            case 'RECIPE_NAME':
+                break;
+        }
 
         var recipeCategoryObj = {}
         recipeCategoryObj[payload.recipeObj.category] = true

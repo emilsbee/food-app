@@ -7,15 +7,15 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import './nav-bar.scss'
 import { ReactComponent as LogoutIcon } from './utils/logout.svg'
 
-const NavBar = () => {
+const NavBar = (props) => {
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
     const week = useStoreState(state => state.newWeeks.week)
-    const [currentWeekid, setCurrentWeekid] = useState('')
+    const [currentWeekid, setCurrentWeekid] = useState(week && week.weekid)
 
     useEffect(() => {
         if (week) {
             if (!week.weekid || week.weekid === currentWeekid) {
-                return 
+                setCurrentWeekid(currentWeekid)
             } else {
                 setCurrentWeekid(week.weekid)
             }
@@ -30,23 +30,29 @@ const NavBar = () => {
             <div className="nav-bar">
                 <div id="nav-bar-link-container">
                     <NavLink 
-                        activeClassName="nav-bar-link-active"
+                        style={{
+                            "borderBottom": `${props.match.path.includes('/dashboard') && '1px solid white'}`
+                        }}
                         className="navigation-link" 
-                        to="/dashboard"
+                        to={`/dashboard/${currentWeekid}`}
                     >
                         Dashboard
                     </NavLink>
 
                     <NavLink 
-                        activeClassName="nav-bar-link-active"
+                        style={{
+                            "borderBottom": `${props.match.path.includes('/manage-recipes') && '1px solid white'}`
+                        }}
                         className="navigation-link" 
-                        to="/manage-recipes"
+                        to={`/manage-recipes/${currentWeekid}`}
                     >
                         Recipe manager
                     </NavLink>
                     
                     <NavLink 
-                        activeClassName="nav-bar-link-active"
+                        style={{
+                            "borderBottom": `${props.match.path.includes('/ordered-groceries') && '1px solid white'}`
+                        }}
                         className="navigation-link" 
                         to={`/ordered-groceries/${currentWeekid}`}
                     >

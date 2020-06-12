@@ -24,7 +24,6 @@ const RecipeEdit= (props) => {
             stopRecipeCategoryNamesListener()
         }
     }, [])
-
     const startUpdateRecipe = (recipe) => {
         updateRecipe({
                 recipeid: currentRecipe.recipeid,
@@ -34,12 +33,12 @@ const RecipeEdit= (props) => {
                     recipeName: recipe.name
                 }
             }).then(() => {
-            props.history.push('/manage-recipes')
+            props.history.push(`/manage-recipes/${props.match.params.weekid}`)
         })
     }
     return (
         <div>
-            {(currentRecipe && recipeCategoryNames) && <RecipeForm recipe={currentRecipe} onSubmit={startUpdateRecipe} recipeCategoryNames={recipeCategoryNames}/>}
+            {(currentRecipe && recipeCategoryNames) && <RecipeForm weekid={props.match.params.weekid} recipe={currentRecipe} onSubmit={startUpdateRecipe} recipeCategoryNames={recipeCategoryNames}/>}
         </div>
     )
 }

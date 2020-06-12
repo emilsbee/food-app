@@ -14,13 +14,21 @@ const newWeeksModel = {
     week: null,
     startWeekListener: thunk( async(actions, payload) => {
         const uid = store.getState().auth.uid
-        var weekid;
+        const curWeek = store.getState().newWeeks.week
+        if (curWeek !== null) {
+            actions.stopWeekListener()
+        } else if (curWeek !== null && curWeek.weekid !== payload.weekid) {
+            actions.stopWeekListener()
+        }
+        var weekid = payload.weekid && payload.weekid;
+
 
         const currentYear = moment().year()
         const currentWeekNr = moment().isoWeek()
 
         switch (payload.type) {
             case 'CURRENT_WEEK': 
+            console.log('RUn')
             var currentWeek = await database.ref(`users/${uid}/yearWeeks/${currentYear}/${currentWeekNr}`).once('value')
 
             if (currentWeek.val() !== null) {
@@ -86,8 +94,23 @@ const newWeeksModel = {
                     }
                     break;
                 default:
-                    return
-                
+                    
+                    if (curWeek === null) {
+                        var currentWeek = await database.ref(`users/${uid}/yearWeeks/${currentYear}/${currentWeekNr}`).once('value')
+                        
+
+                        if (currentWeek.val() !== null) {
+                            weekid = currentWeek.val()
+                        } else {
+                            actions.newWeek({
+                                year: currentYear,
+                                weekNr: currentWeekNr
+                            })
+                            return
+                        }
+                    } else {
+                        weekid = payload.weekid 
+                    }
         }
         var weekRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weekRef.on('value', function(snapshot) {
@@ -100,7 +123,7 @@ const newWeeksModel = {
     stopWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/weeks/`).off()
-        actions.setWeek(null)
+        // actions.setWeek(null)
     }),
     populateWeekRecipes: thunk(async(actions, payload) => {
         const uid = store.getState().auth.uid

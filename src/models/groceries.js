@@ -52,7 +52,7 @@ const groceriesModel = {
                 state.unsortedGroceries.push(payload.grocery)
                 break;
             case 'SORTED':
-                if (payload.category) {
+                if (payload.category && state.sortedGroceries[payload.category]) {
                     state.sortedGroceries[payload.category].push(payload.grocery)
                 }
                 

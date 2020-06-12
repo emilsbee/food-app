@@ -50,6 +50,7 @@
 }
 
 #previous-week {
+    transition: 0.25s;
     fill: $sgrey-7;
     height: $sizing-5;
     width: $sizing-9;
@@ -58,9 +59,11 @@
 #previous-week:hover {
     cursor: pointer;
     height: $sizing-6;
+    fill: $primary-8;
 }
 
 #next-week {
+    transition: 0.25s;
     fill: $sgrey-7;
     height: $sizing-5;
     width: $sizing-9;
@@ -69,6 +72,7 @@
 #next-week:hover {
     height: $sizing-6;
     cursor: pointer;
+    fill: $primary-8;
 }
 
 #week-banner {

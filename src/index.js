@@ -7,7 +7,7 @@ import { createStore, StoreProvider } from 'easy-peasy'
 
 // Internal imports
 import firebaseModel from './models/firebase'
-import recipesModel from './models/recipes'
+import recipesModel from './models/recipes/recipes'
 import weeksModel from './models/weeks';
 import newWeeksModel from './models/newWeeks'
 import groceriesModel from './models/groceries'
