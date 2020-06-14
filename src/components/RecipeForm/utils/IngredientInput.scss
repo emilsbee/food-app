@@ -1,0 +1,14 @@
+@import '../../../styles/base/settings';
+
+#ingredient-input {
+    border: none;
+    border-bottom: 1px solid $grey-6;
+    margin-left: $sizing-2;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    align-content: flex-end;
+    width: 206px;
+    font-size: $type-sizing-2;
+    font-weight: 300;
+}

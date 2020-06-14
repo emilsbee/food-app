@@ -123,6 +123,7 @@ const recipesModel = {
 
         var updates = {}
 
+        
         switch (payload.type) {
             case 'FULL_UPDATE':
                 var recipeCategoryObj = {}
@@ -138,15 +139,43 @@ const recipesModel = {
 
                 break;
             case 'RECIPE_DELETE':
-                const recipeCategoryName = await database.ref(`users/${uid}/recipeCategories/${payload.recipeid}`).once('value')
-
+                const recipe_delete_recipeCategoryName = await database.ref(`users/${uid}/recipeCategories/${payload.recipeid}`).once('value')
                 updates[`users/${uid}/recipes/${payload.recipeid}`] = {}
                 updates[`users/${uid}/recipeNames/${payload.recipeid}`] = {}
                 updates[`users/${uid}/recipeCategories/${payload.recipeid}`] = {}
                 
-                Object.keys(recipeCategoryName.val()).forEach((categoryid) => {
+                Object.keys(recipe_delete_recipeCategoryName.val()).forEach((categoryid) => {
                     updates[`users/${uid}/categoryRecipes/${categoryid}/${payload.recipeid}`] = {}
                 })
+                break;
+            case 'RECIPE_NAME':
+                const recipe_name_recipeCategoryName = await database.ref(`users/${uid}/recipeCategories/${payload.recipeid}`).once('value')
+                updates[`users/${uid}/recipes/${payload.recipeid}/name`] = payload.name
+                updates[`users/${uid}/recipeNames/${payload.recipeid}/recipeName`] = payload.name
+                Object.keys(recipe_name_recipeCategoryName.val()).forEach((categoryid) => {
+                    updates[`users/${uid}/categoryRecipes/${categoryid}/${payload.recipeid}`] = payload.name
+                })
+                break;
+            case 'RECIPE_LINK':
+                updates[`users/${uid}/recipes/${payload.recipeid}/link`] = payload.link
+                updates[`users/${uid}/recipeNames/${payload.recipeid}/link`] = payload.link
+                break;
+            case 'RECIPE_CATEGORY':
+                
+                const recipe_category_recipeCategories = await database.ref(`users/${uid}/recipes/${payload.recipeid}/category`).once('value')
+                console.log(payload.categoryid,recipe_category_recipeCategories.val())
+                if(payload.categoryid === recipe_category_recipeCategories.val()) {
+                    return
+                } else {
+                    updates[`users/${uid}/categoryRecipes/${payload.categoryid}/${payload.recipeid}`] = {}
+                    var recipe_category_recipeCategoryObj = {}
+                    recipe_category_recipeCategoryObj[payload.categoryid] = true
+                    updates[`users/${uid}/recipeCategories/${payload.recipeid}/${payload.recipeid}`] = recipe_category_recipeCategoryObj
+                    updates[`users/${uid}/recipes/${payload.recipeid}/category`] = payload.categoryid
+                }
+                break;
+            case 'RECIPE_INGREDIENTS':
+                updates[`users/${uid}/recipes/${payload.recipeid}/ingredients`] = payload.ingredients
                 break;
         }
 

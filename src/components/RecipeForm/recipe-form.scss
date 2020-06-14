@@ -6,6 +6,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 
 #recipe-form-inner-container {
@@ -43,6 +44,14 @@
     width: $sizing-5;
     margin-right: $sizing-6;
     transition: 0.3s;
+}
+
+#recipe-picker-form-error {
+    height: 15px;
+    margin-top: $sizing-6;
+    font-size: $type-sizing-4;
+    font-weight: 300;
+    color: hsl(10, 50%, 50%);
 }
 
 #recipe-form-trash:hover {

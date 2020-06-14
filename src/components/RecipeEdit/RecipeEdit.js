@@ -51,6 +51,7 @@ const RecipeEdit= (props) => {
 
     return (
         <div>
+            {/* <button onClick={() => updateRecipe({type: 'RECIPE_CATEGORY', recipeid: '-M9nvR8-gGP0bc7Ws9ny'})}>pres me</button> */}
             {(currentRecipe && recipeCategoryNames) && 
                 <RecipeForm 
                     weekid={props.match.params.weekid} 

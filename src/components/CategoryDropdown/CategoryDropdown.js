@@ -35,7 +35,7 @@ function CategoryDropdown  ({
             </div>
             {listOpen && <ul id="category-dd-list" style={{"marginTop":"0px"}}>
                {Object.keys(list).map((key) => {
-                
+
                 return ( <li key={key} id="category-dd-list-item" onClick={() => handleClick(key)}>
                      <p id="category-dd-list-text">{list[key]}</p>
                 </li>

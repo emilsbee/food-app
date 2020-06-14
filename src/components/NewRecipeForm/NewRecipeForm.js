@@ -65,7 +65,11 @@ const NewRecipeForm = ({weekid, onSubmit, recipeCategoryNames }) => {
             </div>
             <div id="new-recipe-form-inner-container">
                 
-                {error && <p>Please include a name, at least one ingredient and a category for the recipe!</p>}   
+                <div  
+                    id="new-recipe-picker-form-error"
+                >
+                        {error && 'Please include a name, at least one ingredient and a category for the recipe!'}
+                </div>
                 
                 <div id="new-recipe-form-item-container">
                     <div id="new-recipe-form-label">

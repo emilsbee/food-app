@@ -24,7 +24,7 @@ export const startUpdateRecipe = ({
     onSubmit,
     localLink
 }) => {
-    if (localName === '' || !localIngredients || localCategory === '') {
+    if (localName === '' || localIngredients.length === 0 || localCategory === '') {
         return setError(true)
     } 
 

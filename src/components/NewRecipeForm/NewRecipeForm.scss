@@ -64,6 +64,14 @@
     transition: 0.3s;
 }
 
+#new-recipe-picker-form-error {
+    height: 15px;
+    margin-top: $sizing-6;
+    font-size: $type-sizing-4;
+    font-weight: 300;
+    color: hsl(10, 50%, 50%);
+}
+
 #new-recipe-form-trash:hover {
     cursor: pointer;
     height: $sizing-6;
