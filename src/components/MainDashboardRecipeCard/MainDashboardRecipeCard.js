@@ -1,17 +1,46 @@
 // External imports
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
+
+// Internal imports
 import './main-dashboard-recipe-card.scss'
 
-const MainDashboardRecipeCard = ({ recipe, day, week, onClick }) => {
+
+const MainDashboardRecipeCard = ({ recipe, day, week, onClick, cardAnimationName, setCardAnimationName }) => {
     const [viewHiddenButton, setViewHiddenButton] = useState(true)
+    const [localRecip, setLocalRecip] = useState(true)
+    const [animName, setAnimName] = useState('fadeIn')
+    
+    useEffect(() => {
+
+        if (!cardAnimationName) {
+
+            setAnimName('fadeIn')
+            setLocalRecip(false)
+            setLocalRecip(true)
+            
+        } else {
+            setAnimName('fadeOut')
+            setLocalRecip(false)
+            setLocalRecip(true)
+            
+        }
+
+
+    }, [cardAnimationName])
+
+    useEffect(() => {
+        setAnimName('fadeIn')
+        setLocalRecip(false)
+        setLocalRecip(true)
+    }, [week.weekid])
 
     return (    
         <div>
-            {recipe === "" ? 
-            <div className="main-dashboard-recipe-card">
-
+            {localRecip && recipe === "" ? 
+            <div className="main-dashboard-recipe-card" style={{"animationName": animName}}>
+                
                 <div className="main-dashboard-recipe-card__container">
                     <div className="main-dashboard-recipe-card__header">
                         <h4 id="main-dashboard-recipe-card__header-text">{day}</h4>  
@@ -29,7 +58,7 @@ const MainDashboardRecipeCard = ({ recipe, day, week, onClick }) => {
                 </div>
             </div>    
             :
-            <div className="main-dashboard-recipe-card" onMouseEnter={() => setViewHiddenButton(!viewHiddenButton)} onMouseLeave={() => setViewHiddenButton(!viewHiddenButton)}>
+            <div style={{"animationName": animName}} className="main-dashboard-recipe-card" onMouseEnter={() => setViewHiddenButton(!viewHiddenButton)} onMouseLeave={() => setViewHiddenButton(!viewHiddenButton)}>
                 <div className="main-dashboard-recipe-card__container">
                         <div className="main-dashboard-recipe-card__header"> 
                             <h4 id="main-dashboard-recipe-card__header-text">{day}</h4>  
@@ -66,7 +95,7 @@ const MainDashboardRecipeCard = ({ recipe, day, week, onClick }) => {
                                     <div 
                                         hidden={viewHiddenButton} 
                                         id="main-dashboard-recipe-card-footer_recipe-div"
-                                    >
+                                    >   
                                         View recipe
                                     </div>
                                 </a>
@@ -75,7 +104,6 @@ const MainDashboardRecipeCard = ({ recipe, day, week, onClick }) => {
                 </div>
             </div> 
             }
-
         </div>
     )
 }

@@ -28,11 +28,11 @@ const newWeeksModel = {
 
         switch (payload.type) {
             case 'CURRENT_WEEK': 
-            console.log('RUn')
             var currentWeek = await database.ref(`users/${uid}/yearWeeks/${currentYear}/${currentWeekNr}`).once('value')
 
             if (currentWeek.val() !== null) {
                 weekid = currentWeek.val()
+                
             } else {
                 actions.newWeek({
                     year: currentYear,
@@ -112,6 +112,7 @@ const newWeeksModel = {
                         weekid = payload.weekid 
                     }
         }
+        
         var weekRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weekRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
@@ -131,7 +132,12 @@ const newWeeksModel = {
         for(let [key, value] of Object.entries(payload.recipes)) {
             if (value.recipeid !== "") {
                 var recipe = await database.ref(`users/${uid}/recipes/${value.recipeid}`).once('value')
-                recipeArr.push({recipeid: value.recipeid, recipe: recipe.val(), day: key})
+                
+                if (recipe.val() === null) {
+                    recipeArr.push({day: key, recipe:"", recipeid: ""})
+                } else {
+                    recipeArr.push({recipeid: value.recipeid, recipe: recipe.val(), day: key})
+                }
             } else {
                 recipeArr.push({day: key, recipe:"", recipeid: ""})
             }
@@ -158,6 +164,9 @@ const newWeeksModel = {
                 break;
             case 'RECIPE_UPDATE':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}/recipes/${payload.day}`).update({recipeName: payload.recipeName, recipeid: payload.recipeid})
+                break;
+            case 'RECIPE_REMOVE': 
+                await database.ref(`users/${uid}/weeks/${payload.weekid}/recipes/${payload.day}`).update({recipeName: "", recipeid: ""})
                 break;
         }
     }),

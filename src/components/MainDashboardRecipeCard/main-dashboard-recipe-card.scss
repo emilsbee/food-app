@@ -15,6 +15,70 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    // -webkit-animation-name: fadeIn;
+    // animation-name: fadeIn;
+    animation-direction: alternate;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    
+}
+
+ 
+@-webkit-keyframes fadeIn {
+    0% {
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    opacity: 0;
+    visibility: visible;
+    }
+    100% {
+        opacity: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    }
+    }
+    @keyframes fadeIn {
+    0% {
+        opacity: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    visibility: visible;
+    }
+    100% {
+        opacity: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    opacity: 1;
+    visibility: visible;
+    }
+    100% {
+    opacity: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    }
+}
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    visibility: visible;
+    }
+    100% {
+        opacity: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    }
 }
 
 
@@ -74,7 +138,14 @@
    font-weight: 300;
    font-size: $type-sizing-2;
    background-color: $grey-1;
+   -webkit-animation-name: fadeIn;
+   animation-name: fadeIn;
+   -webkit-animation-duration: .3s;
+   animation-duration: .3s;
+   -webkit-animation-fill-mode: both;
+   animation-fill-mode: both;
 }
+
 
 #main-dashboard-recipe-card-footer_ingredients:hover {
     color: $primary-8;
@@ -92,7 +163,36 @@
 }
 
 #main-dashboard-recipe-card-footer_recipe-div {
+    
     background: $grey-1;
+    -webkit-animation-name: fadeIn-div;
+    animation-name: fadeIn-div;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    }
+    @-webkit-keyframes fadeIn-div {
+    0% {
+    -webkit-transform: scale(0%);
+    transform: scale(0%);
+    visibility: hidden;
+    }
+    100% {
+    -webkit-transform: scale(100%);
+    transform: scale(100%);
+    }
+    }
+    @keyframes fadeIn-div {
+    0% {
+    -webkit-transform: scale(0%);
+    transform: scale(0%);
+    visibility: hidden;
+    }
+    100% {
+    -webkit-transform: scale(100%);
+    transform: scale(100%);
+    }
 }
 
 #main-dashboard-recipe-card-footer_recipe:hover {

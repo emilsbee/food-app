@@ -36,14 +36,14 @@ export const weekStructure = {
         total: 0,
 }
 
-export const initRecipeCategoryNames = {
-    Rice: true,
-    Burgers: true,
-    Soups: true,
-    Wraps: true,
-    Chinese: true,
-    Indian: true,
-    Mexican: true,
-    Desserts: true,
-    Salads: true
-}
+export const initRecipeCategoryNames = [
+    "Rice",
+    "Burgers",
+    "Soups",
+    "Wraps",
+    "Chinese",
+    "Indian",
+    "Mexican",
+    "Desserts",
+    "Salads"
+]

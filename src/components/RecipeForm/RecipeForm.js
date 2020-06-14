@@ -5,9 +5,11 @@ import React, { useState, useEffect } from 'react'
 // Internal imports
 import './recipe-form.scss'
 import { ReactComponent as LeftArrow } from '../RecipePicker/utils/left-arrow.svg'
+import { ReactComponent as Trash } from './utils/trash.svg'
 import { useHistory } from 'react-router-dom'
+import CategoryDropdown from '../CategoryDropdown/CategoryDropdown'
 
-const RecipeForm = ({weekid, recipe, onSubmit, recipeCategoryNames }) => {
+const RecipeForm = ({weekid, recipe, onSubmit, recipeCategoryNames, deleteRecipe }) => {
     const [localCategory, setlocalCategory] = useState('')
     const [localName, setLocalName] = useState('')
     const [localLink, setLocalLink] =  useState('')
@@ -89,59 +91,78 @@ const RecipeForm = ({weekid, recipe, onSubmit, recipeCategoryNames }) => {
         })
 
     }
+
+
+    const handleDeleteRecipe = () => {
+        deleteRecipe(recipe.recipeid)
+    }
+
     return (
         <div id="recipe-form-container">
-            <div id="recipe-form-title">
-            <div id="recipe-picker-title-back-container">
-                    <div id="recipe-picker-title-back-inner-container">
-                      <LeftArrow id="recipe-picker-title-back-icon" onClick={handleReturn} onMouseOver={() => setBackBanner(true)} onMouseLeave={() => setBackBanner(false)}/>
-                      {backBanner ? 'Back to dashboard' : null}
+            <div id="recipe-form-title-container">
+                <div id="recipe-form-title-back-container">
+                    <div id="recipe-form-title-back-inner-container">
+                      <LeftArrow id="recipe-form-title-back-icon" onClick={handleReturn} onMouseOver={() => setBackBanner(true)} onMouseLeave={() => setBackBanner(false)}/>
+                      {backBanner ? 'Back to recipe manager' : null}
                     </div>
-                  </div>
+                </div>
                 <h2 id="recipe-form-title-text">
                     Edit recipe
+                    <Trash id="recipe-form-trash" onClick={handleDeleteRecipe}/>
                 </h2>
-                </div>
+            </div>
             <div id="recipe-form-inner-container">
                 
                 {error && <p>Please include a name, at least one ingredient and a category for the recipe!</p>}   
                 
-                <div id="recipe-form-name-container">
-                    <div id="recipe-form-name-label">
+                <div id="recipe-form-item-container">
+                    <div id="recipe-form-label">
                         Recipe name
                     </div>
                     <form>
                         <input
-
+                            value={localName}
+                            onChange={(e) => setLocalName(e.target.value)}
+                            id="recipe-from-input"
+                            maxLength="65"
                         />
                     </form>
                 </div>
 
-                <div id="recipe-form-link-container">
-                    <div id="recipe-form-link-label">
+                <div id="recipe-form-item-container">
+                    <div id="recipe-form-label">
                         Link to recipe
                     </div>
                     <form>
                         <input
-
+                            value={localLink}
+                            onChange={(e) => setLocalLink(e.target.value)}
+                            id="recipe-from-input"
                         />
                     </form>
                 </div>
 
-                <div id="recipe-form-category-container">
-                    <div id="recipe-form-category-label">
+                <div id="recipe-form-item-container">
+                    <div id="recipe-form-label">
                         Recipe category
                     </div>
-                    <select value={localCategory} onChange={(e) => setlocalCategory(e.target.value)}>
+                    <CategoryDropdown 
+                        onChange={(e) => setlocalCategory(e)}
+                        title={localCategory}
+                        list={recipeCategoryNames}
+                    />
+                    {/* <select value={localCategory} onChange={(e) => setlocalCategory(e.target.value)}>
                         {localCategory === '' && <option value={localCategory}>Pick category</option>}
                         {recipeCategoryNames.map((categoryName, index) => {
                             return <option key={categoryName} value={categoryName}>{categoryName}</option>
                         })}
-                    </select>
+                    </select> */}
                 </div>
-            <div>
+            <div id="recipe-form-ingredients-container">
+                <div id="recipe-form-label">
+                    Ingredients
+                    </div>
                 <form onSubmit={addIngredientToRecipe}>
-                    Ingredients:
                     <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value.toLowerCase())}/>
                 </form>
             </div>

@@ -24,6 +24,11 @@ const MainDashboard = (props) => {
     const [recipeIngredientToggle, setRecipeIngredientToggle] = useState(false)
     const [recipeIngredientButtonHide, setRecipeIngredientButtonHide] = useState(false)
     
+    
+    const [cardAnimationName, setCardAnimationName] = useState(false)
+
+    
+
     useEffect(() => {
         
         if (props.match.params.weekid === undefined || props.match.params.weekid === '' || props.match.params.weekid === null) {
@@ -90,19 +95,40 @@ const MainDashboard = (props) => {
             })
         }
     }  
-    
     return (
         
         <div>
             {week && years ?  
             <div>
-                <MainDashboardNavBar weekNr={week.weekNr} year={week.year} years={years} weeks={yearWeeks} weekTotal={week.total} weekid={week.weekid}/>
+                <MainDashboardNavBar 
+                    weekNr={week.weekNr} 
+                    year={week.year} 
+                    years={years} 
+                    weeks={yearWeeks} 
+                    weekTotal={week.total} 
+                    weekid={week.weekid}
+                    setCardAnimationName={setCardAnimationName}
+                />
                 
                 <div id="main-dashboard-content">
                 <div className='recipe-list'>
-                    {week && week.recipes.map((recipe) => {
-                        return <MainDashboardRecipeCard recipe={recipe.recipe} day={recipe.day} week={week} key={recipe.day} onClick={handleOnClick}/>
-                    })}
+                    {week ? week.recipes.map((recipe) => {
+                        
+                        return (
+                            <MainDashboardRecipeCard 
+                                recipe={recipe.recipe} 
+                                day={recipe.day} 
+                                week={week} 
+                                key={recipe.day} 
+                                onClick={handleOnClick}
+                                cardAnimationName={cardAnimationName}
+                                setCardAnimationName={setCardAnimationName}
+                            />
+                        )
+                    })
+                    :
+                    null
+                    }
                 </div>
                 
                 <div>

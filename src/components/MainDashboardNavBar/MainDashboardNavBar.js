@@ -11,9 +11,10 @@ import MainDashboardNavBarTotal from '../MainDashboardNavBarTotal'
 import YearDropdown from '../YearDropdown'
 import WeekDropdown from '../WeekDropdown'
 
-const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) => {
+const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, setCardAnimationName }) => {
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
+    const setWeek = useStoreActions(actions => actions.newWeeks.setWeek)
     const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
     const stopWeekListener = useStoreActions(actions => actions.newWeeks.stopWeekListener)
     
@@ -22,33 +23,56 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid }) 
     const[isCurrentWeek, setIsCurrentWeek] = useState(true)
 
     useEffect(() => {
-        if (weekNr !== moment().week() || year !== moment().year()) {
+        if (weekNr !== moment().isoWeek() || year !== moment().year()) {
             setIsCurrentWeek(false)
         } else {
             setIsCurrentWeek(true)
         }
+        
     }, [year, weekNr])
 
+    useEffect(() => {
+        setCardAnimationName(false)
+    }, [weekNr])
 
 
     const handleYearDropdown = (e) => {
-        startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
+        setCardAnimationName(true)
+        setTimeout(() => {
+            startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
+        }, 300)
     }
 
     const handleWeekDropdown = (e) => {
-        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
+        setCardAnimationName(true)
+        setTimeout(() => {
+
+            startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
+        }, 300)
     }       
 
     const handlePrevWeek = () => {
-        startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})
+        setCardAnimationName(true)
+        setTimeout(() => {
+            
+            startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})
+            
+        }, 300)
     }
 
     const handleNextWeek = () => {
-        startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
+        setCardAnimationName(true)
+        setTimeout(() => {
+            startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
+            
+        }, 300)
     }
 
     const handleCurrentWeek = () => {
-        startWeekListener({type: 'CURRENT_WEEK'})
+        setCardAnimationName(true)
+        setTimeout(() => {
+            startWeekListener({type: 'CURRENT_WEEK'})
+        }, 300)
     }
 
     return (

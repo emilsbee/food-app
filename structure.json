@@ -23,17 +23,16 @@
                 "recipeid": {"category": true}
             },
             "categoryRecipies": {
-                "Vegetarian": {
+                "categoryid": {
                     "Shaksuka": "recipeid"
                 }
             },
             "recipeCategoryNames": {
-                "Vegetarian": true,
-                "Burgers": true
+                "categoryid": "Vegetarian"
             },
             "recipes": {
                 "recipeid": {
-                    "category": "Vegetarian",
+                    "category": "categoryid",
                     "name": "Shakshuka",
                     "ingredients": {
                         "Tomatoes": true,

@@ -16,29 +16,108 @@
     align-items: center;
 }
 
-#recipe-form-name-container {
-    width: 100%;
-    height: $sizing-8;
-    display: flex;
-}
-
-#recipe-form-title {
+#recipe-form-title-container {
     border-bottom: 1px solid $sgrey-1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 60%;
+    width: 100%;
     height: $sizing-10;
     background-color: $grey-1;
 }
 
 #recipe-form-title-text {
+    width: 55%;
     color: $grey-9;
     font-size: $type-sizing-6;
     font-weight: 200;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#recipe-picker-title-back-container {
-    width: 40%;
+#recipe-form-trash {
+    height: $sizing-5;
+    width: $sizing-5;
+    margin-right: $sizing-6;
+    transition: 0.3s;
+}
+
+#recipe-form-trash:hover {
+    cursor: pointer;
+    height: $sizing-6;
+    width: $sizing-6;
+}
+
+#recipe-form-title-back-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    padding-left: $sizing-8;
+    width: 45%;
+}
+
+#recipe-form-title-back-inner-container {
+    font-weight: 100;
+    color: #514848;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: baseline;
+    font-size: $type-sizing-2;
+}
+
+#recipe-form-title-back-icon {
+    fill: $grey-5;
+    height: $sizing-7;
+    width: $sizing-5;
+    transition: 0.25s;
+    margin-right: $sizing-2;
+}
+
+#recipe-form-title-back-icon:hover {
+    cursor: pointer;
+    fill: $primary-8;
+    width: $sizing-6;
+}
+
+
+
+#recipe-form-label {
+    font-weight: 300;
+    font-size: $type-sizing-3;
+    color: $grey-6;
+    margin-right: $sizing-7;
+}
+
+
+#recipe-form-item-container {
+    margin-top: $sizing-7;
+    width: 100%;
+    height: $sizing-8;
+    display: flex;
+    justify-content: space-between;
+}
+
+#recipe-from-input {
+    border: none;
+    border-bottom: solid 0.5px $grey-6;
+    font-weight: 300;
+    font-size: $type-sizing-3;
+    color: $grey-9;
+    width: 230px;
+}
+
+#recipe-form-ingredients-container {
+    margin-top: $sizing-7;
+    width: 100%;
+    height: $sizing-8;
+    display: flex;
+    justify-content: space-between;
 }

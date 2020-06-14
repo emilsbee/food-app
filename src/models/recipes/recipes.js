@@ -19,7 +19,7 @@ const recipesModel = {
         const recipeCategoryNamesRef = await database.ref(`users/${uid}/recipeCategoryNames`)
         recipeCategoryNamesRef.on('value', function (snapshot) {
             if (snapshot.val() !== null) {
-                actions.setRecipeCategoryNames(Object.keys(snapshot.val()))
+                actions.setRecipeCategoryNames(snapshot.val())
             } 
             
         })
@@ -27,7 +27,7 @@ const recipesModel = {
     stopRecipeCategoryNamesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/recipeCategoryNames`).off()
-        actions.setRecipeCategoryNames([])
+        actions.setRecipeCategoryNames(false)
     }),
     setRecipeCategoryNames: action((state, payload) => {
         state.recipeCategoryNames = payload
@@ -39,6 +39,7 @@ const recipesModel = {
         })
     }),
     setRecipes: action((state, payload) => {
+        console.log(payload)
         state.recipes = payload
     }),
     startRecipeNamesListener: thunk(async (actions, payload) => {
@@ -46,9 +47,10 @@ const recipesModel = {
         var recipesArr = []
 
         const recipeNamesRef = await database.ref(`users/${uid}/recipeNames`)
-        recipeNamesRef.on('value', function(snapshot) {
+        return recipeNamesRef.on('value', function(snapshot) {
             if (snapshot.val() !== null) {
                 var recipesObj;
+                
                 Object.keys(snapshot.val()).forEach((key) => {
                     recipesObj = snapshot.val()[key]
                     recipesObj["recipeid"] = key
@@ -56,6 +58,7 @@ const recipesModel = {
                 })
                 actions.setRecipes(recipesArr)
             } else {
+                actions.setRecipes([])
                 return
             }
         })
@@ -65,7 +68,7 @@ const recipesModel = {
     stopRecipeNamesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/recipeNames`).off()
-        actions.setRecipes([])
+        actions.setRecipes(false)
     }),
     startRecipeListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
@@ -73,6 +76,7 @@ const recipesModel = {
         const recipeRef = await database.ref(`users/${uid}/recipes/${payload.recipeid}`)
         recipeRef.on('value', function(snapshot) {
             if (snapshot.val() !== null) {
+                
                 var recipeObj = snapshot.val()
                 recipeObj["recipeid"] = snapshot.key
                 actions.setCurrentRecipe(recipeObj)
@@ -96,6 +100,8 @@ const recipesModel = {
             if (snapshot.val() !== null) {
                 const recipeArr = recipeListOrder(snapshot.val())
                 actions.setRecipeList(recipeArr)
+            } else {
+                actions.setRecipeList([])
             }
         })
     }),
@@ -104,6 +110,7 @@ const recipesModel = {
         const uid = store.getState().auth.uid
 
         await database.ref(`users/${uid}/recipes`).off()
+        actions.setRecipeList(false)
     }),
     setRecipeList: action((state, payload) => {
         state.currentRecipeList = payload
@@ -114,22 +121,34 @@ const recipesModel = {
     updateRecipe: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
+        var updates = {}
+
         switch (payload.type) {
-            case 'RECIPE_NAME':
+            case 'FULL_UPDATE':
+                var recipeCategoryObj = {}
+                recipeCategoryObj[payload.recipeObj.category] = true
+        
+                var categoryRecipesObj = {}
+                categoryRecipesObj[payload.recipeid] = payload.recipeObj.name
+                
+                updates[`users/${uid}/recipes/${payload.recipeid}`] = payload.recipeObj
+                updates[`users/${uid}/recipeNames/${payload.recipeid}`] = payload.recipeNamesObj
+                updates[`users/${uid}/recipeCategories/${payload.recipeid}`] = recipeCategoryObj
+                updates[`users/${uid}/categoryRecipes/${payload.recipeObj.category}`] = categoryRecipesObj
+
+                break;
+            case 'RECIPE_DELETE':
+                const recipeCategoryName = await database.ref(`users/${uid}/recipeCategories/${payload.recipeid}`).once('value')
+
+                updates[`users/${uid}/recipes/${payload.recipeid}`] = {}
+                updates[`users/${uid}/recipeNames/${payload.recipeid}`] = {}
+                updates[`users/${uid}/recipeCategories/${payload.recipeid}`] = {}
+                
+                Object.keys(recipeCategoryName.val()).forEach((categoryid) => {
+                    updates[`users/${uid}/categoryRecipes/${categoryid}/${payload.recipeid}`] = {}
+                })
                 break;
         }
-
-        var recipeCategoryObj = {}
-        recipeCategoryObj[payload.recipeObj.category] = true
-
-        var categoryRecipesObj = {}
-        categoryRecipesObj[payload.recipeObj.name] = payload.recipeid
-        
-        var updates = {}
-        updates[`users/${uid}/recipes/${payload.recipeid}`] = payload.recipeObj
-        updates[`users/${uid}/recipeNames/${payload.recipeid}`] = payload.recipeNamesObj
-        updates[`users/${uid}/recipeCategories/${payload.recipeid}`] = recipeCategoryObj
-        updates[`users/${uid}/categoryRecipes/${payload.recipeObj.category}`] = categoryRecipesObj
 
         return database.ref().update(updates)
     }),
@@ -141,7 +160,7 @@ const recipesModel = {
         recipeCategoryObj[payload.recipeObj.category] = true
 
         var categoryRecipesObj = {}
-        categoryRecipesObj[payload.recipeObj.name] = newRecipe.key
+        categoryRecipesObj[newRecipe.key] = payload.recipeObj.name
         
         
         await database.ref(`users/${uid}/recipeNames/${newRecipe.key}`).set(payload.recipeNamesObj)

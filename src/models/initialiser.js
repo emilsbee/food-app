@@ -1,6 +1,7 @@
 // External imports
 import { thunk } from "easy-peasy"
 import moment from 'moment'
+import uniqid from 'uniqid'
 
 // Internal imports
 import { store } from '../index'
@@ -33,8 +34,10 @@ const initialiser = {
             updates[`users/${uid}/yearWeeks/${year}/${weekNr}`] = newWeekid
             updates[`users/${uid}/years/${year}`] = true
 
-
-            updates[`users/${uid}/recipeCategoryNames`] = initRecipeCategoryNames
+            for (var categoryIndex in initRecipeCategoryNames) {        
+                    updates[`users/${uid}/recipeCategoryNames/${uniqid()}`] = initRecipeCategoryNames[categoryIndex]
+            }
+            
         
 
             await database.ref().update(updates)

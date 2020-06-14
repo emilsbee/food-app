@@ -43,25 +43,92 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: $sizing-3;
-    font-size: $type-sizing-3;
+    height: 100%;
+    font-size: $type-sizing-2;
     font-weight: 200;
-    color: $grey-2;
-
+    color: white;
+    overflow:hidden;
     margin-right: $sizing-6;
 }
 
 #logout-button:hover {
     cursor: pointer;
-    color: white;
+
     #logout-icon {
-        fill: white;
+        cursor: pointer;
     }
 }
 
 #logout-icon {
+    z-index: 20;
     margin-left: $sizing-2;
-    fill: $grey-2;
-    height: $sizing-3;
-    width: $sizing-3;
+    fill: white;
+    height: $sizing-4;
+    width: $sizing-4;
+    background-color: $primary-8;
+}
+
+#logout-container {
+    overflow:hidden;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.logout-text {
+    z-index: 10;
+    // -webkit-animation-name: slideInRight;
+    // animation-name: slideInRight;
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}    
+
+@-webkit-keyframes slideInRight {
+    0% {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    visibility: visible;
+    }
+    100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    }
+    }
+    @keyframes slideInRight {
+    0% {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    visibility: visible;
+    }
+    100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    }
+} 
+
+    
+@-webkit-keyframes slideInLeft {
+    0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    visibility: visible;
+    }
+    100% {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    }
+    }
+    @keyframes slideInLeft {
+    0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    visibility: visible;
+    }
+    100% {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    }
 }

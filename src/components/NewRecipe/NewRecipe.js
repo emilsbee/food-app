@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports 
-import RecipeForm from '../RecipeForm/RecipeForm'
+import NewRecipeForm from '../NewRecipeForm'
 
 const NewRecipe= (props) => {
     const newRecipe = useStoreActions(actions => actions.recipes.newRecipe)
@@ -21,6 +21,7 @@ const NewRecipe= (props) => {
 
     const startNewRecipe = (recipe) => {
         newRecipe({
+            type: 'FULL_UPDATE',
             recipeObj: recipe,
             recipeNamesObj: {
                 link: recipe.link,
@@ -33,7 +34,7 @@ const NewRecipe= (props) => {
 
     return (
         <div>
-            {recipeCategoryNames &&  <RecipeForm weekid={props.match.params.weekid} recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>}
+            {recipeCategoryNames &&  <NewRecipeForm weekid={props.match.params.weekid} recipe={{}} onSubmit={startNewRecipe} recipeCategoryNames={recipeCategoryNames}/>}
         </div>
     )
 }

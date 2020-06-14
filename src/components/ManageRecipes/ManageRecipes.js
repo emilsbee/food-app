@@ -1,5 +1,5 @@
 // External imports
-import React,{ useEffect } from 'react'
+import React,{ useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import {Link} from 'react-router-dom'
 
@@ -15,8 +15,13 @@ const ManageRecipes = (props) => {
     const stopRecipeNamesListener = useStoreActions(actions => actions.recipes.stopRecipeNamesListener)
     const recipes = useStoreState(state => state.recipes.recipes)
 
+    const [loading, setLoading] = useState(false)
+
     useEffect(() => {
-        startRecipeNamesListener()
+        setLoading(false)
+        startRecipeNamesListener().then(() => {
+            setLoading(true)
+        })
         return () => {
             stopRecipeNamesListener()
         }
@@ -25,7 +30,7 @@ const ManageRecipes = (props) => {
     
     return (
         <div id="manage-recipes-container">
-            {recipes ? 
+            {loading ? 
             <div id="manage-recipes-container">
             <div id="manage-recipes-title">
                 
@@ -35,7 +40,7 @@ const ManageRecipes = (props) => {
                     id="manage-recipes-add-recipe" 
                     to={`/new-recipe/${props.match.params.weekid}`}
                 >
-                    Add recipe
+                    +
                 </Link>
               </div>
             </div>
@@ -49,11 +54,20 @@ const ManageRecipes = (props) => {
                                 weekid={props.match.params.weekid}
                             />
                   }) 
-                 }  
+                 } 
             </div>
+            {recipes.length === 0 && <div id="recipe-manager-add-recipe-container">
+                <h2 id="recipe-manager-no-recipes">You have no recipes :(</h2>
+                <Link 
+                    id="recipe-manager-add-recipe" 
+                    to={`/new-recipe/${props.match.params.weekid}`}
+                >
+                    Add a recipe
+                </Link>
+              </div>} 
             </div>
             :
-            <div>
+            <div id="recipe-manager-loading">
                 <LoadingPage />
             </div>
             

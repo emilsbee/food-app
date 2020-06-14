@@ -6,6 +6,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 // Internal imports 
 import RecipeForm from '../RecipeForm/RecipeForm'
 
+
 const RecipeEdit= (props) => {
     const startRecipeListener = useStoreActions(actions => actions.recipes.startRecipeListener)
     const stopRecipeListener = useStoreActions(actions => actions.recipes.stopRecipeListener)
@@ -16,6 +17,7 @@ const RecipeEdit= (props) => {
     const recipeCategoryNames = useStoreState(state => state.recipes.recipeCategoryNames)
     const recipeid = useParams().id
 
+    
     useEffect(() => {
         startRecipeListener({recipeid})
         startRecipeCategoryNamesListener()
@@ -26,6 +28,7 @@ const RecipeEdit= (props) => {
     }, [])
     const startUpdateRecipe = (recipe) => {
         updateRecipe({
+                type: 'FULL_UPDATE',
                 recipeid: currentRecipe.recipeid,
                 recipeObj: recipe,
                 recipeNamesObj: {
@@ -36,9 +39,27 @@ const RecipeEdit= (props) => {
             props.history.push(`/manage-recipes/${props.match.params.weekid}`)
         })
     }
+
+    const handleDeleteRecipe = (recipeid) => {
+        updateRecipe({
+            type: 'RECIPE_DELETE',
+            recipeid
+        }).then(() => {
+            props.history.push(`/manage-recipes/${props.match.params.weekid}`)
+        })
+    }
+
     return (
         <div>
-            {(currentRecipe && recipeCategoryNames) && <RecipeForm weekid={props.match.params.weekid} recipe={currentRecipe} onSubmit={startUpdateRecipe} recipeCategoryNames={recipeCategoryNames}/>}
+            {(currentRecipe && recipeCategoryNames) && 
+                <RecipeForm 
+                    weekid={props.match.params.weekid} 
+                    recipe={currentRecipe} 
+                    onSubmit={startUpdateRecipe} 
+                    recipeCategoryNames={recipeCategoryNames}
+                    deleteRecipe={handleDeleteRecipe}
+                />
+            }
         </div>
     )
 }
