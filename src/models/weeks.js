@@ -339,6 +339,7 @@ const weeksModel = {
         }
     }),
     setWeek: action((state, payload) => {
+        console.log(payload)
         state.week = payload
     }),
     startUpdateWeek: thunk( async(actions, payload) => {

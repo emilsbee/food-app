@@ -23,14 +23,14 @@ const RecipePickerCard = ({ recipeid, name, link, onClick, ingredients }) => {
                 {name}
             </div>
 
-            <LinesEllipsis 
+            {/* <LinesEllipsis 
                 text={ingredientsString}
                 id="recipe-picker-card-ingredients"
                 maxLine='7'
                 ellipsis='...'
                 trimRight
                 basedOn='letters'
-            />
+            /> */}
                 
             
 

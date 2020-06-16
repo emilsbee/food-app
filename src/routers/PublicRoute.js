@@ -12,11 +12,11 @@ const PublicRoute = (props) => {
 
 
     return (
-        <Route path={props.path} component={() => (
+        <Route path={props.path} component={(props) => (
             isAuthenticated ? (
                 <Redirect to="/dashboard"/>
             ) : (
-                <Component/>
+                <Component {...props}/>
             )
         )}>
 

@@ -9,7 +9,7 @@ import { createStore, StoreProvider } from 'easy-peasy'
 import firebaseModel from './models/firebase'
 import recipesModel from './models/recipes/recipes'
 import weeksModel from './models/weeks';
-import newWeeksModel from './models/newWeeks'
+import newWeeksModel from './models/weeks/newWeeks'
 import groceriesModel from './models/groceries'
 import initialiser from './models/initialiser'
 import LoadingPage from './components/LoadingPage/LoadingPage'
@@ -50,7 +50,7 @@ firebase.auth().onAuthStateChanged((user) => {
         store.dispatch.auth.login(user.uid)
         store.dispatch.init.initialiseUser().then(() => {
             renderApp()
-            if (history.location.pathname === '/') {
+            if (history.location.pathname === '/' || history.location.pathname === '/sign-up') {
                 history.push(`/dashboard`)
             }
         })

@@ -39,7 +39,6 @@ const recipesModel = {
         })
     }),
     setRecipes: action((state, payload) => {
-        console.log(payload)
         state.recipes = payload
     }),
     startRecipeNamesListener: thunk(async (actions, payload) => {

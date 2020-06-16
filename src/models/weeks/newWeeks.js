@@ -4,9 +4,10 @@ import moment from 'moment'
 
 
 // Internal imports 
-import database from '../components/firebase/firebase'
-import { store } from '../index'
-import { weekStructure, initRecipeCategoryNames } from '../utils/structure'
+import database from '../../components/firebase/firebase'
+import { store } from '../../index'
+import { weekStructure, initRecipeCategoryNames } from '../../utils/structure'
+import { orderByDays } from './utils'
 
 const newWeeksModel = {
     yearWeeks: [],
@@ -251,6 +252,8 @@ const newWeeksModel = {
         state.years = payload
     }),
     setWeek: action ((state, payload) => {
+        const recipes = orderByDays(payload.recipes)
+        payload["recipes"] = recipes
         state.week = payload
     })
 

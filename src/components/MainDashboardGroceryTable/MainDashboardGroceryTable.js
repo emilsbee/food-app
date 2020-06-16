@@ -7,6 +7,7 @@ import GroceryListInput from '../GroceryListInput/GroceryListInput'
 import './MainDashboardGroceryTable.scss'
 
 
+
 const MainDashboardGroceryTable = ({ groceries, weekid }) => {
     const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
     const startUpdateGrocery = (data) => {

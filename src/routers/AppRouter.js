@@ -13,6 +13,7 @@ import NotFound from '../components/NotFound/NotFound'
 import RecipePicker from '../components/RecipePicker/RecipePicker'
 import NewRecipe from '../components/NewRecipe/NewRecipe'
 import OrderedGroceries from '../components/OrderedGroceries/OrderedGroceries'
+import SignUp from '../components/SignUp'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
@@ -25,9 +26,10 @@ const AppRouter = () => {
 
     return (
         <Router history={history}>
-            <div>
+            <div style={{"height": "100%"}}>
                 <Switch>
                         <PublicRoute path="/" component={LoginPage} exact={true}/>
+                        <PublicRoute path="/sign-up" component={SignUp}/>
                         <PrivateRoute path="/dashboard/:weekid?" component={MainDashboard}/>
                         <PrivateRoute path="/manage-recipes/:weekid" component={ManageRecipes}/>
                         <PrivateRoute path="/edit/:id/:weekid" component={RecipeEdit} />

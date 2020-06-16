@@ -1,0 +1,243 @@
+@import '../../styles/base/settings';
+
+#sign-up {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#sign-up-back-container {
+    width: 100%;
+    height: $sizing-12;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#sign-up-back {
+    margin: $sizing-10;
+    height: $sizing-7;
+    fill: $primary-8;
+    transition: 0.3s;
+}
+
+#sign-up-back:hover {
+    height: $sizing-8;
+    cursor: pointer;
+}
+
+#sign-up-outer-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently */
+}
+
+#sign-up-error-message {
+    width: $sizing-15;
+    height: $sizing-4;
+    font-size: $type-sizing-4;
+    font-weight: 200;
+    color: hsl(10, 60%, 50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#sign-up-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: $primary-7;
+    font-weight: 200;
+    font-size: $type-sizing-6;
+    margin-bottom: $sizing-4;
+    padding-top: $sizing-8;
+}
+
+#sign-up-email-password-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sign-up-email-input {
+    width: $sizing-15;
+    font-size: $type-sizing-5;
+    font-weight: 300;
+    border: 1px solid white;
+    border-radius: $sizing-8;
+    margin-bottom: $sizing-3;
+    padding-top: $sizing-3;
+    padding-bottom: $sizing-3;
+    padding-left: $sizing-4;
+    padding-right: $sizing-4;
+
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+#sign-up-email-input:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+#sign-up-button-container {
+    width: $sizing-15;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+#sign-up-button {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    font-size: $type-sizing-4;
+    margin: $sizing-4;
+    font-weight: 300;
+    color: $grey-9;
+    width: $sizing-11;
+    padding: $sizing-3;
+    transition: 0.3s;
+    border-radius: $sizing-7;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  
+}
+
+#sign-up-button:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    color: $primary-8;
+    cursor: pointer;
+}
+
+#sign-up-label {
+    width: $sizing-15;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: $sizing-7;
+    margin-bottom: $sizing-5;
+    color: $primary-8;
+    font-weight: 200;
+    font-size: $type-sizing-4;
+}
+
+#sign-up-with-google-container {
+    height: $sizing-9;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: $sizing-15;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: $sizing-8;
+    background-color: white;
+    transition: 0.3s ease;
+    font-weight: 300;
+    color: $grey-9;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+
+
+#sign-up-with-google-container:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    color: $primary-8;
+}
+
+#sign-up-with-google-inner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: $sizing-6;
+
+}
+
+#google-logo {
+    height: $sizing-6;
+    margin: $sizing-2;
+}
+
+#sign-up-sign-up-container {
+    font-weight: 200;
+    font-size: $type-sizing-4;
+    color: $primary-8;
+    margin-top: $sizing-7;
+    width: $sizing-15;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#sign-up-sign-up-button {
+    margin-top: $sizing-3;
+    transition: 0.3s ease;
+    padding-top: $sizing-3;
+    padding-bottom: $sizing-3;
+    padding-left: $sizing-4;
+    padding-right: $sizing-4;
+    border-radius: $sizing-4;
+}
+
+#sign-up-sign-up-button:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    scale: 0;
+    visibility: visible;
+    }
+    100% {
+        scale: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    }
+    }
+    @keyframes fadeIn {
+    0% {
+        scale: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    visibility: visible;
+    }
+    100% {
+        scale: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    }
+}
