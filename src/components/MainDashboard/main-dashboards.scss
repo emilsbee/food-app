@@ -35,6 +35,95 @@
     height: 100%;
 }
 
+#dashboard-grocery-outer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#dashboard-grocery-ingredients-container {
+    margin-left: $sizing-11;
+    margin-top: $sizing-9;
+    width: $sizing-15;
+    display: flex;
+    flex-direction: column;
+}
+
+#dashboard-grocery-ingredients-title {
+    width: 100%;
+    height: $sizing-6;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: $grey-8;
+    font-weight: 200;
+    font-size: $type-sizing-4;
+    margin-bottom: $sizing-3;
+}
+
+#dashboard-grocery-ingredient-title-close {
+    height: $sizing-3;
+    width: $sizing-3;
+    transition: 0.3s;
+    fill: $grey-7;
+}
+
+#dashboard-grocery-ingredient-title-close:hover {
+    cursor: pointer;
+    height: $sizing-4;
+    width: $sizing-4;
+    fill: $primary-8;
+}
+
+#dashboard-grocery-ingredients-inner-container {
+    width: 100%;
+    // height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+#dashboard-grocery-ingredient-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: $sizing-7;
+    margin-bottom: $sizing-7;
+    margin-right: $sizing-4;
+}
+
+
+
+#dashboard-grocery-ingredient-name {
+    border-radius: $sizing-4;
+    background-color: $grey-1;    
+    font-weight: 300;
+    font-size: $type-sizing-3;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    padding: $sizing-4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    animation-direction: alternate;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+#dashboard-grocery-ingredient-name:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+
 #main-dashboard-loading {
     width: 100%;
     height: 100%;
@@ -42,4 +131,59 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+
+@-webkit-keyframes fadeIn {
+    0% {
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    opacity: 0;
+    visibility: visible;
+    }
+    100% {
+        opacity: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    }
+    }
+    @keyframes fadeIn {
+    0% {
+        opacity: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    visibility: visible;
+    }
+    100% {
+        opacity: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    opacity: 1;
+    visibility: visible;
+    }
+    100% {
+    opacity: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    }
+}
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    // -webkit-transform: scale(100%);
+    // transform: scale(100%);
+    visibility: visible;
+    }
+    100% {
+        opacity: 0;
+    // -webkit-transform: scale(0%);
+    // transform: scale(0%);
+    }
 }

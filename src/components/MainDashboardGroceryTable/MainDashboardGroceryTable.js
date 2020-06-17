@@ -8,8 +8,10 @@ import './MainDashboardGroceryTable.scss'
 
 
 
-const MainDashboardGroceryTable = ({ groceries, weekid }) => {
+const MainDashboardGroceryTable = ({ groceries, weekid, cardAnimationName }) => {
     const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
+    
+
     const startUpdateGrocery = (data) => {
         updateWeek({
             type: data.type,
@@ -24,46 +26,76 @@ const MainDashboardGroceryTable = ({ groceries, weekid }) => {
         updateWeek({weekid, type:"GROCERY_ADD"})
     }
 
-    return (
-        <div>
-            {groceries ?
-            <table>   
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-                {Object.keys(groceries).map((groceryid) => {
-                    
-                    return (
-                    <tr key={groceryid}>
-                        <td>
-                            <GroceryListInput 
-                                onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: data, amount: groceries[groceryid].amount}, groceryid})}
-                                item={groceries[groceryid].product}
-                            />
-                        </td>
-                        <td>
-                            <GroceryListInput 
-                                onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: groceries[groceryid].product, amount: data}, groceryid})}
-                                item={groceries[groceryid].amount}
-                            />
-                        </td>
-                    </tr>
-                    )
-                }) }     
-               
-            </tbody>
-            <tfoot>
-                <tr>
+    const [localTable, setLocalTable] = useState(true)
+    const [animName, setAnimName] = useState('fadeIn')
+    
+    useEffect(() => {
 
-                    <td><button onClick={onClick} >+</button></td>
-                </tr>
-            </tfoot>
-        </table>
-        : <button onClick={onClick} >+</button> 
+        if (!cardAnimationName) {
+
+            setAnimName('fadeIn')
+            setLocalTable(false)
+            setLocalTable(true)
+            
+        } else {
+            setAnimName('fadeOut')
+            setLocalTable(false)
+            setLocalTable(true)
+            
+        }
+
+
+    }, [cardAnimationName])
+
+    useEffect(() => {
+        setAnimName('fadeIn')
+        setLocalTable(false)
+        setLocalTable(true)
+    }, [weekid])
+
+    return (
+        <div id="dashboard-grocery-table-container">
+            {localTable && groceries &&
+            <div id="dashboard-grocery-table" style={{"animationName": animName}}>   
+                
+                <div id="dashboard-grocery-header-container">
+                    <div id="dashboard-grocery-header">Product</div>
+                    <div id="dashboard-grocery-header">Amount</div>
+                </div>
+                
+                <div>
+                    {Object.keys(groceries).map((groceryid) => {
+                        
+                        return (
+                        <div key={groceryid} id="dashboard-grocery-input-container">
+                                <GroceryListInput 
+                                    onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: data, amount: groceries[groceryid].amount}, groceryid})}
+                                    item={groceries[groceryid].product}
+                                    type={'product'}
+                                />
+                                
+                            
+                            
+                                <GroceryListInput 
+                                    type={'amount'}
+                                    onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: groceries[groceryid].product, amount: data}, groceryid})}
+                                    item={groceries[groceryid].amount}
+                                />
+                            
+                        </div>
+                        )
+                    }) }     
+                
+                </div>
+                <div id="dashboard-grocery-add-button-container">
+                    <button 
+                        onClick={onClick}
+                        id="dashboard-grocery-add-button"
+                    >
+                        +
+                    </button>
+                </div>    
+            </div>
             }
             
         </div>

@@ -8,7 +8,7 @@ import MainDashboardGroceryTable from '../MainDashboardGroceryTable/MainDashboar
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 import './main-dashboards.scss'
 import LoadingPage from '../LoadingPage/LoadingPage'
-
+import { ReactComponent as Close } from './utils/close.svg'
 
 const MainDashboard = (props) => {
     const week = useStoreState(state => state.newWeeks.week)
@@ -27,7 +27,7 @@ const MainDashboard = (props) => {
     
     
     const [cardAnimationName, setCardAnimationName] = useState(false)
-
+    const [animName, setAnimName] = useState('fadeIn')
     
 
     useEffect(() => {
@@ -59,8 +59,8 @@ const MainDashboard = (props) => {
         }
     }, [])
 
-    const handleOnClick = (data) => {
-        setRecipeIngredientToggle(Object.keys(data))
+    const handleOnClick = ({ingredients, name}) => {
+        setRecipeIngredientToggle({ingredients: Object.keys(ingredients), name})
     }
 
     const handleAddIngredientToGroceries = (data) => {
@@ -96,6 +96,15 @@ const MainDashboard = (props) => {
             })
         }
     }  
+
+    const handleCloseIngredientModal = () => {
+        setAnimName('fadeOut')
+        setTimeout(() => {
+            setRecipeIngredientToggle(false)
+            setAnimName('fadeIn')
+        }, 300)
+    }
+
     return (
         
         <div>
@@ -132,17 +141,39 @@ const MainDashboard = (props) => {
                     }
                 </div>
                 
-                <div>
-                {week && <MainDashboardGroceryTable weekid={week.weekid} groceries={week.groceries}/>}
-                
-                {recipeIngredientToggle && recipeIngredientToggle.map((ingredient) => {
-                    return ( 
-                    <div key={ingredient} onMouseEnter={() => setRecipeIngredientButtonHide(ingredient)} onMouseLeave={() => setRecipeIngredientButtonHide(false)}>
-                        <p>{ingredient}</p>
-                        <button onClick={() => handleAddIngredientToGroceries({product: ingredient,})} hidden={recipeIngredientButtonHide === ingredient ? false : true}>+</button>
+                <div id="dashboard-grocery-outer-container">
+                    {week && <MainDashboardGroceryTable weekid={week.weekid} groceries={week.groceries} cardAnimationName={cardAnimationName}/>}
+                        
+                    {recipeIngredientToggle && <div id="dashboard-grocery-ingredients-container">
+                        <div id="dashboard-grocery-ingredients-title" >
+                            Add {recipeIngredientToggle.name} ingredients to groceries
+                            <Close
+                                onClick={handleCloseIngredientModal}
+                                id="dashboard-grocery-ingredient-title-close"
+                            />
+                        </div>
+                        <div id="dashboard-grocery-ingredients-inner-container">
+                    {recipeIngredientToggle.ingredients.map((ingredient) => {
+                        return ( 
+                            <div 
+                                key={ingredient} 
+                                onMouseEnter={() => setRecipeIngredientButtonHide(ingredient)} 
+                                onMouseLeave={() => setRecipeIngredientButtonHide(false)}
+                                id="dashboard-grocery-ingredient-container"
+                            >   
+                                <p  
+                                    style={{"animationName": animName}}
+                                    id="dashboard-grocery-ingredient-name"
+                                    onClick={() => handleAddIngredientToGroceries({product: ingredient})}
+                                >
+                                    {ingredient}
+                                </p>
+                            </div>
+                        )
+                    })}
                     </div>
-                    )
-                })}
+                    </div>
+                    }
                 </div>
             </div>
             
@@ -153,11 +184,6 @@ const MainDashboard = (props) => {
                 <LoadingPage/>
             </div>
             }
-        
-
-            
-
-                
         </div>
         
     )

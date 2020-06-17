@@ -36,14 +36,15 @@ function YearDropdown  ({
                     :   <Down className="dropdown-down"/>
                 }
             </div>
-            {listOpen && <ul className="year-dd-list" style={{"marginTop":"4px"}}>
+            
+            {listOpen && <ul className="year-dd-list">
                {list.map((item) => (
                  <li key={item} className="year-dd-list-item" onClick={() => handleClick(item)}>
                      <p className="year-dd-list-text">{item}</p>
                 </li>
                ))}
             </ul>}
-    
+            
         </div>
     )
 }   

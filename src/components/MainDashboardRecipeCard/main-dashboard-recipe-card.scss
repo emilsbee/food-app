@@ -5,11 +5,11 @@
 .main-dashboard-recipe-card {
     background-color: $grey-0;
     /* Add shadows to create the "card" effect */
-    height: 200px;
+    height: 230px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 160px;
-    border-radius: 5px;
+    width: 170px;
+    border-radius: $sizing-5;
     margin: 10px;
     display: flex;
     flex-direction: column;
@@ -104,7 +104,7 @@
 
 
 .main-dashboard-recipe-card__header {
-    height: $sizing-9;
+    height: $sizing-10;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -118,7 +118,7 @@
 #main-dashboard-recipe-card__header-text {
     color: $sgrey-7;
     font-weight: 300;
-    font-size: $type-sizing-4;
+    font-size: $type-sizing-5;
 }
 
 #main-dashboard-recipe-card-footer {
@@ -136,7 +136,7 @@
    text-decoration: none;
    color: $sgrey-7;
    font-weight: 300;
-   font-size: $type-sizing-2;
+   font-size: $type-sizing-3;
    background-color: $grey-1;
    -webkit-animation-name: fadeIn;
    animation-name: fadeIn;
@@ -163,7 +163,7 @@
 }
 
 #main-dashboard-recipe-card-footer_recipe-div {
-    
+    font-size: $type-sizing-3;
     background: $grey-1;
     -webkit-animation-name: fadeIn-div;
     animation-name: fadeIn-div;
@@ -205,8 +205,8 @@
 #main-dashboard-recipe-card-content_recipe {
     margin-top: $sizing-5;
     margin-bottom: $sizing-4;
-    font-size: $type-sizing-2;
-    font-weight: 400;
+    font-size: $type-sizing-3;
+    font-weight: 200;
     color: $sgrey-7;
     text-decoration: none;
 

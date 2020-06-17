@@ -173,9 +173,9 @@ const newWeeksModel = {
     }),
     newWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        
+        const localWeekStructure = weekStructure()
         const newWeekid = await database.ref(`users/${uid}/weeks`).push({
-            ...weekStructure,
+            ...localWeekStructure,
             weekNr: payload.weekNr,
             year: payload.year,
             year_weekNr: `${payload.year}_${payload.weekNr}`

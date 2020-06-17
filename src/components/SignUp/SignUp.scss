@@ -7,6 +7,13 @@
     flex-direction: column;
 }
 
+#sign-up-loading-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 #sign-up-back-container {
     width: 100%;
     height: $sizing-12;

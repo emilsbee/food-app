@@ -7,46 +7,51 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+
     box-sizing: border-box;
-    // border: solid 0.7px white;
-    border-radius: $sizing-1;
+    border-radius: $sizing-2;
     display: inline-block;
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
-    width: $sizing-10;
+    width: 75px;
     
     position: static;
     top: 40px;
     right: 105px;
     padding: $sizing-1;
+    padding-bottom: 0px;
     z-index: 20;
 }
 
 .year-dd-header_ {
-    border: solid 0.7px #f6f7f9;;
-    padding: $sizing-1;
-    width: $sizing-10;
+    padding: $sizing-2;
+    width: 75px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     color: inherit;
+    transition: 0.3s;
+    border-radius: $sizing-2;
 }
 
 .year-dd-header_:hover {
-    border: solid 0.9px $grey-8;
     cursor: pointer;
-    border-radius: $sizing-1;
     color: inherit;
+    border-radius: $sizing-2;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 .year-dd-header_is-open{
+    padding-bottom: 0px;
     cursor: pointer;
-    border: solid 0.9px $grey-8;
-    border-radius: $sizing-1;
-    padding: $sizing-1;
-    width: $sizing-10;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-top-left-radius: $sizing-2;
+    border-top-right-radius: $sizing-2;
+    padding: $sizing-2;
+    width: 75px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -64,9 +69,10 @@
 
 
 .year-dd-list {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     position: absolute;
     padding: 0px;
-    width: $sizing-10;
+    width: 75px;
     overflow:  auto;
     list-style: none;
     display: flex;
@@ -75,12 +81,12 @@
     justify-content: center;
     align-items: center;
     scrollbar-color: $primary-6 white;
-    border: solid 0.9px $grey-8;
-    border-radius: $sizing-1;
+    border-bottom-right-radius: $sizing-2;
+    border-bottom-left-radius: $sizing-2;
     scrollbar-width: none;
     background-color: $grey-1;
     color: inherit;
-
+    margin: 0px;
 }
 
 
@@ -89,24 +95,26 @@
 
 .year-dd-list-item {
     width: 100%;
-    height: $sizing-6;
+    height: $sizing-7;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     font-size: $type-sizing-2;
     color: inherit;
+    background-color: white;
 }
 
 .year-dd-list-item:hover {
     width: 100%;
-    background-color: $sgrey-1;
-    border-radius: $sizing-1;
+    background-color: $grey-1;
+    border-bottom-left-radius: $sizing-1;
+    border-bottom-right-radius: $sizing-1;
     cursor: pointer;
 }
 
 .year-dd-list-text {
-    margin: none;
+    margin: 0px;
     font-weight: 200;
     font-size: $type-sizing-2;
     color: inherit;

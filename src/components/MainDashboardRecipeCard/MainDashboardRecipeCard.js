@@ -80,7 +80,7 @@ const MainDashboardRecipeCard = ({ recipe, day, week, onClick, cardAnimationName
 
                         <div id="main-dashboard-recipe-card-footer">
                             <div 
-                                onClick={() => onClick(recipe.ingredients)} 
+                                onClick={() => onClick({ingredients: recipe.ingredients, name: recipe.name})} 
                                 hidden={viewHiddenButton}
                                 id="main-dashboard-recipe-card-footer_ingredients"
                             >

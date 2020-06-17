@@ -34,7 +34,7 @@ function WeekDropdown  ({
                     :   <Down className="dropdown-down"/>
                 }
             </div>
-            {listOpen && <ul className="dd-list" style={{"marginTop":"4px"}}>
+            {listOpen && <ul className="dd-list">
                {list.map((item) => (
                  <li key={item} className="dd-list-item" onClick={() => handleClick(item)}>
                      <p className="dd-list-text">{item}</p>

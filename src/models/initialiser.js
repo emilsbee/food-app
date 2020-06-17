@@ -14,16 +14,15 @@ const initialiser = {
     initialiseUser: thunk( async (actions, payload) => {
         const uid = store.getState().auth.uid
 
-        const hasData = await database.ref(`users/${uid}/years/${moment().year()}`).once('value')
+        const hasData = await database.ref(`users/${uid}/yearWeekNumbers/${moment().year()}_${moment().isoWeek()}`).once('value')
 
         if (hasData.val() === null) {
             var updates = {}
-            
             const weekNr = moment().isoWeek()
             const year = moment().year()
-        
+            const localWeekStructure = weekStructure()
             const newWeekid = await database.ref(`users/${uid}/weeks`).push({
-                ...weekStructure,
+                ...localWeekStructure,
                 weekNr,
                 year,
                 year_weekNr: `${year}_${weekNr}`
@@ -38,7 +37,6 @@ const initialiser = {
                     updates[`users/${uid}/recipeCategoryNames/${uniqid()}`] = initRecipeCategoryNames[categoryIndex]
             }
             
-        
 
             await database.ref().update(updates)
         } else {
