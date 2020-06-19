@@ -1,0 +1,77 @@
+@import '../../styles/base/settings';
+
+#unordered-grocery-table {
+    width: $sizing-16;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#unordered-grocery-table-title {
+    width: 100%;
+    margin-top: $sizing-8;
+    padding-bottom: $sizing-6;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    font-size: $type-sizing-5;
+    font-weight: 200;
+}
+
+#unordered-grocery-table-title-text {
+    width: 80%;
+    padding-bottom: $sizing-2;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    border-bottom: 1px solid $grey-3;
+}
+
+#unordered-grocery-container {
+    width: 100%;
+    margin-bottom: $sizing-2;
+    height: $sizing-7;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+#unordered-grocery-product {
+    width: 33%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+    
+    font-size: $type-sizing-3;
+    font-weight: 200;
+}
+
+#unordered-grocery-amount {
+    width: 33%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    font-size: $type-sizing-3;
+    font-weight: 200;
+}
+
+#unordered-grocery-category {
+    width: 33%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    
+}

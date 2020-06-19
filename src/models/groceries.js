@@ -1,6 +1,6 @@
 // External imports 
 import { thunk, action, computed } from 'easy-peasy';
-
+import uniqid from 'uniqid'
 
 // Internal imports 
 import database from '../components/firebase/firebase'
@@ -8,49 +8,43 @@ import { store } from '../index'
 import {weekStructure} from '../utils/structure'
 
 const groceriesModel = {
-    categoryNames: [],
-    unsortedGroceries: [],
-    sortedGroceries: {},
+    categoryNames: false,
+    unsortedGroceries: false,
     startWeekGroceriesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        var weekGroceriesRef = await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).once('value')
 
-        if(weekGroceriesRef.val() !== null) {
-            var groceryids = Object.keys(weekGroceriesRef.val())
-            var groceries = weekGroceriesRef.val()
+        var weekGroceriesRef = database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`)
+        weekGroceriesRef.on('value', function(snapshot) {
+            if (snapshot.val()) {
+                var groceries = snapshot.val()
+                var nonEmptyGroceries = []
 
-            groceryids.forEach(async (groceryid) => {
-                // Check whether the product field is an empty string. This is possible 
-                // because a user might leave a row empty in grocery table on main dashboard.
-                if (groceries[groceryid].product !== "") {
-                    var productCategory = await database.ref(`users/${uid}/groceries/${groceries[groceryid].product}`).once('value')
-                    if (productCategory.val() === null) {
-                        var unsortedGroceryObj = {}
-                        unsortedGroceryObj[groceryid] = groceries[groceryid]
-                        actions.setGroceries({type: 'UNSORTED', grocery: unsortedGroceryObj})
-    
-                    } else {
-                        actions.setGroceries({
-                            type: 'SORTED',
-                            grocery: {
-                                ...groceries[groceryid], groceryid
-                            },
-                            category: productCategory.val()
-                        })
+                Object.keys(groceries).forEach((groceryid) => {
+                    if (groceries[groceryid].product.trim() !== '') {
+                        var groceryObj = {}
+                        groceryObj[groceryid] = groceries[groceryid]
+                        nonEmptyGroceries.push(groceryObj)
                     }
+                })
+
+                if (nonEmptyGroceries.length !== 0) {
+                    actions.setGroceries({type: 'UNSORTED_ALL', groceries: nonEmptyGroceries})
                 }
-            })
-        }
+            } 
+        })
     }),
     stopWeekGroceriesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/weeks`).off()
+        actions.setGroceries({type: 'EMPTY'})
     }),
     setGroceries: action((state, payload) => {
         switch(payload.type) {
             case 'UNSORTED': 
                 state.unsortedGroceries.push(payload.grocery)
                 break;
+            case 'UNSORTED_ALL': 
+                state.unsortedGroceries = payload.groceries
             case 'SORTED':
                 if (payload.category && state.sortedGroceries[payload.category]) {
                     state.sortedGroceries[payload.category].push(payload.grocery)
@@ -58,18 +52,18 @@ const groceriesModel = {
                 
                 break;
             case 'EMPTY':
-                state.sortedGroceries = {}
-                state.unsortedGroceries = []
+                state.categoryNames = false
+                state.unsortedGroceries = false
                 break;
         }
     }),
     startCategoryNameListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-
-        var categoryNameRef = database.ref(`users/${uid}/groceryCategoryNames`)
+  
+        var categoryNameRef = database.ref(`users/${uid}/groceryCategories`)
         categoryNameRef.on('value', function(snapshot) {
             if (snapshot.val() !== null) {
-                actions.setSortedGroceryCategoryNames(Object.keys(snapshot.val()))
+                actions.setSortedGroceryCategoryNames(snapshot.val())
             }
         })
     }),
@@ -79,34 +73,29 @@ const groceriesModel = {
         actions.setGroceries({type: 'EMPTY'})
     }),
     setSortedGroceryCategoryNames: action((state, payload) => {
-        var sortedGroceriesObj = {}
-        payload.forEach((category) => {
-            sortedGroceriesObj[category] = []
-        })
-        state.sortedGroceries = sortedGroceriesObj
         state.categoryNames = payload
     }),
     addGrocery: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        const unsortedGroceries = store.getState().groceries.unsortedGroceries
-        const sortedGroceries = store.getState().groceries.sortedGroceries
+        
+        const groceryCategoryid = Object.keys(payload.grocery)[0]
+        const product = payload.grocery[groceryCategoryid].product
+        const amount = payload.grocery[groceryCategoryid].amount        
         
         var updates = {}
-
+        
+        var categoryid;
         if (payload.type === 'NEW_CATEGORY') {
-            updates[`users/${uid}/groceryCategoryNames/${payload.category}`] = true
+            categoryid = uniqid()
+            updates[`users/${uid}/groceryCategories/${categoryid}`] = payload.category
+        } else {
+            categoryid = payload.category
         }
 
-        var groceriesObj = {}
-        groceriesObj[Object.values(payload.grocery)[0].product] = payload.category
-        
-        updates[`users/${uid}/groceries/${Object.values(payload.grocery)[0].product}`] = payload.category
-        updates[`users/${uid}/groceryCategories/${payload.category}/${Object.values(payload.grocery)[0].product}`] = true
+        updates[`users/${uid}/groceries/${product}`] = categoryid
+        updates[`users/${uid}/groceryCategoryList/${categoryid}/${product}`] = true
 
-        await database.ref().update(updates)
-        actions.setAddGrocery({grocery: payload.grocery, category: payload.category, unsortedGroceries, type: payload.type && payload.type, sortedGroceries})
-
-
+        return await database.ref().update(updates)
     }),
     setAddGrocery: action((state, payload) => {
         payload.unsortedGroceries.forEach((unsortedGrocery, index) => {

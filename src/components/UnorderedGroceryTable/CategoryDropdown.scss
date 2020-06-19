@@ -1,0 +1,143 @@
+@import '../../styles/base/settings';
+
+
+
+#unordered-dd-wrapper {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+    // border: solid 0.7px white;
+    border-radius: $sizing-2;
+    display: inline-block;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    width: 165px;
+    position: static;
+    top: 80px;
+    right: 12px;
+    padding: $sizing-1;
+}
+
+#unordered-dd-header_ {
+    // box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.4s;
+    // border: solid 0.7px white;
+    padding: $sizing-2;
+    width: 165px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    color: inherit;
+    border-radius: $sizing-2;
+}
+
+#unordered-dd-header_:hover {
+    color: $grey-9;
+    
+    cursor: pointer;
+    border-radius: $sizing-2;
+    // box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);;
+    
+    
+}
+
+#unordered-dd-header_is-open{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    background-color: $grey-1;
+    
+    cursor: pointer;
+    color: $grey-9;
+   
+    border-top-left-radius: $sizing-2;
+    border-top-right-radius: $sizing-2;
+    border-bottom: none;
+    padding: $sizing-2;
+    padding-bottom: none;
+    width: 165px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#unordered-dd-header-title {
+    font-weight: 200;
+    font-size: $type-sizing-3;
+    // color: $grey-8;
+    color: inherit;
+    
+}
+
+
+#unordered-dd-list {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    position: absolute;
+    height: $sizing-12;
+    padding: 0px;
+    width: 165px;
+    overflow:  auto;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    scrollbar-color: $primary-6 white;
+    // border: solid 0.9px $grey-8;
+    border-bottom-left-radius: $sizing-2;
+    border-bottom-right-radius: $sizing-2;
+    border-top: none;
+    scrollbar-width: none;
+    background-color: white;
+    color: inherit;
+}
+
+
+
+
+
+#unordered-dd-list-item {
+    width: 100%;
+    height: $sizing-6;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: $type-sizing-2;
+    color: inherit;
+}
+
+#unordered-dd-list-item:hover {
+    width: 100%;
+    background-color: $grey-1;
+    // border-radius: $sizing-1;
+    color: $grey-9;
+    cursor: pointer;
+}
+
+#unordered-dd-list-text {
+    margin: none;
+    font-weight: 200;
+    font-size: $type-sizing-2;
+    color: inherit;
+}
+
+#unordered-dropdown-up {
+    height: $sizing-2;
+    width: $sizing-2;
+    fill: inherit;
+}
+
+#unordered-dropdown-down {
+    fill: inherit;
+    height: $sizing-2;
+    width: $sizing-2;
+}
+

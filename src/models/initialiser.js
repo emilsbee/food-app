@@ -6,7 +6,7 @@ import uniqid from 'uniqid'
 // Internal imports
 import { store } from '../index'
 import database from '../components/firebase/firebase'
-import { weekStructure, initRecipeCategoryNames } from '../utils/structure'
+import { weekStructure, initRecipeCategoryNames, initGroceryCategoryNames } from '../utils/structure'
 
 
 
@@ -28,7 +28,8 @@ const initialiser = {
                 year_weekNr: `${year}_${weekNr}`
             }).key
     
-    
+            
+
             updates[`users/${uid}/yearWeekNumbers/${year}_${weekNr}`] = newWeekid
             updates[`users/${uid}/yearWeeks/${year}/${weekNr}`] = newWeekid
             updates[`users/${uid}/years/${year}`] = true
@@ -36,7 +37,10 @@ const initialiser = {
             for (var categoryIndex in initRecipeCategoryNames) {        
                     updates[`users/${uid}/recipeCategoryNames/${uniqid()}`] = initRecipeCategoryNames[categoryIndex]
             }
-            
+
+            for (var categoryNameid in initGroceryCategoryNames) {
+                updates[`users/${uid}/groceryCategories/${uniqid()}`] = initGroceryCategoryNames[categoryNameid]
+            }
 
             await database.ref().update(updates)
         } else {

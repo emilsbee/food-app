@@ -26,24 +26,24 @@
 
 #manage-recipes-title {
     height: $sizing-10;
+    border-bottom: 1px solid $sgrey-1;
     background-color: $grey-1;
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    border-bottom: 1px solid $sgrey-1;
-
+    
 }
 
 #manage-recipes-title-text {
     width: 55%;
     font-size: $type-sizing-6;
     font-weight: 100;
+    color: $sgrey-8;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    color: $sgrey-8;
 }
 
 #manage-recipes-add-recipe {

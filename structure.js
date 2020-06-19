@@ -32,17 +32,17 @@ const {
     },
 
     // Groceries
-    groceries: {
-        groceryName: groceryCategory
-    },
-    groceryCategories: {
-        groceryCategory: {
+    groceryCategoryList: {
+        groceryCategoryid: {
             groceryName: True
         }
     },
-    groceryCategoryNames: {
-        groceryCategory: True
+    groceries: {
+        groceryName: groceryCategoryid
     },
+    groceryCategories: {
+        groceryCategoryid: groceryCategoryName
+     },
 
     // Weeks
     weeks: {

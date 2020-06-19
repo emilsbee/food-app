@@ -1,0 +1,33 @@
+@import '../../styles/base/settings';
+
+
+#grocery-category-modal-container {
+    width: $sizing-17;
+    height: $sizing-12;
+    border-radius: $sizing-6;
+    background-color: white;
+    
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+#grocery-category-modal-label {
+  font-size: $type-sizing-4;
+  font-weight: 200;
+  color: $grey-6;
+
+  margin-left: $sizing-8;
+}
+
+#grocery-category-modal-input {
+  width: $sizing-14;
+  border: none;
+  border-bottom: 1px solid $grey-3;
+  margin-right: $sizing-9;
+
+  font-size: $type-sizing-4;
+  font-weight: 200;
+}

@@ -1,7 +1,6 @@
 import uniqid from 'uniqid'
 
 export const weekStructure = () => {
-    console.log(weekObj)
     var weekObj = {}
     weekObj['recipes'] = {
         Monday: {
@@ -47,51 +46,27 @@ export const weekStructure = () => {
     
     return weekObj
 }
-// export const weekStructure = {
-//         groceries: {
-
-//         },
-//         recipes: {
-//             Monday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//             Tuesday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//             Wednesday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//             Thursday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//             Friday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//             Saturday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//             Sunday: {
-//                 recipeName: "",
-//                 recipeid: ""
-//             },
-//         },
-//         total: 0,
-// }
 
 export const initRecipeCategoryNames = [
     "Rice",
-    "Burgers",
     "Soups",
-    "Wraps",
-    "Chinese",
-    "Indian",
-    "Mexican",
+    "Burgers and wraps",
+    "Chinese", 
+    "Indian", 
+    "Mexican", 
     "Desserts",
-    "Salads"
+    "Salads",
+    "Potatoes" 
 ]
+
+export const initGroceryCategoryNames = [
+    "Beverages", 
+    "Bakery",
+    "Canned", 
+    "Dairy", 
+    "Baking goods",
+    "Frozen",
+    "Meat", 
+    "Produce"
+]
+

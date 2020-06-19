@@ -1,28 +1,26 @@
 // External imports
 import React, { useState, useContext } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import onClickOutside from "react-onclickoutside";
 
 // Internal imports
+import './new-grocery-category-modal.scss'
+import NewGroceryCategoryModalForm from './NewGroceryCategoryModalForm'
 
-
-const NewGroceryCategoryModal = ({handleModalClose, grocery, handleModalSave }) => {
-    const [categoryName, setCategoryName] = useState('')
-
+function NewGroceryCategoryModal  ({grocery, handleModalSave, handleModalClose })  {
     const handleSubmit = (e) => {
-        e.preventDefault()
-        handleModalSave({category: categoryName, grocery})
+        handleModalSave({category: e, grocery})
     }
+
+    
 
 
     return (
-        <div className="modal display-block">
-            <section className="modal-main">``
-                <button onClick={handleModalClose}>close</button>
-                {/* <button onClick={() => handleModalSave(categoryName)}>Save</button> */}
-                <form onSubmit={handleSubmit}>
-                    <input value={categoryName} onChange={(e) => setCategoryName(e.target.value)} />
-                </form>
-            </section>
+        <div id="grocery-category-modal-outer-container">
+            <NewGroceryCategoryModalForm 
+                handleSubmit={handleSubmit}
+                handleModalClose={handleModalClose}
+            />
         </div>
     )
 }

@@ -26,6 +26,7 @@ function IngredientInput ({
                 onBlur={addIngredientToRecipe}
             >
                 <input 
+                    maxLength="28"
                     autoFocus
                     id="ingredient-input"
                     type="text" 

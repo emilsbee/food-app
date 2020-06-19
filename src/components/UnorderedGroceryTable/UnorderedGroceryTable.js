@@ -3,20 +3,24 @@ import React, { useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
+import CategoryDropdown from './CategoryDropdown'
 import NewGroceryCategoryModal from '../NewGroceryCategoryModal/NewGroceryCategoryModal'
+import './UnorderedGroceries.scss'
 
-const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames }) => {
+const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames, sortGroceries }) => {
     const addGrocery = useStoreActions(actions => actions.groceries.addGrocery)
     const [modalState, setModalState] = useState(false)
+    
+    
 
     const handleSelect = ({ grocery, category }) => {
         if (category === 'New category') {
             setModalState(grocery)
             return 
-        } else if (category === 'Choose category') {
-            return 
-        } else {
-            addGrocery({grocery, category})
+        }  else {
+            addGrocery({grocery, category}).then(() => {
+                sortGroceries()
+            })
         }
     }
 
@@ -25,41 +29,54 @@ const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames }) => {
     }
 
     const handleModalSave = ({ category, grocery }) => {
-        addGrocery({grocery, category, type: 'NEW_CATEGORY'})
         setModalState(false)
+        addGrocery({grocery, category}).then(() => {
+            sortGroceries()
+        })
     }
     
 
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Uncategorised</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div id="unordered-grocery-table-container">
+            <div id="unordered-grocery-table">
+                <div id="unordered-grocery-table-title">
+                    <div id="unordered-grocery-table-title-text">
+                        Uncategorised
+                    </div>
+                </div>                 
+                <div id="unordered-grocery-table">
                 {unsortedGroceries.map((grocery) => {
                     return ( 
-                        <tr key={Object.keys(grocery)[0]} >
-                            <td>{Object.values(grocery)[0].product}</td>
-                            <td>{Object.values(grocery)[0].amount}</td>
-                            <td >
-                                <select onChange={(e) => handleSelect({grocery, category:e.target.value})}>
-                                    <option defaultValue={true}>Choose category</option>
-                                    {categoryNames.map((category) => {
-                                        return <option key={category}>{category}</option>
-                                    })}
-                                    <option>New category</option>
-                                </select>
-                            </td>
-                        </tr>
+                        <div 
+                            key={Object.keys(grocery)[0]} 
+                            id="unordered-grocery-container"
+                        >
+                            <div id="unordered-grocery-product">
+                                {Object.values(grocery)[0].product}
+                            </div>
+                            <div id="unordered-grocery-amount">
+                                {Object.values(grocery)[0].amount}
+                            </div>
+                            <div id="unordered-grocery-category">
+                                <CategoryDropdown 
+                                    onChange={(e) => handleSelect({grocery, category:e})} 
+                                    title='Choose category'
+                                    list={categoryNames}
+                                    grocery={grocery}
+                                />
+                                
+                            </div>
+                        </div>
                     )
                 })}
-                </tbody>
-            </table>
+                </div>
+            </div>
         
-            {modalState && <NewGroceryCategoryModal handleModalClose={handleModalClose} grocery={modalState} handleModalSave={handleModalSave} />}
+            {modalState && 
+                <NewGroceryCategoryModal 
+                    handleModalClose={handleModalClose} 
+                    grocery={modalState} 
+                    handleModalSave={handleModalSave} />}
         </div>
     )
 }
