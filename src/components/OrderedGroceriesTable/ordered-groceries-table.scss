@@ -48,7 +48,6 @@
 
 #ordered-grocery-category-title {
     width: 50%;
-    border-bottom: 1px solid $grey-4;
     padding-bottom: $sizing-1;
     margin-bottom: $sizing-4;
 
@@ -57,9 +56,9 @@
     justify-content: center;
     align-items: center;
 
-    font-size: $type-sizing-4;
+    font-size: $type-sizing-5;
     font-weight: 200;
-    color: $grey-9;
+    color: $primary-9;
 }
 
 #ordered-grocery-table-grocery-container {
@@ -83,6 +82,7 @@
 
 #ordered-grocery-table-grocery-product {
     width: 47%;
+    margin-right: $sizing-3;
 
     display: flex;
     flex-direction: row;
@@ -101,6 +101,7 @@
 }
 #ordered-grocery-table-grocery-amount {
     width: 47%;
+    margin-left: $sizing-3;
 
     display: flex;
     flex-direction: row;

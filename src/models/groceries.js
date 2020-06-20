@@ -1,6 +1,7 @@
 // External imports 
 import { thunk, action, computed } from 'easy-peasy';
 import uniqid from 'uniqid'
+import moment from 'moment'
 
 // Internal imports 
 import database from '../components/firebase/firebase'
@@ -13,25 +14,37 @@ const groceriesModel = {
     startWeekGroceriesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
-        var weekGroceriesRef = database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`)
-        weekGroceriesRef.on('value', function(snapshot) {
-            if (snapshot.val()) {
-                var groceries = snapshot.val()
-                var nonEmptyGroceries = []
+        var weekid;
 
-                Object.keys(groceries).forEach((groceryid) => {
-                    if (groceries[groceryid].product.trim() !== '') {
-                        var groceryObj = {}
-                        groceryObj[groceryid] = groceries[groceryid]
-                        nonEmptyGroceries.push(groceryObj)
+        if (payload.weekid === null) {
+            var weekNr = moment().isoWeek()
+            var year = moment().year()
+
+            weekid = await database.ref(`users/${uid}/yearWeekNumbers/${year}_${weekNr}`).once('value')
+        }
+
+
+        if (weekid !== null) {
+            var weekGroceriesRef = database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`)
+            weekGroceriesRef.on('value', function(snapshot) {
+                if (snapshot.val()) {
+                    var groceries = snapshot.val()
+                    var nonEmptyGroceries = []
+    
+                    Object.keys(groceries).forEach((groceryid) => {
+                        if (groceries[groceryid].product.trim() !== '') {
+                            var groceryObj = {}
+                            groceryObj[groceryid] = groceries[groceryid]
+                            nonEmptyGroceries.push(groceryObj)
+                        }
+                    })
+    
+                    if (nonEmptyGroceries.length !== 0) {
+                        actions.setGroceries({type: 'UNSORTED_ALL', groceries: nonEmptyGroceries})
                     }
-                })
-
-                if (nonEmptyGroceries.length !== 0) {
-                    actions.setGroceries({type: 'UNSORTED_ALL', groceries: nonEmptyGroceries})
-                }
-            } 
-        })
+                } 
+            })
+        }
     }),
     stopWeekGroceriesListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid

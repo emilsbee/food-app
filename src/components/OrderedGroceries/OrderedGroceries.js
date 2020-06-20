@@ -47,6 +47,8 @@ const OrderedGroceries = (props) => {
         }
     }
 
+    
+
     return (
         <div className="ordered-groceries-container">
             <OrderedGroceriesNavBar />

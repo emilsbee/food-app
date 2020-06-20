@@ -9,11 +9,11 @@ import { formatData } from './utils/utils'
 
 const OrderedGroceriesTable = ({sortedGroceries}) => {
     const [localData, setLocalData] = useState(false)
-
+    
     useEffect(() => {   
         setLocalData(formatData({sortedGroceries}))
-    }, [])
-
+    }, [sortedGroceries])
+    
     return (
         <div id="ordered-grocery-table-container">
             {localData && 

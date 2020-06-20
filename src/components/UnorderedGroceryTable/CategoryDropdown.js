@@ -16,6 +16,7 @@ function CategoryDropdown ({
     const [listOpen, setListOpen] = useState(false)
     
     CategoryDropdown.handleClickOutside = () => {
+        
         setListOpen(false)
     }
 
@@ -23,7 +24,6 @@ function CategoryDropdown ({
         onChange(e)
         setListOpen(false)
     }
-
     return (
         <div id="unordered-dd-wrapper">
             <div id={`unordered-dd-header_${listOpen ? "is-open" : ''}`} onClick={() => setListOpen(!listOpen)}>
