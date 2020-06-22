@@ -96,6 +96,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
   
 .view-ingredients-card {
@@ -104,21 +105,26 @@
 
 
 .main-dashboard-recipe-card__header {
-    height: $sizing-10;
+    background-color: $primary-8;
+    border-top-left-radius: $sizing-5;
+    border-top-right-radius: $sizing-5;
+    height: 55px;
+    border-bottom: 1px solid $sgrey-2;
+
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    
     font-weight: 100;
-    border-bottom: 1px solid $sgrey-2;
-    width: $sizing-11;
+    width: 100%;
 
 }
 
 #main-dashboard-recipe-card__header-text {
-    color: $sgrey-7;
-    font-weight: 300;
-    font-size: $type-sizing-5;
+    color: white;
+    font-weight: 100;
+    font-size: $type-sizing-4;
 }
 
 #main-dashboard-recipe-card-footer {

@@ -1,5 +1,5 @@
 // External imports
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
@@ -10,8 +10,7 @@ import './UnorderedGroceries.scss'
 const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames, sortGroceries }) => {
     const addGrocery = useStoreActions(actions => actions.groceries.addGrocery)
     const [modalState, setModalState] = useState(false)
-    
-    
+
 
     const handleSelect = ({ grocery, category }) => {
         if (category === 'New category') {
@@ -32,7 +31,7 @@ const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames, sortGroceries
         setModalState(false)
         
         addGrocery({grocery, category, type: 'NEW_CATEGORY'}).then(() => {
-            sortGroceries()
+            // sortGroceries()
         })
     }
     
@@ -41,12 +40,10 @@ const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames, sortGroceries
         <div id="unordered-grocery-table-container">
             <div id="unordered-grocery-table">
                 <div id="unordered-grocery-table-title">
-                    <div id="unordered-grocery-table-title-text">
-                        Uncategorised
-                    </div>
+
                 </div>                 
                 <div id="unordered-grocery-table">
-                {unsortedGroceries.map((grocery) => {
+                {unsortedGroceries.length > 0 ? unsortedGroceries.map((grocery) => {
                     return ( 
                         <div 
                             key={Object.keys(grocery)[0]} 
@@ -69,7 +66,12 @@ const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames, sortGroceries
                             </div>
                         </div>
                     )
-                })}
+                })
+                :
+                <div id="unordered-grocery-empty">
+                    All groceries categorised!
+                </div>
+                }
                 </div>
             </div>
         

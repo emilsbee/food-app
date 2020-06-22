@@ -1,5 +1,5 @@
 // External imports 
-import { thunk, action, computed } from 'easy-peasy';
+import { thunk, action, computed, thunkOn, actionOn } from 'easy-peasy';
 import uniqid from 'uniqid'
 import moment from 'moment'
 
@@ -88,6 +88,13 @@ const groceriesModel = {
     setSortedGroceryCategoryNames: action((state, payload) => {
         state.categoryNames = payload
     }),
+    onAddGrocery: thunkOn(
+        actions => actions.addGrocery,
+
+        async (actions, target) => {
+            
+        }
+    ),
     addGrocery: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         

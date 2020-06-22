@@ -1,6 +1,7 @@
 // External imports
 import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import uniqid from 'uniqid'
 
 // Internal imports
 import GroceryListInput from '../GroceryListInput/GroceryListInput'
@@ -9,21 +10,18 @@ import './MainDashboardGroceryTable.scss'
 
 
 const MainDashboardGroceryTable = ({ groceries, weekid, cardAnimationName }) => {
-    const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
-    
+    const setWeek = useStoreActions(actions => actions.newWeeks.setWeek)
 
-    const startUpdateGrocery = (data) => {
-        updateWeek({
-            type: data.type,
-            product: data.product,
-            nextValue: data.nextValue,
-            weekid,
-            groceryid: data.groceryid
-        })
+    const handleUpdateGroceries = ({ data, type, groceryid }) => {
+        if (type === 'PRODUCT') {
+            setWeek({ type: 'UPDATE_GROCERY_PRODUCT', groceryid, product: data })
+        } else if (type === 'AMOUNT') {
+            setWeek({ type: 'UPDATE_GROCERY_AMOUNT', groceryid, amount: data })
+        }
     }
 
     const onClick = () => {
-        updateWeek({weekid, type:"GROCERY_ADD"})
+        setWeek({weekid, type:"NEW_GROCERY_SLOT", groceryid: uniqid()})
     }
 
     const [localTable, setLocalTable] = useState(true)
@@ -55,6 +53,9 @@ const MainDashboardGroceryTable = ({ groceries, weekid, cardAnimationName }) => 
 
     return (
         <div id="dashboard-grocery-table-container">
+            <div id="dashboard-grocery-table-container-label">
+                Week's grocery list
+            </div>
             {localTable && groceries &&
             <div id="dashboard-grocery-table" style={{"animationName": animName}}>   
                 
@@ -69,7 +70,7 @@ const MainDashboardGroceryTable = ({ groceries, weekid, cardAnimationName }) => 
                         return (
                         <div key={groceryid} id="dashboard-grocery-input-container">
                                 <GroceryListInput 
-                                    onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: data, amount: groceries[groceryid].amount}, groceryid})}
+                                    onSubmit={(data) => handleUpdateGroceries({type: 'PRODUCT', data, groceryid})}
                                     item={groceries[groceryid].product}
                                     type={'product'}
                                 />
@@ -78,7 +79,7 @@ const MainDashboardGroceryTable = ({ groceries, weekid, cardAnimationName }) => 
                             
                                 <GroceryListInput 
                                     type={'amount'}
-                                    onSubmit={(data) => startUpdateGrocery({type: 'GROCERY_UPDATE', product: groceries[groceryid].product, nextValue: {product: groceries[groceryid].product, amount: data}, groceryid})}
+                                    onSubmit={(data) => handleUpdateGroceries({type: 'AMOUNT', data, groceryid})}
                                     item={groceries[groceryid].amount}
                                 />
                             

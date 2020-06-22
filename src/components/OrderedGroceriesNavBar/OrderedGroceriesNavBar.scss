@@ -10,8 +10,25 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+#ordered-groceries-nav-bar-title {
+    height: 100%;
+    
+    
+    flex-grow: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
     font-size: $type-sizing-6;
     font-weight: 100;
     color: $sgrey-8;;
+}
+
+#ordered-groceries-nav-bar-toolbar {
+    height: 100%;
+    
+    flex-grow: 1;
 }

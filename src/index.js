@@ -2,7 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { createStore, StoreProvider } from 'easy-peasy'
+import { createStore, StoreProvider, useStoreActions } from 'easy-peasy'
+
+
 
 
 // Internal imports
@@ -45,15 +47,10 @@ const renderApp = () => {
 }
 ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
-        store.dispatch.init.initialiseUser().then(() => {
-            renderApp()
-            if (history.location.pathname === '/' || history.location.pathname === '/sign-up') {
-                history.push(`/dashboard`)
-            }
-        })
+        store.dispatch.init.initialiseUser({history, renderApp})
     } else {
         store.dispatch.auth.logout()
         renderApp()

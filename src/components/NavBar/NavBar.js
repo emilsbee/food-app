@@ -74,7 +74,7 @@ const NavBar = (props) => {
                         className="navigation-link" 
                         to={`/ordered-groceries/${currentWeekid}`}
                     >
-                        Ordered groceries
+                        Grocery list
                     </NavLink>
                 </div>
                

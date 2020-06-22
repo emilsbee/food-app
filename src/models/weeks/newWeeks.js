@@ -1,18 +1,21 @@
 // External imports 
-import { thunk, action, computed } from 'easy-peasy';
+import { thunk, action, computed, thunkOn, actionOn } from 'easy-peasy';
+import uniqid from 'uniqid'
 import moment from 'moment'
-
+import { debounce } from "debounce";
 
 // Internal imports 
 import database from '../../components/firebase/firebase'
 import { store } from '../../index'
-import { weekStructure, initRecipeCategoryNames } from '../../utils/structure'
+import { weekStructure } from '../../utils/structure'
 import { orderByDays } from './utils'
 
 const newWeeksModel = {
     yearWeeks: [],
     years: [],
-    week: null,
+    week: {
+        groceries: {}
+    },
     startWeekListener: thunk( async(actions, payload) => {
         const uid = store.getState().auth.uid
         const curWeek = store.getState().newWeeks.week
@@ -117,7 +120,8 @@ const newWeeksModel = {
         var weekRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weekRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
-            weekObj["weekid"] = snapshot.key            
+            weekObj["weekid"] = snapshot.key
+            sessionStorage.setItem('weekid', snapshot.key)            
             actions.populateWeekRecipes(weekObj)
             actions.setYearWeeks({weeks: moment().isoWeeksInYear(weekObj.year)})
         })   
@@ -125,7 +129,6 @@ const newWeeksModel = {
     stopWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/weeks/`).off()
-        // actions.setWeek(null)
     }),
     populateWeekRecipes: thunk(async(actions, payload) => {
         const uid = store.getState().auth.uid
@@ -144,22 +147,58 @@ const newWeeksModel = {
             }
         }
         payload.recipes = recipeArr
-        actions.setWeek(payload)
+        actions.setWeek({type: 'ALL', ...payload})
     }), 
+    onSetWeek: thunkOn(
+
+        actions => actions.setWeek,
+
+        async (actions, target) => {
+            const uid = store.getState().auth.uid
+            const weekid = sessionStorage.getItem('weekid')
+        
+            if (target.payload.type === 'UPDATE_GROCERY_PRODUCT') {
+                await database.ref(`users/${uid}/weeks/${weekid}/groceries/${target.payload.groceryid}/product`).set(target.payload.product)
+            } else if (target.payload.type === 'UPDATE_GROCERY_AMOUNT') {
+                await database.ref(`users/${uid}/weeks/${weekid}/groceries/${target.payload.groceryid}/amount`).set(target.payload.amount)
+            } else if (target.payload.type === 'NEW_GROCERY') {
+                await database.ref(`users/${uid}/weeks/${weekid}/groceries/${target.payload.groceryid}`).set(
+                    {
+                        amount: target.payload.amount,
+                        product: target.payload.product
+                    }
+                )
+            } else if (target.payload.type === 'NEW_GROCERY_SLOT') {
+                await database.ref(`users/${uid}/weeks/${weekid}/groceries/${target.payload.groceryid}`).set({amount: '', product: '' })
+            }
+        }
+    ),
+    setWeek: action ((state, payload) => {
+        switch (payload.type) {
+            case 'ALL':               
+                const recipes = orderByDays(payload.recipes)
+                payload["recipes"] = recipes
+                state.week = payload
+                break;
+            case 'NEW_GROCERY_SLOT': 
+                state.week.groceries[payload.groceryid] = {product: '', amount: ''}
+                break;
+            case 'NEW_GROCERY':
+                state.week.groceries[payload.groceryid] = {product: payload.product, amount: payload.amount}
+                break;
+            case 'UPDATE_GROCERY_AMOUNT': 
+                state.week.groceries[payload.groceryid]['amount'] = payload.amount
+                break;
+            case 'UPDATE_GROCERY_PRODUCT': 
+                state.week.groceries[payload.groceryid]['product'] = payload.product
+                break;
+        }
+
+    }),
     updateWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
         switch(payload.type) {
-            case "GROCERY_UPDATE": 
-                await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries/${payload.groceryid}`).set(payload.nextValue)
-                break;
-            case 'GROCERY_ADD':
-                if(!payload.product) {
-                    await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).push({product: "", amount: ""})
-                } else {
-                    await database.ref(`users/${uid}/weeks/${payload.weekid}/groceries`).push({product: payload.product, amount: !payload.amount && ''})
-                }
-                break;
             case 'TOTAL_UPDATE':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}`).update({total: payload.total})
                 break;
@@ -186,9 +225,6 @@ const newWeeksModel = {
         updates[`users/${uid}/yearWeeks/${payload.year}/${payload.weekNr}`] = newWeekid
         updates[`users/${uid}/years/${payload.year}`] = true
         
-        updates[`users/${uid}/recipeCategoryNames/`] = initRecipeCategoryNames
-
-
         await database.ref().update(updates, function (error) {
             actions.startWeekListener({
                 type: 'SPECIFIC_WEEK', 
@@ -250,13 +286,7 @@ const newWeeksModel = {
     }),
     setYears: action((state, payload) => {
         state.years = payload
-    }),
-    setWeek: action ((state, payload) => {
-        const recipes = orderByDays(payload.recipes)
-        payload["recipes"] = recipes
-        state.week = payload
     })
-
 }
 
 

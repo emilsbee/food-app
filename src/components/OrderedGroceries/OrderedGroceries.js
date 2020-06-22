@@ -6,22 +6,34 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import { sortGroceries } from './utils/utils'
 import OrderedGroceriesNavBar from '../OrderedGroceriesNavBar'
 import OrderedGroceriesTable from '../OrderedGroceriesTable/OrderedGroceriesTable'
+import OrderedGroceriesTableHeader from '../OrderedGroceriesTableHeader'
 import UnorderedGroceryTable from '../UnorderedGroceryTable/UnorderedGroceryTable'
 import './ordered-groceries.scss'
 
 const OrderedGroceries = (props) => {    
     const startCategoryNameListener = useStoreActions(actions => actions.groceries.startCategoryNameListener) 
     const stopCategoryNameListener = useStoreActions(actions => actions.groceries.stopCategoryNameListener) 
-    const categoryNames = useStoreState(state => state.groceries.categoryNames)
+    const categoryNames = useStoreState(
+        state => state.groceries.categoryNames,
+        (prev, next) => {
+            return false
+        }
+    )
     
     const startWeekGroceriesListener = useStoreActions(actions => actions.groceries.startWeekGroceriesListener) 
     const stopWeekGroceriesListener = useStoreActions(actions => actions.groceries.stopWeekGroceriesListener) 
-    const unsortedGroceries = useStoreState(state => state.groceries.unsortedGroceries)
+    const unsortedGroceries = useStoreState(
+        state => state.groceries.unsortedGroceries,
 
-    const [localUnsorted, setLocalUnsorted] = useState(false)
-    const [localSorted, setLocalSorted] = useState(false)
+        (prev, next) => {
+            return false
+        }
+    )
+
+    const [localUnsorted, setLocalUnsorted] = useState([])
+    const [localSorted, setLocalSorted] = useState([])
     const [localCategoryNames, setLocalCategoryNames] = useState(false)
-    
+    const [activeHeader, setActiveHeader] = useState(false)
 
     useEffect(() => {
         startCategoryNameListener()
@@ -35,11 +47,26 @@ const OrderedGroceries = (props) => {
         }
     }, [])
 
+    
     useEffect(() => {
+        setLocalCategoryNames(categoryNames)
         if (unsortedGroceries && categoryNames) {
-            sortGroceries({unsortedGroceries, categoryNames, setLocalUnsorted, setLocalSorted, setLocalCategoryNames})
+            sortGroceries({unsortedGroceries, categoryNames, setLocalUnsorted, setLocalSorted})
+        } 
+        if (localUnsorted.length > 0) {
+            setActiveHeader('unsorted')
+        } else {
+            setActiveHeader('sorted')
         }
     }, [unsortedGroceries, categoryNames])
+
+    useEffect(() => {
+        if (localUnsorted.length > 0) {
+            setActiveHeader('unsorted')
+        } else if (localUnsorted.length > 0) {
+            setActiveHeader('sorted')
+        }
+    }, [localUnsorted, localSorted])
 
     const handleSortGroceries = () => {
         if (unsortedGroceries && categoryNames) {
@@ -47,21 +74,34 @@ const OrderedGroceries = (props) => {
         }
     }
 
-    
 
     return (
         <div className="ordered-groceries-container">
             <OrderedGroceriesNavBar />
             
-            {localUnsorted.length > 0 && 
-                <UnorderedGroceryTable 
-                    categoryNames={localCategoryNames}  
-                    unsortedGroceries={localUnsorted}
-                    sortGroceries={handleSortGroceries}
-                />
+            { 
+                <div id="ordered-groceries-content">
+                    <OrderedGroceriesTableHeader setActiveHeader={setActiveHeader} activeHeader={activeHeader}/>
+
+                    {activeHeader === 'unsorted' &&  
+                        <UnorderedGroceryTable 
+                            categoryNames={categoryNames}  
+                            unsortedGroceries={localUnsorted}
+                            sortGroceries={handleSortGroceries}
+                        />
+                    }   
+
+                    {activeHeader === 'sorted' && 
+                        <OrderedGroceriesTable  
+                            sortedGroceries={localSorted}
+                        />
+                    }
+                </div>
             }
+
             
-            {localSorted && <OrderedGroceriesTable  sortedGroceries={localSorted}/>}
+            
+            
             
             
         </div>

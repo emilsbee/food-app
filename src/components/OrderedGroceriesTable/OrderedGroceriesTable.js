@@ -8,8 +8,8 @@ import { sortGroceries } from '../OrderedGroceries/utils/utils'
 import { formatData } from './utils/utils'
 
 const OrderedGroceriesTable = ({sortedGroceries}) => {
-    const [localData, setLocalData] = useState(false)
-    
+    const [localData, setLocalData] = useState([])
+    console.log(localData)
     useEffect(() => {   
         setLocalData(formatData({sortedGroceries}))
     }, [sortedGroceries])
@@ -19,9 +19,9 @@ const OrderedGroceriesTable = ({sortedGroceries}) => {
             {localData && 
                 <div id="ordered-grocery-table">
                     <div id="ordered-grocery-table-title">
-                        <div id="ordered-grocery-table-title-text">
-                            Categorised groceries
-                        </div>
+                        {/* <div id="ordered-grocery-table-title-text">
+                            Categorised 
+                        </div> */}
                     </div> 
 
                     <div id="ordered-grocery-table">

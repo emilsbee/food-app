@@ -7,11 +7,12 @@ export const sortGroceries = ({
     
     setLocalUnsorted,
     setLocalSorted,
-    setLocalCategoryNames
 }) => {
 
     var ordered = []
     var unordered = []
+
+  
 
     unsortedGroceries.forEach( async (weekGroceryObj, index) => {
         const uid = store.getState().auth.uid
@@ -28,11 +29,9 @@ export const sortGroceries = ({
             
             unordered.push(weekGroceryObj)
         }
-
         if (index === unsortedGroceries.length-1) {
             setLocalUnsorted(unordered)
             setLocalSorted(ordered)
-            setLocalCategoryNames(categoryNames) 
         }
     })
 

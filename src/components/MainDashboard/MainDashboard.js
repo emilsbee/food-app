@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports
+import { addIngredientToGroceries } from './utils/utils'
 import MainDashboardRecipeCard from '../MainDashboardRecipeCard/MainDashboardRecipeCard'
 import MainDashboardGroceryTable from '../MainDashboardGroceryTable/MainDashboardGroceryTable'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
@@ -11,50 +12,45 @@ import LoadingPage from '../LoadingPage/LoadingPage'
 import { ReactComponent as Close } from './utils/close.svg'
 
 const MainDashboard = (props) => {
-    const week = useStoreState(state => state.newWeeks.week)
+    const week = useStoreState(
+        state => state.newWeeks.week,
+
+        (prev, next) => {
+            return false
+        }
+    )
     const years = useStoreState(state => state.newWeeks.years)
     const yearWeeks = useStoreState(state => state.newWeeks.yearWeeks)
+
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.newWeeks.stopWeekListener)
     const startYearListener = useStoreActions(actions => actions.newWeeks.startYearListener)
     const stopYearListener = useStoreActions(actions => actions.newWeeks.stopYearListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
     const stopYearWeekListener = useStoreActions(actions => actions.newWeeks.stopYearWeekListener)
-    const updateWeek = useStoreActions(actions => actions.newWeeks.updateWeek)
-    
+    const setWeek = useStoreActions(actions => actions.newWeeks.setWeek)
+   
     const [recipeIngredientToggle, setRecipeIngredientToggle] = useState(false)
-    const [recipeIngredientButtonHide, setRecipeIngredientButtonHide] = useState(false)
-    
     
     const [cardAnimationName, setCardAnimationName] = useState(false)
     const [animName, setAnimName] = useState('fadeIn')
     
-
     useEffect(() => {
-        
-        if (props.match.params.weekid === undefined || props.match.params.weekid === '' || props.match.params.weekid === null) {
+       
+
+        if (props.match.params.weekid === undefined || props.match.params.weekid === '' || props.match.params.weekid === null || props.match.params.weekid === "undefined") {
                 startWeekListener({type: 'CURRENT_WEEK'})
         } else {
             startWeekListener({
                 weekid: props.match.params.weekid
             }) 
         }
-        return () => {
-            // stopWeekListener()
-            
-        }
-    }, [])
-
-    useEffect(() => {
         startYearListener()
-        return () => {
-            stopYearListener()
-        }
-    }, [])
 
-    useEffect(() => {
         startYearWeekListener({type:'LATEST_YEAR', year: Math.max(years)})
         return () => {
+            // stopWeekListener()
+            stopYearListener()
             stopYearWeekListener()
         }
     }, [])
@@ -64,37 +60,11 @@ const MainDashboard = (props) => {
     }
 
     const handleAddIngredientToGroceries = (data) => {
-        if(week.groceries) {
-            var groceries = Object.values(week.groceries)
-            var keys = Object.keys(week.groceries)
-            for (var i = 0; i < groceries.length; i++) {
-                if (groceries[i].product === "" && groceries[i].amount === "") {
-                    updateWeek({
-                        type: 'GROCERY_UPDATE',
-                        weekid: week.weekid,
-                        groceryid: keys[i],
-                        nextValue: {
-                            amount: "",
-                            product: data.product
-                        }
-                    })
-                    return
-                } 
-            }  
-            updateWeek({
-                type: 'GROCERY_ADD',
-                weekid: week.weekid,
-                amount: "",
-                product: data.product
-            }) 
-        } else {
-            updateWeek({
-                type: 'GROCERY_ADD',
-                weekid: week.weekid,
-                amount: "",
-                product: data.product
-            })
-        }
+        addIngredientToGroceries({
+            data,
+            setWeek,
+            week
+        })
     }  
 
     const handleCloseIngredientModal = () => {
@@ -108,7 +78,7 @@ const MainDashboard = (props) => {
     return (
         
         <div>
-            {week && years ?  
+            {week.weekNr && years ?  
             <div>
                 <MainDashboardNavBar 
                     weekNr={week.weekNr} 
@@ -121,8 +91,11 @@ const MainDashboard = (props) => {
                 />
                 
                 <div id="main-dashboard-content">
+                <div id="main-dashboard-label">
+                    Week's recipe list
+                </div>  
                 <div className='recipe-list'>
-                    {week ? week.recipes.map((recipe) => {
+                    {week.weekNr ? week.recipes.map((recipe) => {
                         
                         return (
                             <MainDashboardRecipeCard 
@@ -157,14 +130,12 @@ const MainDashboard = (props) => {
                         return ( 
                             <div 
                                 key={ingredient} 
-                                onMouseEnter={() => setRecipeIngredientButtonHide(ingredient)} 
-                                onMouseLeave={() => setRecipeIngredientButtonHide(false)}
                                 id="dashboard-grocery-ingredient-container"
                             >   
                                 <p  
                                     style={{"animationName": animName}}
                                     id="dashboard-grocery-ingredient-name"
-                                    onClick={() => handleAddIngredientToGroceries({product: ingredient})}
+                                    onClick={() => handleAddIngredientToGroceries(ingredient)}
                                 >
                                     {ingredient}
                                 </p>

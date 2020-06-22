@@ -14,6 +14,8 @@ function CategoryDropdown ({
     grocery
 })  {
     const [listOpen, setListOpen] = useState(false)
+
+    
     
     CategoryDropdown.handleClickOutside = () => {
         

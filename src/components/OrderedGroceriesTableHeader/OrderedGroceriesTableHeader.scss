@@ -1,0 +1,76 @@
+@import '../../styles/base/settings';
+
+
+#ordered-groceries-header-container {
+    width: 70%;
+    height: $sizing-5;
+    margin-top: $sizing-9;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#ordered-groceries-header-organised {
+    width: 49.5%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#ordered-groceries-header-organised-text {
+    margin-right: $sizing-5;
+    padding: $sizing-4;
+    border-radius: $sizing-6;
+
+    transition: 300ms;
+
+    font-size: $type-sizing-5;
+    font-weight: 200;
+    color: $grey-9;
+}
+
+#ordered-groceries-header-organised-text:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+#ordered-groceries-header-separ {
+    height: 100%;
+    width: 1%;
+    
+    border-right: 1px solid $grey-5;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center
+}
+
+#ordered-groceries-header-unorganised {
+    width: 49.5%;
+
+    
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#ordered-groceries-header-unorganised-text {
+    margin-left: $sizing-5;
+    padding: $sizing-4;
+    border-radius: $sizing-6;
+
+    transition: 300ms;
+
+    font-size: $type-sizing-5;
+    font-weight: 200;
+    color: $grey-9;
+}
+
+#ordered-groceries-header-unorganised-text:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+}

@@ -6,7 +6,15 @@ const OrderedGroceriesNavBar = () => {
   
   return (
     <div id="OrderedGroceriesNavBarContainer">
-      Ordered groceries
+      <div style={{"flexGrow": 1}}>
+
+      </div>
+      <div id="ordered-groceries-nav-bar-title">
+        Grocery list
+      </div>
+      <div id="ordered-groceries-nav-bar-toolbar">
+
+      </div>
     </div>
     )
 };
