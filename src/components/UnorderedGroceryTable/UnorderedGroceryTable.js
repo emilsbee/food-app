@@ -30,9 +30,7 @@ const UnorderedGroceryTable = ({ unsortedGroceries, categoryNames, sortGroceries
     const handleModalSave = ({ category, grocery }) => {
         setModalState(false)
         
-        addGrocery({grocery, category, type: 'NEW_CATEGORY'}).then(() => {
-            // sortGroceries()
-        })
+        addGrocery({grocery, category, type: 'NEW_CATEGORY'})
     }
     
 

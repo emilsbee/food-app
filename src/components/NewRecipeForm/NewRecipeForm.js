@@ -50,18 +50,22 @@ const NewRecipeForm = ({weekid, onSubmit, recipeCategoryNames }) => {
                 <div id="new-recipe-form-title-back-container">
                     <div id="new-recipe-form-title-back-inner-container">
                       <LeftArrow id="new-recipe-form-title-back-icon" onClick={handleReturn} onMouseOver={() => setBackBanner(true)} onMouseLeave={() => setBackBanner(false)}/>
-                      {backBanner ? 'Back to recipe manager' : null}
+                        <div>
+                            {backBanner && ' Back to recipe manager'}
+                        </div>
                     </div>
                 </div>
                 <h2 id="new-recipe-form-title-text">
                     Create new recipe
+                </h2>
+                <div id="new-recipe-form-save-recipe-container">
                     <div 
                         onClick={handleStartUpdateRecipe}
                         id="new-recipe-form-save-recipe"
                     >
                         Save recipe
                     </div>
-                </h2>
+                </div>
             </div>
             <div id="new-recipe-form-inner-container">
                 

@@ -33,6 +33,7 @@ const ManageRecipes = (props) => {
             {loading ? 
             <div id="manage-recipes-container">
             <div id="manage-recipes-title">
+                <div style={{"flexGrow": 1}}/>
                 
               <h2 id="manage-recipes-title-text">Recipe manager</h2>
               <div id="manage-recipes-add-recipe-container">

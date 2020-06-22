@@ -20,35 +20,41 @@
     border-bottom: 1px solid $sgrey-1;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: $sizing-10;
     background-color: $grey-1;
 }
 
 #new-recipe-form-title-text {
-    width: 55%;
+    width: 20%;
     color: $grey-9;
     font-size: $type-sizing-6;
     font-weight: 200;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
-#new-recipe-form-save-recipe {
-    margin-right: $sizing-11;
-    transition: 0.4s;
+#new-recipe-form-save-recipe-container {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#new-recipe-form-save-recipe { 
     padding: $sizing-3;
+    border-radius: $sizing-3;
+    margin-right: $sizing-3;
+    
+    transition: 0.4s;
+    
     font-size: $type-sizing-3;
     text-decoration: none;
     color: $grey-9;
-    border-radius: $sizing-3;
     font-weight: 100;
-    display: flex;
-    flex-direction: row;
 }
 
 #new-recipe-form-save-recipe:hover {
@@ -84,11 +90,12 @@
     align-items: center;
     align-content: center;
     height: 100%;
-    padding-left: $sizing-8;
-    width: 45%;
+    width: 40%;
 }
 
 #new-recipe-form-title-back-inner-container {
+    margin-left: $sizing-6;
+    
     font-weight: 100;
     color: #514848;
     height: 100%;
@@ -105,7 +112,7 @@
     height: $sizing-7;
     width: $sizing-5;
     transition: 0.25s;
-    margin-right: $sizing-2;
+    margin-right: $sizing-5;
 }
 
 #new-recipe-form-title-back-icon:hover {
