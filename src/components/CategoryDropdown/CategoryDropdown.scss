@@ -22,49 +22,43 @@
 }
 
 #category-dd-header_ {
-    // box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.4s;
-    // border: solid 0.7px white;
     padding: $sizing-2;
     width: 238px;
+    border-radius: $sizing-3;
+    
+    
+    justify-content: space-between;
+    transition: 0.3s;
+    
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     
     color: inherit;
-    border-radius: $sizing-2;
 }
 
 #category-dd-header_:hover {
     color: $grey-9;
-    
     cursor: pointer;
-    border-radius: $sizing-2;
-    // box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);;
-    
-    
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    background-color: $grey-1;
 }
 
 #category-dd-header_is-open{
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    
-    
     cursor: pointer;
-    color: $grey-9;
-   
+    background-color: $grey-1;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    width: 238px;
     border-top-left-radius: $sizing-2;
     border-top-right-radius: $sizing-2;
-    border-bottom: none;
     padding: $sizing-2;
-    padding-bottom: none;
-    width: 238px;
+    
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    
+    color: $grey-9;
 }
 
 #category-dd-header-title {

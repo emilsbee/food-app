@@ -25,10 +25,14 @@
 .dd-header_ {
     padding: $sizing-2;
     width: 65px;
+    
+    transition: 0.3s;
+    
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    
     color: inherit;
 }
 
@@ -40,19 +44,19 @@
 }
 
 .dd-header_is-open{
-    color: inherit;
     cursor: pointer;
     border-top-left-radius: $sizing-2;
     border-top-right-radius: $sizing-2;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: $sizing-2;
     width: 65px;
+    
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     
-    
+    color: inherit;
 }
 
 .dd-header-title {
