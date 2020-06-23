@@ -52,6 +52,7 @@ const MainDashboard = (props) => {
             // stopWeekListener()
             stopYearListener()
             stopYearWeekListener()
+
         }
     }, [])
 
@@ -81,6 +82,7 @@ const MainDashboard = (props) => {
             {week.weekNr && years ?  
             <div>
                 <MainDashboardNavBar 
+                    setRecipeIngredientToggle={setRecipeIngredientToggle}
                     weekNr={week.weekNr} 
                     year={week.year} 
                     years={years} 

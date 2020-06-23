@@ -11,7 +11,7 @@ import MainDashboardNavBarTotal from '../MainDashboardNavBarTotal'
 import YearDropdown from '../YearDropdown'
 import WeekDropdown from '../WeekDropdown'
 
-const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, setCardAnimationName }) => {
+const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, setCardAnimationName, setRecipeIngredientToggle }) => {
     const startWeekListener = useStoreActions(actions => actions.newWeeks.startWeekListener)
     const startYearWeekListener = useStoreActions(actions => actions.newWeeks.startYearWeekListener)
     const setWeek = useStoreActions(actions => actions.newWeeks.setWeek)
@@ -37,6 +37,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, se
 
 
     const handleYearDropdown = (e) => {
+        setRecipeIngredientToggle(false)
         setCardAnimationName(true)
         setTimeout(() => {
             startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
@@ -44,6 +45,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, se
     }
 
     const handleWeekDropdown = (e) => {
+        setRecipeIngredientToggle(false)
         setCardAnimationName(true)
         setTimeout(() => {
 
@@ -52,6 +54,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, se
     }       
 
     const handlePrevWeek = () => {
+        setRecipeIngredientToggle(false)
         setCardAnimationName(true)
         setTimeout(() => {
             
@@ -61,6 +64,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, se
     }
 
     const handleNextWeek = () => {
+        setRecipeIngredientToggle(false)
         setCardAnimationName(true)
         setTimeout(() => {
             startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
@@ -69,6 +73,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekTotal, weekid, se
     }
 
     const handleCurrentWeek = () => {
+        setRecipeIngredientToggle(false)
         setCardAnimationName(true)
         setTimeout(() => {
             startWeekListener({type: 'CURRENT_WEEK'})

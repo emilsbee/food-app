@@ -18,14 +18,10 @@ const OrderedGroceriesTable = ({sortedGroceries}) => {
         <div id="ordered-grocery-table-container">
             {localData && 
                 <div id="ordered-grocery-table">
-                    <div id="ordered-grocery-table-title">
-                        {/* <div id="ordered-grocery-table-title-text">
-                            Categorised 
-                        </div> */}
-                    </div> 
+                    <div id="ordered-grocery-table-title" />
 
                     <div id="ordered-grocery-table">
-                        {localData.map((groceryObj) => {
+                        {localData.length > 0 ? localData.map((groceryObj) => {
                             return (
                                 <div 
                                     id="ordered-grocery-container"
@@ -57,7 +53,12 @@ const OrderedGroceriesTable = ({sortedGroceries}) => {
                                     </div>
                                 </div>
                             )
-                        })}
+                        })
+                        :
+                        <div id="ordered-grocery-empty">
+                            No groceries this week yet!
+                        </div>
+                        }
                     </div>
                 </div>
             }
