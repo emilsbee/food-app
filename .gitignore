@@ -24,6 +24,6 @@ yarn-error.log*
 
 .env.development
 
-structure.js
-structure.json
-.vscode
+/structure.js
+/structure.json
+/.vscode
