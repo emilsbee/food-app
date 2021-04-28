@@ -1,1 +1,1 @@
-This is a web application to manage recipes and plan meals for the week. 
+## Recipe management and planning web application
