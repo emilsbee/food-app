@@ -1,1 +1,1 @@
-## Recipe management and planning web application
+# Recipe management and planning web application
